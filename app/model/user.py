@@ -28,6 +28,23 @@ class User(db.Model):
         self.tipo = tipo
 
         db.create_all()
+    
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def get_by_username(cls, username):
+        return cls.query.filter_by(usuario=bytes(username, 'utf-8')).first()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
+    def get_by_dni(cls, dni):
+        return cls.query.filter_by(dni=dni).first()
+
 
     def save(self):
         db.session.add(self)

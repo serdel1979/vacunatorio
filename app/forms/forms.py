@@ -15,5 +15,6 @@ class RegistroForm(FlaskForm):
     primera_dosis = BooleanField('Tengo la primera dosis')
     paciente_riesgo = BooleanField('Soy paciente de riesgo')
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=15)])
+    password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=15)])
     email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=50)])
     dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=15)])

@@ -7,23 +7,7 @@ Registro
 
 {% block styles %}
 {{super()}}
-<style>
-  .header {
-    color: #2b2929;
-    font-size: 27px;
-    padding: 10px;
-  }
 
-  .bigicon {
-    font-size: 35px;
-    color: #2b2929;
-  }
-
-  .form-check {
-    margin-top: 10px;
-    text-align: left;
-  }
-</style>
 <link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
 {% endblock %}
 
@@ -32,7 +16,6 @@ Registro
 
 
   {% with msg = get_flashed_messages(with_categories=true) %}
-
   {% if msg %}
   {% for category,m in msg %}
     
@@ -61,6 +44,7 @@ Registro
     {{ wtf.form_field(form.paciente_riesgo) }}
     {{ wtf.form_field(form.password) }}
     {{ wtf.form_field(form.password2) }}
+    
     <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
     <button class="btn btn-lg btn-primary btn-block" onclick="window.location.href='/'">Volver</button>
   </form>

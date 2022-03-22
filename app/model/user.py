@@ -1,6 +1,10 @@
 from app import db
+from flask_login import UserMixin, login_manager
 
-class User(db.Model):
+
+
+
+class User(db.Model, UserMixin):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
     usuario = db.Column(db.String(20), unique=True)
@@ -13,8 +17,10 @@ class User(db.Model):
     password = db.Column(db.String(20))
     email = db.Column(db.String(20))
     dni = db.Column(db.String(20))
+    tipo = db.Column(db.Integer)
+    sede = db.Column(db.String(20))
 
-    def __init__(self,usuario,nombre,apellido,telefono,nacimiento,primera_dosis,paciente_riesgo,password,email,dni,tipo=3):
+    def __init__(self,usuario,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,paciente_riesgo=None,password=None,email=None,dni=None,tipo=3, sede=None):
         self.usuario = usuario
         self.nombre = nombre
         self.apellido = apellido
@@ -26,8 +32,10 @@ class User(db.Model):
         self.email = email
         self.dni = dni
         self.tipo = tipo
+        self.sede = sede
 
-        db.create_all()
+    
+        
     
     @classmethod
     def get_by_email(cls, email):

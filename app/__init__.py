@@ -1,10 +1,8 @@
-from flask import Flask, url_for, Blueprint
 from flask_bootstrap import Bootstrap
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
 
 
 def create_app():

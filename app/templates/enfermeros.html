@@ -1,35 +1,95 @@
 {% include './menu.html' %}
-<div class="container">
-    <h2>Listado de enfermeros</h2>
-    {% for enf in enfermeros %}
-        {{ enf.nombre }}
-    {% endfor %}
-    <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Email</th>
-              <th>Teléfono</th>
-              <th>Dni</th>
-              <th>Sede</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for enf in enfermeros %}
-            <tr>
-              <td> {{ enf.nombre }}</td>
-              <td>Lorem</td>
-              <td>ipsum</td>
-              <td>dolor</td>
-              <td>sit</td>
-              <td>sit</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+<div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customModalLabel"><span class="accion"></span> Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <span>
+          ¿Esta seguro de <span class="accion"></span> a: <span style="font-weight: bolder"
+            id="usuario"></span> ?
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick="confirm()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-4">
+  <form action="" method="POST" id="usrPageForm">
+    <input id="userId" name="userId" type="hidden">
+    <div style="float: right" class="row"></div>
+  </form>
+</div>
+
+
+
+<div class="container">
+  <h2>Listado de enfermeros</h2>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Teléfono</th>
+          <th>Dni</th>
+          <th>Sede</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for enf in enfermeros %}
+        <tr>
+          <td> {{ enf.nombre }}</td>
+          <td>{{ enf.apellido }}</td>
+          <td>{{ enf.telefono }}</td>
+          <td>{{ enf.dni }}</td>
+          <td>{{ enf.sede }}</td>
+          <td>
+            
+            
+            <button class="btn btn-primary" onclick="window.location.href='/edit_enfermero/{{enf.id}}'">Editar</button>
+
+            <button class="btn btn-danger" onclick="showMessage('Borrar','{{enf.nombre}} {{enf.apellido}}','{{enf.id}}');">Eliminar</button>
+
+
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 </div><!-- /.container -->
+{% block javascripts %}
+<script>
+  function showMessage(accion,usuario,id) {
+    $(".accion").text(accion);
+    $("#usuario").text(usuario);
+    $("#userId").val(id);
+    $('#customModal').modal('show');
+  }
+
+  function toggleInactive() {
+    $('#usrPageForm').submit();
+  }
+
+  function confirm() {
+    $('#customModal').modal('hide');
+    location.replace("/borra_enfermero/"+ $("#userId").val());
+  }
+  
+
+</script>
+{% endblock javascripts %}

@@ -4,7 +4,7 @@ from wsgiref.validate import validator
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required
-from app.forms.forms import LoginForm, RegistroForm
+from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm
 from app.model.user import User
 
 from app import create_app
@@ -78,9 +78,31 @@ def registro():
 @app.route('/enfermeros')
 def enfermeros():
     enfermeros = User.get_by_tipo(tipo=2)
-    return render_template('enfermeros.html',enfermeros=enfermeros) 
+    return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 
+@app.route('/edit_enfermero/<int:id>', methods=['GET','POST'])
+def edit_enfermero(id):
+    enfermero = User.get_by_id(id)
+    if enfermero != None:
+        if request.method=='POST':
+            enfermero.nombre = request.form['nombre']
+            enfermero.apellido = request.form['apellido']
+            enfermero.dni=request.form['dni']
+            enfermero.telefono = request.form['telefono']
+            enfermero.sede= request.form['sede']
+            enfermero.save()
+            flash("Datos actualizados","success")
+            return render_template('edit_enfermero.html', enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
+
+    return render_template('edit_enfermero.html', enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
+
+
+@app.route('/borra_enfermero/<int:id>')
+def borra_enfermero(id):
+    User.delete(id)
+    enfermeros = User.get_by_tipo(tipo=2)
+    return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 
 if __name__ == "__main__":

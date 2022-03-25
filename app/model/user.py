@@ -58,6 +58,12 @@ class User(db.Model, UserMixin):
         return cls.query.filter_by(dni=dni).first()
 
 
+    @classmethod
+    def delete(cls, id):
+        usr = cls.query.get(id)
+        db.session.delete(usr)
+        db.session.commit()
+
     def save(self):
         db.session.add(self)
         db.session.commit()

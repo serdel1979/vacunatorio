@@ -20,6 +20,7 @@ class RegistroForm(FlaskForm):
     dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=15)])
 
 class EnfermeroForm(FlaskForm):
+    usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=20)])
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=20)])
     apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=20)])
     telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=20)])

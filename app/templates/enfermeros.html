@@ -1,11 +1,35 @@
-{% extends './navbar.html' %}
+{% include './menu.html' %}
+<div class="container">
+    <h2>Listado de enfermeros</h2>
+    {% for enf in enfermeros %}
+        {{ enf.nombre }}
+    {% endfor %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Dni</th>
+              <th>Sede</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for enf in enfermeros %}
+            <tr>
+              <td> {{ enf.nombre }}</td>
+              <td>Lorem</td>
+              <td>ipsum</td>
+              <td>dolor</td>
+              <td>sit</td>
+              <td>sit</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-{% block tittle %}Home{% endblock %}
-
-{% block body %}
-
-
-<h1>Home {{ current_user.fullname }} </h1>
-
-
-{% endblock %}
+</div><!-- /.container -->

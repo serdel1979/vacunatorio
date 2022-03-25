@@ -42,6 +42,10 @@ class User(db.Model, UserMixin):
         return cls.query.filter_by(email=email).first()
 
     @classmethod
+    def get_by_tipo(cls, tipo):
+        return cls.query.filter_by(tipo=tipo)
+
+    @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(usuario=bytes(username, 'utf-8')).first()
 

@@ -77,7 +77,8 @@ def registro():
 
 @app.route('/enfermeros')
 def enfermeros():
-    return render_template('enfermeros.html') 
+    enfermeros = User.get_by_tipo(tipo=2)
+    return render_template('enfermeros.html',enfermeros=enfermeros) 
 
 
 

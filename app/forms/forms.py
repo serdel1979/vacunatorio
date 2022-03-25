@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, DateField
+from wtforms import StringField, PasswordField, BooleanField, DateField, SelectField
 from wtforms.validators import InputRequired, Email, Length
+
+
 
 class LoginForm(FlaskForm):
     usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=15)])
@@ -28,4 +30,4 @@ class EnfermeroForm(FlaskForm):
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=15)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=15)])
     dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=15)])
-    sede = StringField('Sede',validators=[InputRequired(),Length(min=4,max=20)])
+    sede = SelectField("Sede",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])

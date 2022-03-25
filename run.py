@@ -105,5 +105,13 @@ def borra_enfermero(id):
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 
+@app.route('/agrega_enfermero')
+def agrega_enfermero():
+    form = EnfermeroForm()
+    return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"]) 
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -70,7 +70,7 @@ def registro():
         paciente_riesgo=form.paciente_riesgo.data, password=form.password.data, email=form.email.data, dni=form.dni.data, sede=0)
        
         usuario.save()
-        flash("Usuario agregado, ahora inicie sesión!!!","success")
+        flash("Usuario agregado!!!","success")
         return redirect(url_for('login'))
     return render_template('registro.html',form=form) 
 

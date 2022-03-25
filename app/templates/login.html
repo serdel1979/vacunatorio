@@ -38,9 +38,13 @@ Login
     {{ wtf.form_field(form.password) }}
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-    <div class="">
+    <div class="form-signin">
       <a class="form-signin" href="{{ url_for('registro')}}">
         Registrarse
+      </a>
+
+      <a class="form-signin" href="">
+        Olvidé mi clave
       </a>
     </div>
   </form>

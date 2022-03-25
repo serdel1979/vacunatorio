@@ -105,10 +105,35 @@ def borra_enfermero(id):
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 
-@app.route('/agrega_enfermero')
+@app.route('/agrega_enfermero', methods=['GET','POST'])
 def agrega_enfermero():
     form = EnfermeroForm()
+    if  form.validate_on_submit():
+        if form.password.data != form.password2.data:
+            flash("Las contraseñas no coinciden!!!","error")
+            return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
+        usr = User.get_by_username(form.usuario.data)
+        if usr:
+            flash("El usuario ya existe","error")
+            return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
+        dni = User.get_by_dni(form.dni.data)
+        if dni:
+            flash("El dni pertenece a un usuario del sistema", "error")
+            return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
+        email = User.get_by_email(form.email.data)
+        if email:
+            flash("El email pertenece a un usuario del sistema","error")
+            return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
+        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, apellido=form.apellido.data, 
+        telefono= form.telefono.data, nacimiento= None, primera_dosis=None,
+        paciente_riesgo=None, password=form.password.data, email=form.email.data, dni=form.dni.data, tipo=2, sede=form.sede.data)
+       
+        usuario.save()
+        flash("Enfermero agregado!!!","success")
+        return redirect(url_for('enfermeros'))
     return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"]) 
+
+ 
 
 
 

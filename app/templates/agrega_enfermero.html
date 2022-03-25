@@ -7,29 +7,30 @@
     {% if msg %}
     {% for category,m in msg %}
     <div class="alert alert-{{ category }}" role="alert"> {{ m }}
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     {% endfor %}
     {% endif %}
     {% endwith %}
-  
-    <form class="form-signin" method="POST" action="/registro">
-      <h2 class="form-signin-heading">Registrar enfermero</h2>
-  
-      {{ form.hidden_tag() }}
-      {{ wtf.form_field(form.usuario) }}
-      {{ wtf.form_field(form.nombre) }}
-      {{ wtf.form_field(form.apellido) }}
-      {{ wtf.form_field(form.dni) }}
-      {{ wtf.form_field(form.telefono) }}
-      {{ wtf.form_field(form.password) }}
-      {{ wtf.form_field(form.password2) }}
-      {{ wtf.form_field(form.sede) }}
-  
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
-  
+
+    <form class="form-signin" method="POST" action="/agrega_enfermero">
+        <h2 class="form-signin-heading">Registrar enfermero</h2>
+
+        {{ form.csrf_token() }}
+        {{ wtf.form_field(form.usuario) }}
+        {{ wtf.form_field(form.nombre) }}
+        {{ wtf.form_field(form.apellido) }}
+        {{ wtf.form_field(form.dni) }}
+        {{ wtf.form_field(form.email) }}
+        {{ wtf.form_field(form.telefono) }}
+        {{ wtf.form_field(form.password) }}
+        {{ wtf.form_field(form.password2) }}
+        {{ wtf.form_field(form.sede) }}
+
+        <button class="btn btn-primary" type="submit">Registrar</button>
+
     </form>
-    <div class="form-signin">
-      <button class="btn btn-lg btn-primary btn-block" onclick="window.location.href='/enfermeros'">Volver</button>
+    <div class="form-signin" style="margin-top: 10px;">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/enfermeros'">Volver</button>
     </div>
-  </div> <!-- /container -->
+</div> <!-- /container -->

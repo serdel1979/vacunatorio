@@ -75,9 +75,9 @@ def registro():
     return render_template('registro.html',form=form) 
 
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html') 
+@app.route('/enfermeros')
+def enfermeros():
+    return render_template('enfermeros.html') 
 
 
 

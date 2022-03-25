@@ -18,3 +18,13 @@ class RegistroForm(FlaskForm):
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=15)])
     email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=50)])
     dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=15)])
+
+class EnfermeroForm(FlaskForm):
+    nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=20)])
+    apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=20)])
+    telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=20)])
+    email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=50)])
+    password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=15)])
+    password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=15)])
+    dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=15)])
+    sede = StringField('Sede',validators=[InputRequired(),Length(min=4,max=20)])

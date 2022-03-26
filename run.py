@@ -70,7 +70,7 @@ def registro():
             return render_template('registro.html',form=form)
         usr = User.get_by_username(form.usuario.data)
         if usr:
-            flash("El usuario ya existe","error")
+            flash("El usuario ya existe","danger")
             return render_template('registro.html',form=form)
         dni = User.get_by_dni(form.dni.data)
         if dni:

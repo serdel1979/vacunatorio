@@ -26,11 +26,25 @@ def login():
     if form.validate_on_submit():
         username = form.usuario.data
         user = User.get_by_username(username)
-        if user and verifica_pass(form.password.data, user.password):
-            session["tipo"]= user.tipo
-            session["id_user"] = user.id
-            return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+        if user: 
+            if verifica_pass(form.password.data, user.password):
+                session["tipo"]= user.tipo
+                session["id_user"] = user.id
+                return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
         else:
+            user = User.get_by_dni(username)
+            if user: 
+                if verifica_pass(form.password.data, user.password):
+                    session["tipo"]= user.tipo
+                    session["id_user"] = user.id
+                    return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+            else:
+                user = User.get_by_email(username)
+                if user: 
+                    if verifica_pass(form.password.data, user.password):
+                        session["tipo"]= user.tipo
+                        session["id_user"] = user.id
+                        return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
             flash("Usuario o clave incorrecto")
             return render_template('login.html',form=form)
     return render_template('login.html',form=form) 

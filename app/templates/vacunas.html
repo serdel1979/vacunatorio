@@ -1,0 +1,103 @@
+{% include './menu.html' %}
+<div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customModalLabel"><span class="accion"></span> Vacuna</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>
+                    ¿Esta seguro de <span class="accion"></span> a: <span style="font-weight: bolder"
+                        id="usuario"></span> ?
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="confirm()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <form action="" method="POST" id="usrPageForm">
+        <input id="userId" name="userId" type="hidden">
+        <div style="float: right" class="row"></div>
+    </form>
+</div>
+
+
+
+<div class="container">
+
+    {% with msg = get_flashed_messages(with_categories=true) %}
+    {% if msg %}
+    {% for category,m in msg %}
+    <div class="alert alert-{{ category }}" role="alert"> {{ m }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+    <div style="margin-top: 10px;">
+        <h2>Listado de vacunas</h2>
+    </div>
+    <button style="position: relative;" type="button" class="btn btn-primary"
+        onclick="window.location.href='agrega_vacuna'">Agregar</button>
+    <div class="table-responsive" style="margin-top: 10px;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vacuna in vacunas %}
+                <tr>
+                    <td> {{ vacuna.nombre }}</td>
+
+                    <td>
+
+                        <button class="btn btn-primary" onclick="window.location.href='/edit_vacuna/{{vacuna.id}}'">Editar</button>
+
+                        <button class="btn btn-danger"
+                          onclick="showMessage('Borrar','{{vacuna.nombre}}','{{vacuna.id}}');">Eliminar</button>
+            
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /.container -->
+{% block javascripts %}
+<script>
+    function showMessage(accion,usuario,id) {
+        $(".accion").text(accion);
+        $("#usuario").text(usuario);
+        $("#userId").val(id);
+        $('#customModal').modal('show');
+    }
+
+    function toggleInactive() {
+        $('#usrPageForm').submit();
+    }
+
+    function confirm() {
+        $('#customModal').modal('hide');
+        location.replace("/borra_vacuna/" + $("#userId").val());
+    }
+
+
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,40 @@
+{% include './menu.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<div class="container">
+    {% with msg = get_flashed_messages(with_categories=true) %}
+    {% if msg %}
+    {% for category,m in msg %}
+    <div class="alert alert-{{ category }}" role="alert"> {{ m }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div style="margin-top: 10px;">
+        <h2>Edición</h2>
+    </div>
+
+    <div class="form-signin">
+        <form action="/edit_vacuna/{{vacuna.id}}" class="form-signin" method="post">
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <input style="margin-top: 10px;" id="nombre" name="nombre" type="text" placeholder="Usuario"
+                        class="form-control" value="{{ vacuna.nombre }}">
+                </div>
+            </div>
+            
+            
+
+            <div class="form-signin">
+                <div class="col-md-8 text-center">
+                    <button type="button" class="btn btn-primary btn-lg" style="margin-top: 10px;"
+                        onclick="window.location.href='/vacunas'">Volver</button>
+                    <button id="login" style="margin-top: 10px;" type="submit"
+                        class="btn btn-primary btn-lg">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

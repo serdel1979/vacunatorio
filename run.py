@@ -4,8 +4,9 @@ from wsgiref.validate import validator
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required
-from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm
+from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm
 from app.model.user import User
+from app.model.vacunas import Vacuna
 
 from app import create_app
 
@@ -108,9 +109,28 @@ def edit_enfermero(id):
             enfermero.sede= request.form['sede']
             enfermero.save()
             flash("Datos actualizados","success")
-            return render_template('edit_enfermero.html',sedes=sedes, enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
-
+            return redirect(url_for('enfermeros'))
     return render_template('edit_enfermero.html',sedes=sedes, enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
+
+
+@app.route('/borra_vacuna/<int:id>')
+def borra_vacuna(id):
+    Vacuna.delete(id)
+    vacunas = Vacuna.get_all()
+    flash("Eliminado","success")
+    return redirect(url_for('vacunas'))
+
+
+@app.route('/edit_vacuna/<int:id>', methods=['GET','POST'])
+def edit_vacuna(id):
+    vacuna= Vacuna.get_by_id(id)
+    if vacuna != None:
+        if request.method=='POST':
+            vacuna.nombre = request.form['nombre']
+            vacuna.save()
+            flash("Datos actualizados","success")
+            return redirect(url_for('vacunas'))
+    return render_template('edit_vacuna.html', vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
 
 
 @app.route('/borra_enfermero/<int:id>')
@@ -119,6 +139,30 @@ def borra_enfermero(id):
     enfermeros = User.get_by_tipo(tipo=2)
     flash("Eliminado","success")
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
+
+
+
+@app.route('/vacunas')
+def vacunas():
+    vacunas = Vacuna.get_all()
+    return render_template('vacunas.html',vacunas=vacunas, tipo = session["tipo"], id=session["id_user"]) 
+
+
+@app.route('/agrega_vacuna', methods=['GET','POST'])
+def agrega_vacuna():
+    form = VacunaForm()
+    if form.validate_on_submit():
+        vacuna = Vacuna.get_by_nombre(form.nombre.data)
+        if vacuna:
+            flash("La vacuna ya existe!!!","error")
+            return render_template('agrega_vacuna.html',form=form,tipo = session["tipo"], id=session["id_user"]) 
+        vacuna = Vacuna(form.nombre.data)
+        vacuna.save()
+        flash("Vacuna guardada!!!","error")
+        return redirect(url_for('vacunas'))
+    return render_template('agrega_vacuna.html',form=form,tipo = session["tipo"], id=session["id_user"]) 
+
+
 
 
 @app.route('/agrega_enfermero', methods=['GET','POST'])

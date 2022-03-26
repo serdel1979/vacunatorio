@@ -31,3 +31,7 @@ class EnfermeroForm(FlaskForm):
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=100)])
     sede = SelectField("Sede",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])
+
+class VacunaForm(FlaskForm):
+    nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
+   

@@ -11,8 +11,7 @@
       </div>
       <div class="modal-body">
         <span>
-          ¿Esta seguro de <span class="accion"></span> a: <span style="font-weight: bolder"
-            id="usuario"></span> ?
+          ¿Esta seguro de <span class="accion"></span> a: <span style="font-weight: bolder" id="usuario"></span> ?
         </span>
       </div>
       <div class="modal-footer">
@@ -34,9 +33,12 @@
 
 
 <div class="container">
-  <h2>Listado de enfermeros</h2>
-  <button style="position: relative;" type="button" class="btn btn-primary" onclick="window.location.href='agrega_enfermero'">Agregar</button>
-  <div class="table-responsive">
+  <div style="margin-top: 10px;">
+    <h2>Listado de enfermeros</h2>
+  </div>
+  <button style="position: relative;" type="button" class="btn btn-primary"
+    onclick="window.location.href='agrega_enfermero'">Agregar</button>
+  <div class="table-responsive" style="margin-top: 10px;">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -57,11 +59,12 @@
           <td>{{ enf.dni }}</td>
           <td>{{ enf.sede }}</td>
           <td>
-            
-            
+
+
             <button class="btn btn-primary" onclick="window.location.href='/edit_enfermero/{{enf.id}}'">Editar</button>
 
-            <button class="btn btn-danger" onclick="showMessage('Borrar','{{enf.nombre}} {{enf.apellido}}','{{enf.id}}');">Eliminar</button>
+            <button class="btn btn-danger"
+              onclick="showMessage('Borrar','{{enf.nombre}} {{enf.apellido}}','{{enf.id}}');">Eliminar</button>
 
 
           </td>
@@ -87,9 +90,9 @@
 
   function confirm() {
     $('#customModal').modal('hide');
-    location.replace("/borra_enfermero/"+ $("#userId").val());
+    location.replace("/borra_enfermero/" + $("#userId").val());
   }
-  
+
 
 </script>
 {% endblock javascripts %}

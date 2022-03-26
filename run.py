@@ -83,6 +83,7 @@ def enfermeros():
 
 @app.route('/edit_enfermero/<int:id>', methods=['GET','POST'])
 def edit_enfermero(id):
+    sedes = ["Cementerio","Terminal","Municipal"]
     enfermero = User.get_by_id(id)
     if enfermero != None:
         if request.method=='POST':
@@ -93,9 +94,9 @@ def edit_enfermero(id):
             enfermero.sede= request.form['sede']
             enfermero.save()
             flash("Datos actualizados","success")
-            return render_template('edit_enfermero.html', enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
+            return render_template('edit_enfermero.html',sedes=sedes, enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
 
-    return render_template('edit_enfermero.html', enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
+    return render_template('edit_enfermero.html',sedes=sedes, enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
 
 
 @app.route('/borra_enfermero/<int:id>')

@@ -54,15 +54,20 @@
                                     class="form-control" value="{{ enfermero.dni }}">
                             </div>
                         </div>
+                        {{enfermero.sede}}
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
                                 <select class="form-select" aria-label="Default select example"
                                     style="margin-top: 10px;" id="sede" name="sede" type="text" placeholder="Sede"
                                     class="form-control">
-                                    <option value="Municipal">Municipal</option>
-                                    <option value="Cementerio">Cementerio</option>
-                                    <option value="Terminal">Terminal</option>
+                                    {% for s in sedes %}
+                                    {% if s == enfermero.sede %}
+                                    <option selected value="{{s}}">{{ s }}</option>
+                                    {% else %}
+                                    <option  value="{{ s }}">{{ s }}</option>
+                                    {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>

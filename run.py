@@ -103,6 +103,7 @@ def edit_enfermero(id):
 def borra_enfermero(id):
     User.delete(id)
     enfermeros = User.get_by_tipo(tipo=2)
+    flash("Eliminado","success")
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 

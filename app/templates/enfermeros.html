@@ -33,6 +33,18 @@
 
 
 <div class="container">
+
+  {% with msg = get_flashed_messages(with_categories=true) %}
+  {% if msg %}
+  {% for category,m in msg %}
+  <div class="alert alert-{{ category }}" role="alert"> {{ m }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+
   <div style="margin-top: 10px;">
     <h2>Listado de enfermeros</h2>
   </div>

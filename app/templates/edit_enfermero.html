@@ -11,80 +11,72 @@
     {% endfor %}
     {% endif %}
     {% endwith %}
-    <h1>Edición de datos</h1>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="well well-sm">
-                <form action="/edit_enfermero/{{enfermero.id}}" class="form-horizontal" method="post">
+    <div style="margin-top: 10px;">
+        <h2>Edición</h2>
+    </div>
 
-                    <fieldset>
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input style="margin-top: 10px;" id="id" name="id" type="text" placeholder="Usuario"
-                                    class="form-control" value="{{ enfermero.usuario }}" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input style="margin-top: 10px;" id="nombre" name="nombre" type="text"
-                                    placeholder="Nombre" class="form-control" value="{{ enfermero.nombre }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input style="margin-top: 10px;" id="apellido" name="apellido" type="text"
-                                    placeholder="Apellido" class="form-control" value="{{ enfermero.apellido }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input style="margin-top: 10px;" id="telefono" name="telefono" type="text"
-                                    placeholder="Teléfono" class="form-control" value="{{ enfermero.telefono }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input style="margin-top: 10px;" id="dni" name="dni" type="text" placeholder="Dni"
-                                    class="form-control" value="{{ enfermero.dni }}">
-                            </div>
-                        </div>
-                        {{enfermero.sede}}
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <select class="form-select" aria-label="Default select example"
-                                    style="margin-top: 10px;" id="sede" name="sede" type="text" placeholder="Sede"
-                                    class="form-control">
-                                    {% for s in sedes %}
-                                    {% if s == enfermero.sede %}
-                                    <option selected value="{{s}}">{{ s }}</option>
-                                    {% else %}
-                                    <option  value="{{ s }}">{{ s }}</option>
-                                    {% endif %}
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 text-center">
-                                <button type="button" class="btn btn-primary btn-lg" style="margin-top: 10px;"
-                                    onclick="window.location.href='/enfermeros'">Volver</button>
-                                <button id="login" style="margin-top: 10px;" type="submit"
-                                    class="btn btn-primary btn-lg">Guardar</button>
-                            </div>
-                        </div>
-
-
-                    </fieldset>
-                </form>
+    <div class="form-signin">
+        <form action="/edit_enfermero/{{enfermero.id}}" class="form-signin" method="post">
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <input style="margin-top: 10px;" id="id" name="id" type="text" placeholder="Usuario"
+                        class="form-control" value="{{ enfermero.usuario }}" disabled>
+                </div>
             </div>
-        </div>
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <input style="margin-top: 10px;" id="nombre" name="nombre" type="text" placeholder="Nombre"
+                        class="form-control" value="{{ enfermero.nombre }}">
+                </div>
+            </div>
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <input style="margin-top: 10px;" id="apellido" name="apellido" type="text" placeholder="Apellido"
+                        class="form-control" value="{{ enfermero.apellido }}">
+                </div>
+            </div>
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <input style="margin-top: 10px;" id="telefono" name="telefono" type="text" placeholder="Teléfono"
+                        class="form-control" value="{{ enfermero.telefono }}">
+                </div>
+            </div>
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <input style="margin-top: 10px;" id="dni" name="dni" type="text" placeholder="Dni"
+                        class="form-control" value="{{ enfermero.dni }}">
+                </div>
+            </div>
+
+            <div class="form-signin">
+                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                <div class="col-md-8">
+                    <select class="form-select" aria-label="Default select example" style="margin-top: 10px;" id="sede"
+                        name="sede" type="text" placeholder="Sede" class="form-control">
+                        {% for s in sedes %}
+                        {% if s == enfermero.sede %}
+                        <option selected value="{{s}}">{{ s }}</option>
+                        {% else %}
+                        <option value="{{ s }}">{{ s }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-signin">
+                <div class="col-md-8 text-center">
+                    <button type="button" class="btn btn-primary btn-lg" style="margin-top: 10px;"
+                        onclick="window.location.href='/enfermeros'">Volver</button>
+                    <button id="login" style="margin-top: 10px;" type="submit"
+                        class="btn btn-primary btn-lg">Guardar</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

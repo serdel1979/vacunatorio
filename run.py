@@ -7,11 +7,16 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm
 from app.model.user import User
 from app.model.vacunas import Vacuna
+from datetime import date, datetime, timedelta
+from app.model.turnos import Turno
+
+
 
 from app import create_app
 
 app = create_app()
 
+sedes = ["Cementerio","Terminal","Municipal"]
 
 @app.route('/')
 def index():
@@ -96,9 +101,40 @@ def enfermeros():
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 
+
+@app.route('/sacar_turno')
+def sacar_turno():
+    vacuns = Vacuna.get_all()
+    vacunas=[]
+    min= datetime.now()
+    min = min + timedelta(days=7)
+    for v in vacuns:
+        vacunas.append(v.nombre)
+    return render_template('pedir_turno.html',min=min,sedes=sedes,vacunas=vacunas,tipo = session["tipo"], id=session["id_user"]) 
+
+@app.route('/registra_turno', methods=['GET','POST'])
+def registra_turno():
+    if request.method=='POST':
+        fecha_turno = request.form['fecha_turno']
+        sede = request.form['sede']
+        vacuna = request.form['vacuna']
+        id_usuario=session["id_user"]
+        fecha_turno = request.form['fecha_turno']
+        sede =request.form['sede']
+        vacuna = request.form['vacuna']
+        if vacuna=="Fiebre amarilla":
+            estado=False
+        else:
+            estado=True
+        turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
+        turno.save()
+    flash("pediste un re turno","success")
+    return redirect(url_for('sacar_turno'))
+
+
 @app.route('/edit_enfermero/<int:id>', methods=['GET','POST'])
 def edit_enfermero(id):
-    sedes = ["Cementerio","Terminal","Municipal"]
+    #sedes = ["Cementerio","Terminal","Municipal"]
     enfermero = User.get_by_id(id)
     if enfermero != None:
         if request.method=='POST':

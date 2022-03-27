@@ -34,4 +34,4 @@ class EnfermeroForm(FlaskForm):
 
 class VacunaForm(FlaskForm):
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
-   
+

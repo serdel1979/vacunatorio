@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 27-03-2022 a las 03:11:40
+-- Tiempo de generación: 27-03-2022 a las 16:29:38
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -35,8 +35,17 @@ CREATE TABLE `turnos` (
   `fecha_turno` date NOT NULL,
   `sede` varchar(50) NOT NULL,
   `vacuna` varchar(50) NOT NULL,
+  `estado` tinyint(4) NOT NULL,
   `asistio` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `turnos`
+--
+
+INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `estado`, `asistio`) VALUES
+(1, 1, '2022-03-27', '2022-04-06', 'Cementerio', 'Fiebre amarilla', 0, 0),
+(2, 1, '2022-03-27', '2022-04-13', 'Terminal', 'Gripe', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -71,8 +80,8 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (4, 'elio', 'elio', 'correa', '221321564', '1965-06-11', 0, 1, '3211', 'elio@mail.com', '133212222', '0', 3),
 (6, 'admin', 'administrador', 'administrador', NULL, NULL, NULL, NULL, 'admin', NULL, NULL, NULL, 1),
 (8, 'marito', 'mariosdd', 'pergolinisss', '223654544', '1984-06-11', 1, 0, '3211', 'mari@mail.com', '6554544', 'Terminal', 2),
-(9, 'pino', 'pino', 'solanas', '221654321', NULL, NULL, NULL, '3211', 'pino@mail.com', '11111', 'Municipal', 2),
-(13, 'pacha', 'paolo', 'peña', '32111', NULL, NULL, NULL, '3211', 'paolo@mail.com', '11666633', 'Cementerio', 2);
+(9, 'pino', 'pino', 'solanas', '221654321', NULL, NULL, NULL, '3211', 'pino@mail.com', '11111', 'Cementerio', 2),
+(13, 'pacha', 'paolo', 'peña', '32111', NULL, NULL, NULL, '3211', 'paolo@mail.com', '11666633', 'Terminal', 2);
 
 -- --------------------------------------------------------
 
@@ -124,7 +133,7 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --

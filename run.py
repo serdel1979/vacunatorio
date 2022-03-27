@@ -8,6 +8,9 @@ from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm
 from app.model.user import User
 from app.model.vacunas import Vacuna
 from datetime import date, datetime, timedelta
+from app.model.turnos import Turno
+
+
 
 from app import create_app
 
@@ -105,7 +108,6 @@ def sacar_turno():
     vacunas=[]
     min= datetime.now()
     min = min + timedelta(days=7)
-    print(min)
     for v in vacuns:
         vacunas.append(v.nombre)
     return render_template('pedir_turno.html',min=min,sedes=sedes,vacunas=vacunas,tipo = session["tipo"], id=session["id_user"]) 
@@ -116,10 +118,18 @@ def registra_turno():
         fecha_turno = request.form['fecha_turno']
         sede = request.form['sede']
         vacuna = request.form['vacuna']
-    print(fecha_turno)
-    print(sede)
-    print(vacuna)
-    return render_template('index.html',tipo = session["tipo"], id=session["id_user"] )
+        id_usuario=session["id_user"]
+        fecha_turno = request.form['fecha_turno']
+        sede =request.form['sede']
+        vacuna = request.form['vacuna']
+        if vacuna=="Fiebre amarilla":
+            estado=False
+        else:
+            estado=True
+        turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
+        turno.save()
+    flash("pediste un re turno","success")
+    return redirect(url_for('sacar_turno'))
 
 
 @app.route('/edit_enfermero/<int:id>', methods=['GET','POST'])

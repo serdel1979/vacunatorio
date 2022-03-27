@@ -7,11 +7,13 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm
 from app.model.user import User
 from app.model.vacunas import Vacuna
+from datetime import date, datetime, timedelta
 
 from app import create_app
 
 app = create_app()
 
+sedes = ["Cementerio","Terminal","Municipal"]
 
 @app.route('/')
 def index():
@@ -96,9 +98,33 @@ def enfermeros():
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 
+
+@app.route('/sacar_turno')
+def sacar_turno():
+    vacuns = Vacuna.get_all()
+    vacunas=[]
+    min= datetime.now()
+    min = min + timedelta(days=7)
+    print(min)
+    for v in vacuns:
+        vacunas.append(v.nombre)
+    return render_template('pedir_turno.html',min=min,sedes=sedes,vacunas=vacunas,tipo = session["tipo"], id=session["id_user"]) 
+
+@app.route('/registra_turno', methods=['GET','POST'])
+def registra_turno():
+    if request.method=='POST':
+        fecha_turno = request.form['fecha_turno']
+        sede = request.form['sede']
+        vacuna = request.form['vacuna']
+    print(fecha_turno)
+    print(sede)
+    print(vacuna)
+    return render_template('index.html',tipo = session["tipo"], id=session["id_user"] )
+
+
 @app.route('/edit_enfermero/<int:id>', methods=['GET','POST'])
 def edit_enfermero(id):
-    sedes = ["Cementerio","Terminal","Municipal"]
+    #sedes = ["Cementerio","Terminal","Municipal"]
     enfermero = User.get_by_id(id)
     if enfermero != None:
         if request.method=='POST':

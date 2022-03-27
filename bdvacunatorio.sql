@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 26-03-2022 a las 22:12:03
+-- Tiempo de generación: 27-03-2022 a las 03:11:40
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -31,7 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `turnos` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `fecha` date NOT NULL,
+  `fecha_solicitud` date NOT NULL,
+  `fecha_turno` date NOT NULL,
   `sede` varchar(50) NOT NULL,
   `vacuna` varchar(50) NOT NULL,
   `asistio` tinyint(4) DEFAULT NULL
@@ -70,7 +71,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (4, 'elio', 'elio', 'correa', '221321564', '1965-06-11', 0, 1, '3211', 'elio@mail.com', '133212222', '0', 3),
 (6, 'admin', 'administrador', 'administrador', NULL, NULL, NULL, NULL, 'admin', NULL, NULL, NULL, 1),
 (8, 'marito', 'mariosdd', 'pergolinisss', '223654544', '1984-06-11', 1, 0, '3211', 'mari@mail.com', '6554544', 'Terminal', 2),
-(9, 'pino', 'pino', 'solanas', '221654321', NULL, NULL, NULL, '3211', 'pino@mail.com', '11111', 'Terminal', 2),
+(9, 'pino', 'pino', 'solanas', '221654321', NULL, NULL, NULL, '3211', 'pino@mail.com', '11111', 'Municipal', 2),
 (13, 'pacha', 'paolo', 'peña', '32111', NULL, NULL, NULL, '3211', 'paolo@mail.com', '11666633', 'Cementerio', 2);
 
 -- --------------------------------------------------------

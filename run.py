@@ -87,7 +87,7 @@ def registro():
             return render_template('registro.html',form=form)
         usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= form.nacimiento.data, primera_dosis=form.primera_dosis.data,
-        paciente_riesgo=form.paciente_riesgo.data, password=form.password.data, email=form.email.data, dni=form.dni.data, sede=0)
+        paciente_riesgo=form.paciente_riesgo.data, password=form.password.data, email=form.email.data, dni=form.dni.data, sede_preferida= form.sede_preferida.data, sede=0)
        
         usuario.save()
         flash("Usuario agregado!!!","success")

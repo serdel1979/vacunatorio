@@ -20,6 +20,8 @@ class RegistroForm(FlaskForm):
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
     dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=20)])
+    sede_preferida = SelectField("Sede Preferida",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])
+
 
 class EnfermeroForm(FlaskForm):
     usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=100)])

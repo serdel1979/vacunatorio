@@ -1,13 +1,15 @@
 body {
     padding-top: 50px;
+    background-color: #ffffff;
   }
   .starter-template {
     padding: 40px 15px;
     text-align: center;
   }
   .navbar-inverse {
-    background-color: #07943d;
-    border-color: #080808;
+    background-color: #96cd7a;
+    border-color: #579b7b;
+    color: #ffffff;
 }
 .btn-primary {
   color: #fff;

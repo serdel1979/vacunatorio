@@ -17,10 +17,11 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(20))
     email = db.Column(db.String(20))
     dni = db.Column(db.String(20))
+    sede_preferida = db.Column(db.String(20))
     tipo = db.Column(db.Integer)
     sede = db.Column(db.String(20))
 
-    def __init__(self,usuario,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,paciente_riesgo=None,password=None,email=None,dni=None,tipo=3, sede=None):
+    def __init__(self,usuario,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,paciente_riesgo=None,password=None,email=None,dni=None,tipo=3, sede_preferida=None,sede=None):
         self.usuario = usuario
         self.nombre = nombre
         self.apellido = apellido
@@ -31,6 +32,7 @@ class User(db.Model, UserMixin):
         self.password = password
         self.email = email
         self.dni = dni
+        self.sede_preferida=sede_preferida
         self.tipo = tipo
         self.sede = sede
 

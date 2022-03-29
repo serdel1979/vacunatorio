@@ -12,7 +12,7 @@
     {% endfor %}
     {% endif %}
     {% endwith %}
-
+    {% block content %}
     <form class="form-signin" method="POST" action="/agrega_enfermero">
         <h2 class="form-signin-heading">Registrar enfermero</h2>
 
@@ -35,3 +35,4 @@
         <button type="button" class="btn btn-primary" onclick="window.location.href='/enfermeros'">Volver</button>
     </div>
 </div> <!-- /container -->
+{% endblock %}

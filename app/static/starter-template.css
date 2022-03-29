@@ -5,3 +5,17 @@ body {
     padding: 40px 15px;
     text-align: center;
   }
+  .navbar-inverse {
+    background-color: #07943d;
+    border-color: #080808;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #07943d;
+  border-color: #07943d;
+}
+.btn-danger {
+  color: #fff;
+  background-color: #3c5843;
+  border-color: #3c5843;
+}

@@ -28,7 +28,7 @@ def index():
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'tipo' in session:
-        return render_template('index.html',tipo = session["tipo"], id=session["id_user"] )
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         username = form.usuario.data
@@ -37,25 +37,33 @@ def login():
             if verifica_pass(form.password.data, user.password):
                 session["tipo"]= user.tipo
                 session["id_user"] = user.id
-                return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+                return redirect(url_for('home'))
         else:
             user = User.get_by_dni(username)
             if user: 
                 if verifica_pass(form.password.data, user.password):
                     session["tipo"]= user.tipo
                     session["id_user"] = user.id
-                    return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+                    return redirect(url_for('home'))
             else:
                 user = User.get_by_email(username)
                 if user: 
                     if verifica_pass(form.password.data, user.password):
                         session["tipo"]= user.tipo
                         session["id_user"] = user.id
-                        return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
-            flash("Usuario o clave incorrecto")
+                        #return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+                        return redirect(url_for('home'))
+            flash("Usuario o clave incorrecto","danger")
             return render_template('login.html',form=form)
     return render_template('login.html',form=form) 
 
+
+@app.route('/home')
+def home():
+    if "tipo" in session:
+        return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
@@ -94,7 +102,8 @@ def registro():
         fecha_nacimiento = form.nacimiento.data
         edad = relativedelta(datetime.now(), fecha_nacimiento)
         print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
-
+        #aca si es mayor de 60 se registra un turno para covid
+        
         flash("Usuario agregado!!!","success")
         return redirect(url_for('login'))
     return render_template('registro.html',form=form) 

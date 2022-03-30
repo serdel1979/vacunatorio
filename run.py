@@ -94,11 +94,17 @@ def registro():
         if email:
             flash("El email pertenece a un usuario del sistema","danger")
             return render_template('registro.html',form=form)
-        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, apellido=form.apellido.data, 
-        telefono= form.telefono.data, nacimiento= form.nacimiento.data, primera_dosis=form.primera_dosis.data,
-        paciente_riesgo=form.paciente_riesgo.data, password=form.password.data, email=form.email.data, dni=form.dni.data, sede_preferida= form.sede_preferida.data, sede=0)
+        
+        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, 
+        apellido=form.apellido.data, 
+        telefono= form.telefono.data, nacimiento= form.nacimiento.data, 
+        primera_dosis=form.primera_dosis.data,
+        paciente_riesgo=form.paciente_riesgo.data,fiebre_amarilla=form.fiebre_amarilla.data,
+        password=form.password.data, email=form.email.data, dni=form.dni.data, 
+        sede_preferida= form.sede_preferida.data, sede=0)
         usuario.save()
-
+        
+        #calcula edad de la persona que se registra
         fecha_nacimiento = form.nacimiento.data
         edad = relativedelta(datetime.now(), fecha_nacimiento)
         print(f"{edad.years} años, {edad.months} meses y {edad.days} días")

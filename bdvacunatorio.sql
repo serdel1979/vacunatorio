@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-03-2022 a las 01:23:44
+-- Tiempo de generación: 01-04-2022 a las 01:15:51
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -48,7 +48,8 @@ INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sed
 (2, 1, '2022-03-27', '2022-04-13', 'Terminal', 'Gripe', 1, 0),
 (3, 1, '2022-03-27', '2022-04-13', 'Cementerio', 'Gripe', 1, 0),
 (4, 1, '2022-03-27', '2022-04-04', 'Municipal', 'Fiebre amarilla', 0, 0),
-(5, 14, '2022-03-28', '2022-04-04', 'Cementerio', 'Gripe', 1, 0);
+(5, 14, '2022-03-28', '2022-04-04', 'Cementerio', 'Gripe', 1, 0),
+(6, 4, '2022-03-28', '2022-04-06', 'Terminal', 'Fiebre amarilla', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -65,6 +66,7 @@ CREATE TABLE `usuarios` (
   `nacimiento` date DEFAULT NULL,
   `primera_dosis` tinyint(1) DEFAULT NULL,
   `paciente_riesgo` tinyint(1) DEFAULT NULL,
+  `fiebre_amarilla` tinyint(1) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `dni` varchar(100) DEFAULT NULL,
@@ -77,16 +79,15 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `nacimiento`, `primera_dosis`, `paciente_riesgo`, `password`, `email`, `dni`, `sede_preferida`, `sede`, `tipo`) VALUES
-(1, 'kiko', 'federico', 'cuello', '221321321', '2010-05-11', 1, 1, 'kiko', 'f@mail.com', '221321321', '', '0', 3),
-(2, 'mencho', 'ramon', 'medina bello', '22132132115', '2000-09-23', 1, 1, '3211', 'mencho@mail.com', '211321121', '', '0', 3),
-(3, 'pajarito', 'piturro', 'faso', '22332112321', '1930-02-11', 1, 1, '321321', 'vino@gmail.com', '22321123', '', '0', 3),
-(4, 'elio', 'elio', 'correa', '221321564', '1965-06-11', 0, 1, '3211', 'elio@mail.com', '133212222', '', '0', 3),
-(6, 'admin', 'administrador', 'administrador', NULL, NULL, NULL, NULL, 'admin', NULL, NULL, '', NULL, 1),
-(8, 'marito', 'mariosdd', 'pergolinisss', '223654544', '1984-06-11', 1, 0, '3211', 'mari@mail.com', '6554544', '', 'Terminal', 2),
-(9, 'pino', 'pino', 'solanas', '221654321', NULL, NULL, NULL, '3211', 'pino@mail.com', '11111', '', 'Cementerio', 2),
-(13, 'pacha', 'paolo', 'peña', '32111', NULL, NULL, NULL, '3211', 'paolo@mail.com', '11666633', '', 'Terminal', 2),
-(14, 'paci', 'pablo', 'alarcon', '221654452', '2022-03-10', 1, 1, '3211', 'pablo321@gmail.com', '262951751', 'Terminal', '0', 3);
+INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `nacimiento`, `primera_dosis`, `paciente_riesgo`, `fiebre_amarilla`, `password`, `email`, `dni`, `sede_preferida`, `sede`, `tipo`) VALUES
+(1, 'kiko', 'federico', 'cuello', '221321321', '2010-05-11', 1, 1, 1, 'kiko', 'f@mail.com', '221321321', '', '0', 3),
+(6, 'admin', 'administrador', 'administrador', NULL, NULL, NULL, NULL, NULL, 'admin', NULL, NULL, '', NULL, 1),
+(8, 'marito', 'mariosdd', 'pergolinisss', '223654544', '1984-06-11', 1, 0, NULL, '3211', 'mari@mail.com', '6554544', '', 'Terminal', 2),
+(13, 'pacha', 'paolo', 'peña', '32111', NULL, NULL, NULL, NULL, '3211', 'paolo@mail.com', '11666633', '', 'Terminal', 2),
+(21, 'perro', 'perro', 'faldero', '221321123', '2001-11-11', 1, 1, 0, '3211', 'perro@mail.com', '1132111', 'Terminal', '0', 3),
+(22, 'manco', 'poyo', 'muñolo', '22654', '1987-10-31', 1, 1, 1, '3211', 'manco@mail.com', '11611611', 'Terminal', '0', 3),
+(23, 'manolo', 'manolo', 'galvan', '26654654', '1965-06-11', 1, 1, NULL, '3211', 'manolo@mail.com', '1654654', 'Terminal', '0', 3),
+(24, 'pancho', 'pancho', 'doto', '221321321', '2001-03-11', 1, 1, 1, '3211', 'mail@pancho.com', '116116161', 'Terminal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -138,12 +139,12 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --

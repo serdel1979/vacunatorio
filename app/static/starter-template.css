@@ -1,13 +1,15 @@
 body {
-    padding-top: 50px;
-  }
-  .starter-template {
-    padding: 40px 15px;
-    text-align: center;
-  }
-  .navbar-inverse {
-    background-color: #07943d;
-    border-color: #080808;
+  padding-top: 60px;
+  background-color: #ffffff;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.navbar-inverse {
+  background-color: #96cd7a;
+  border-color: #579b7b;
+  color: #ffffff;
 }
 .btn-primary {
   color: #fff;
@@ -18,4 +20,22 @@ body {
   color: #fff;
   background-color: #3c5843;
   border-color: #3c5843;
+}
+
+/* 1 columna para smartphones */
+breakpoint {
+  max-width: 100%;
+  display: inline-block;
+}
+/* 2 columnas para tablets */
+@media (min-width: 420px) {
+  breakpoint {
+    max-width: 48%;
+  }
+}
+/* 4 columnas para grandes dispositivos*/
+@media (min-width: 760px) {
+  breakpoint {
+    max-width: 24%;
+  }
 }

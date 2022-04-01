@@ -8,6 +8,7 @@ from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm
 from app.model.user import User
 from app.model.vacunas import Vacuna
 from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from app.model.turnos import Turno
 
 
@@ -27,7 +28,7 @@ def index():
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'tipo' in session:
-        return render_template('index.html',tipo = session["tipo"], id=session["id_user"] )
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         username = form.usuario.data
@@ -36,25 +37,33 @@ def login():
             if verifica_pass(form.password.data, user.password):
                 session["tipo"]= user.tipo
                 session["id_user"] = user.id
-                return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+                return redirect(url_for('home'))
         else:
             user = User.get_by_dni(username)
             if user: 
                 if verifica_pass(form.password.data, user.password):
                     session["tipo"]= user.tipo
                     session["id_user"] = user.id
-                    return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+                    return redirect(url_for('home'))
             else:
                 user = User.get_by_email(username)
                 if user: 
                     if verifica_pass(form.password.data, user.password):
                         session["tipo"]= user.tipo
                         session["id_user"] = user.id
-                        return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
-            flash("Usuario o clave incorrecto")
+                        #return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+                        return redirect(url_for('home'))
+            flash("Usuario o clave incorrecto","danger")
             return render_template('login.html',form=form)
     return render_template('login.html',form=form) 
 
+
+@app.route('/home')
+def home():
+    if "tipo" in session:
+        return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
@@ -71,7 +80,7 @@ def registro():
     form = RegistroForm()
     if form.validate_on_submit():
         if form.password.data != form.password2.data:
-            flash("Las contraseñas no coinciden!!!","error")
+            flash("Las contraseñas no coinciden!!!","danger")
             return render_template('registro.html',form=form)
         usr = User.get_by_username(form.usuario.data)
         if usr:
@@ -79,17 +88,28 @@ def registro():
             return render_template('registro.html',form=form)
         dni = User.get_by_dni(form.dni.data)
         if dni:
-            flash("El dni pertenece a un usuario del sistema", "error")
+            flash("El dni pertenece a un usuario del sistema", "danger")
             return render_template('registro.html',form=form)
         email = User.get_by_email(form.email.data)
         if email:
-            flash("El email pertenece a un usuario del sistema","error")
+            flash("El email pertenece a un usuario del sistema","danger")
             return render_template('registro.html',form=form)
-        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, apellido=form.apellido.data, 
-        telefono= form.telefono.data, nacimiento= form.nacimiento.data, primera_dosis=form.primera_dosis.data,
-        paciente_riesgo=form.paciente_riesgo.data, password=form.password.data, email=form.email.data, dni=form.dni.data, sede_preferida= form.sede_preferida.data, sede=0)
-       
+        
+        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, 
+        apellido=form.apellido.data, 
+        telefono= form.telefono.data, nacimiento= form.nacimiento.data, 
+        primera_dosis=form.primera_dosis.data,
+        paciente_riesgo=form.paciente_riesgo.data,fiebre_amarilla=form.fiebre_amarilla.data,
+        password=form.password.data, email=form.email.data, dni=form.dni.data, 
+        sede_preferida= form.sede_preferida.data, sede=0)
         usuario.save()
+        
+        #calcula edad de la persona que se registra
+        fecha_nacimiento = form.nacimiento.data
+        edad = relativedelta(datetime.now(), fecha_nacimiento)
+        print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
+        #aca si es mayor de 60 se registra un turno para covid
+        
         flash("Usuario agregado!!!","success")
         return redirect(url_for('login'))
     return render_template('registro.html',form=form) 

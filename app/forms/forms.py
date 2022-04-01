@@ -15,6 +15,7 @@ class RegistroForm(FlaskForm):
     telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=100)])
     nacimiento = DateField('Fecha de nacimiento')
     primera_dosis = BooleanField('Tengo la primera dosis')
+    fiebre_amarilla = BooleanField('Estoy vacunado para la fiebre amarilla')
     paciente_riesgo = BooleanField('Soy paciente de riesgo')
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])

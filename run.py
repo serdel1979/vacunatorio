@@ -136,9 +136,19 @@ def enfermeros():
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
 
 @app.route('/mis_turnos')
-def misturnos():
+def mis_turnos():
     misturnos = Turno.get_by_id_usuario(session["id_user"])
     return render_template('mis_turnos.html',misturnos=misturnos,tipo = session["tipo"], id=session["id_user"]) 
+
+@app.route('/cancela_turno/<int:id>')
+def cancela_turno(id):
+    misturnos = Turno.get_by_id(id)
+    misturnos.estado = 1
+    misturnos.save()
+    flash("El turno fue cancelado","danger")
+    return redirect(url_for('mis_turnos'))
+
+
 
 
 @app.route('/sacar_turno')
@@ -161,10 +171,11 @@ def registra_turno():
         fecha_turno = request.form['fecha_turno']
         sede =request.form['sede']
         vacuna = request.form['vacuna']
-        if vacuna=="Fiebre amarilla":
-            estado=False
-        else:
-            estado=True
+        estado = 0
+        #estado 0 = pendiente de vacunarse
+        #estado 1 = cancelado por el usuario
+        #estado 2 = atendido por el enfermero
+        #estado 3 = rechazado por el administrador si es fiebre amarilla
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
     flash("pediste un re turno","success")

@@ -38,6 +38,19 @@ class Turno(db.Model, UserMixin):
     def get_by_nombre_vacuna(cls, nombre_vacuna):
         return cls.query.filter_by(nombre_vacuna=nombre_vacuna).all()
 
+    
+    @classmethod
+    def get_by_fecha(cls, fecha_turno, sede):
+        return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede).all()
+
+
+
+    @classmethod
+    def get_by_sede(cls, sede):
+        return cls.query.filter_by(sede=sede).all()
+
+
+
     @classmethod
     def get_all(cls):
         return cls.query.all()

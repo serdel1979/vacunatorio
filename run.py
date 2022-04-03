@@ -107,9 +107,24 @@ def registro():
         #calcula edad de la persona que se registra
         fecha_nacimiento = form.nacimiento.data
         edad = relativedelta(datetime.now(), fecha_nacimiento)
-        print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
+        #print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
         #aca si es mayor de 60 se registra un turno para covid
-        
+        if edad.years > 60 or usuario.paciente_riesgo == 1:
+            usrturno = User.get_by_dni(usuario.dni)
+            hoy = datetime.now()
+            fecha_turno = hoy + timedelta(days=7)
+            turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Covid",False)
+            turno.save() 
+            flash("Se le asignó un turno para Covid!!!","success")
+            #asignar turno para gripe
+        if edad.years > 60:
+            usrturno = User.get_by_dni(usuario.dni)
+            hoy = datetime.now()
+            fecha_turno = hoy + timedelta(days=7)
+            turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Gripe",False)
+            flash("Se le asignó un turno para la Gripe!!!","success")
+            turno.save()
+
         flash("Usuario agregado!!!","success")
         return redirect(url_for('login'))
     return render_template('registro.html',form=form) 
@@ -119,6 +134,20 @@ def registro():
 def enfermeros():
     enfermeros = User.get_by_tipo(tipo=2)
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
+
+@app.route('/mis_turnos')
+def mis_turnos():
+    misturnos = Turno.get_by_id_usuario(session["id_user"])
+    return render_template('mis_turnos.html',misturnos=misturnos,tipo = session["tipo"], id=session["id_user"]) 
+
+@app.route('/cancela_turno/<int:id>')
+def cancela_turno(id):
+    misturnos = Turno.get_by_id(id)
+    misturnos.estado = 1
+    misturnos.save()
+    flash("El turno fue cancelado","danger")
+    return redirect(url_for('mis_turnos'))
+
 
 
 
@@ -142,10 +171,11 @@ def registra_turno():
         fecha_turno = request.form['fecha_turno']
         sede =request.form['sede']
         vacuna = request.form['vacuna']
-        if vacuna=="Fiebre amarilla":
-            estado=False
-        else:
-            estado=True
+        estado = 0
+        #estado 0 = pendiente de vacunarse
+        #estado 1 = cancelado por el usuario
+        #estado 2 = atendido por el enfermero
+        #estado 3 = rechazado por el administrador si es fiebre amarilla
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
     flash("pediste un re turno","success")

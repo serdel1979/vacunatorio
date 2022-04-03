@@ -23,7 +23,7 @@ VACUNASSIST
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/" style="color:#ffffff">
-        <img class="imagen" width="60" heigth="60" src="../static/image/logo.png">
+        <img style="margin-left: 0px;" class="imagen" width="60" heigth="100" src="../static/image/logo.png">
       </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -36,7 +36,7 @@ VACUNASSIST
         {% if tipo == 1 or tipo == 2 %}
         <li><a href="#" style="color:#ffffff">Historial</a></li>
         <li><a href="#" style="color:#ffffff">Solicitudes</a></li>
-        <li><a href="" style="color:#ffffff">Turnos</a></li>
+        <li><a href="/turnos_hoy" style="color:#ffffff">Turnos de hoy</a></li>
         {% endif %}
         {% if tipo == 3 %}
         <li><a href="/mis_turnos" style="color:#ffffff">Mis turnos</a></li>

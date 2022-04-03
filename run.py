@@ -37,6 +37,7 @@ def login():
             if verifica_pass(form.password.data, user.password):
                 session["tipo"]= user.tipo
                 session["id_user"] = user.id
+                session["sede"] = user.sede
                 return redirect(url_for('home'))
         else:
             user = User.get_by_dni(username)
@@ -44,6 +45,7 @@ def login():
                 if verifica_pass(form.password.data, user.password):
                     session["tipo"]= user.tipo
                     session["id_user"] = user.id
+                    session["sede"] = user.sede
                     return redirect(url_for('home'))
             else:
                 user = User.get_by_email(username)
@@ -51,6 +53,7 @@ def login():
                     if verifica_pass(form.password.data, user.password):
                         session["tipo"]= user.tipo
                         session["id_user"] = user.id
+                        session["sede"] = user.sede
                         #return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
                         return redirect(url_for('home'))
             flash("Usuario o clave incorrecto","danger")
@@ -161,6 +164,8 @@ def sacar_turno():
         vacunas.append(v.nombre)
     return render_template('pedir_turno.html',min=min,sedes=sedes,vacunas=vacunas,tipo = session["tipo"], id=session["id_user"]) 
 
+
+
 @app.route('/registra_turno', methods=['GET','POST'])
 def registra_turno():
     if request.method=='POST':
@@ -225,6 +230,25 @@ def borra_enfermero(id):
     enfermeros = User.get_by_tipo(tipo=2)
     flash("Eliminado","success")
     return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
+
+
+
+@app.route('/turnos_hoy')
+def turnos_hoy():
+    hoy = date.today()
+    sede = session["sede"]
+    turnos = Turno.get_by_fecha(hoy,sede)
+    return render_template('turnos_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"]) 
+
+
+
+@app.route('/ver_paciente/', methods=['GET'])
+def ver_paciente():
+    id_paciente = request.args.get("idusr")
+    id_turno = request.args.get("idt")
+    paciente = User.get_by_id(id_paciente)
+    turno = Turno.get_by_id(id_turno)
+    return render_template('ver_paciente.html',paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
 
 
 

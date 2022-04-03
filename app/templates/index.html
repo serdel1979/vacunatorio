@@ -1,15 +1,12 @@
 {% include './menu.html' %}
+{% block content %}
 <div class="container">
 
     <div class="starter-template">
-        <div>
-            <img class="breakpoint" src="{{url_for ('static', filename = '../static/image/logo.png')}}" width="400" height="400" />
-        </div>
-        <br>
-        <br>
         <p class="lead">
         <h1>Sistema de gestión de turnos online</h1>
         </p>
     </div>
 
 </div><!-- /.container -->
+{% endblock %}

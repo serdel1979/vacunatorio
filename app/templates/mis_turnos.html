@@ -1,0 +1,116 @@
+{% include './menu.html' %}
+{% block content %}
+<div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customModalLabel"><span class="accion"></span> Turno</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span>
+          ¿Esta seguro de <span class="accion"></span> el turno para <span style="font-weight: bolder" id="usuario"></span> ?
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick="confirm()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-4">
+  <form action="" method="POST" id="usrPageForm">
+    <input id="userId" name="userId" type="hidden">
+    <div style="float: right" class="row"></div>
+  </form>
+</div>
+
+
+
+<div class="container">
+
+  {% with msg = get_flashed_messages(with_categories=true) %}
+  {% if msg %}
+  {% for category,m in msg %}
+  <div class="alert alert-{{ category }}" role="alert"> {{ m }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+
+  <div style="margin-top: 10px;">
+    <h2>Turnos</h2>
+  </div>
+
+  <div class="table-responsive" style="margin-top: 10px;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Fecha solicitud</th>
+          <th>Fecha de turno</th>
+          <th>Sede</th>
+          <th>Vacuna</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mt in misturnos %}
+        <tr>
+          <td>{{ mt.fecha_solicitud }}</td>
+          <td>{{ mt.fecha_turno }}</td>
+          <td>{{ mt.sede }}</td>
+          <td>{{ mt.vacuna }}</td>
+          {% if mt.estado == 0 %}
+          <td> PENDIENTE </td>
+          <td>
+            <button class="btn btn-danger"
+              onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
+          </td>
+          {% endif %}
+          {% if mt.estado == 1 %}
+          <td> CANCELADO </td>
+          <td>
+            <button disabled class="btn btn-danger"
+              onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/"  class="btn btn-primary">Volver</a>
+  </div>
+
+</div><!-- /.container -->
+
+{% block javascripts %}
+<script>
+  function showMessage(accion,usuario,id) {
+    $(".accion").text(accion);
+    $("#usuario").text(usuario);
+    $("#userId").val(id);
+    $('#customModal').modal('show');
+  }
+
+  function toggleInactive() {
+    $('#usrPageForm').submit();
+  }
+
+  function confirm() {
+    $('#customModal').modal('hide');
+    location.replace("/cancela_turno/" + $("#userId").val());
+  }
+
+
+</script>
+{% endblock javascripts %}
+{% endblock %}

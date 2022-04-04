@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 01-04-2022 a las 01:15:51
+-- Tiempo de generación: 03-04-2022 a las 04:20:44
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -35,7 +35,7 @@ CREATE TABLE `turnos` (
   `fecha_turno` date NOT NULL,
   `sede` varchar(50) NOT NULL,
   `vacuna` varchar(50) NOT NULL,
-  `estado` tinyint(4) NOT NULL,
+  `estado` int(4) NOT NULL,
   `asistio` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -49,7 +49,13 @@ INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sed
 (3, 1, '2022-03-27', '2022-04-13', 'Cementerio', 'Gripe', 1, 0),
 (4, 1, '2022-03-27', '2022-04-04', 'Municipal', 'Fiebre amarilla', 0, 0),
 (5, 14, '2022-03-28', '2022-04-04', 'Cementerio', 'Gripe', 1, 0),
-(6, 4, '2022-03-28', '2022-04-06', 'Terminal', 'Fiebre amarilla', 0, 0);
+(6, 4, '2022-03-28', '2022-04-06', 'Terminal', 'Fiebre amarilla', 0, 0),
+(7, 28, '2022-04-02', '2022-04-09', 'Terminal', 'Covid', 1, 0),
+(8, 28, '2022-04-02', '2022-04-09', 'Terminal', 'Gripe', 1, 0),
+(9, 28, '2022-04-03', '2022-04-13', 'Terminal', 'Fiebre amarilla', 1, 0),
+(10, 26, '2022-04-03', '2022-04-11', 'Municipal', 'Gripe', 1, 0),
+(11, 27, '2022-04-03', '2022-04-19', 'Terminal', 'Covid', 1, 0),
+(12, 27, '2022-04-03', '2022-04-10', 'Cementerio', 'Gripe', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -87,7 +93,11 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (21, 'perro', 'perro', 'faldero', '221321123', '2001-11-11', 1, 1, 0, '3211', 'perro@mail.com', '1132111', 'Terminal', '0', 3),
 (22, 'manco', 'poyo', 'muñolo', '22654', '1987-10-31', 1, 1, 1, '3211', 'manco@mail.com', '11611611', 'Terminal', '0', 3),
 (23, 'manolo', 'manolo', 'galvan', '26654654', '1965-06-11', 1, 1, NULL, '3211', 'manolo@mail.com', '1654654', 'Terminal', '0', 3),
-(24, 'pancho', 'pancho', 'doto', '221321321', '2001-03-11', 1, 1, 1, '3211', 'mail@pancho.com', '116116161', 'Terminal', '0', 3);
+(24, 'pancho', 'pancho', 'doto', '221321321', '2001-03-11', 1, 1, 1, '3211', 'mail@pancho.com', '116116161', 'Terminal', '0', 3),
+(25, 'flaco', 'roberto', 'spinneta', '221321125', '1998-03-04', 1, 1, 1, '3211', 'spineta@gmail.com', '99999', 'Terminal', '0', 3),
+(26, 'viejo', 'robertin', 'castro', '221321152', '1930-10-20', 1, 1, 1, '3211', 'rob@mail.com', '111222333', 'Terminal', '0', 3),
+(27, 'roco', 'paolo', 'roca', '221654456', '1925-02-10', 0, 1, 1, '3211', 'paolito@hotmail.com', '5321622', 'Municipal', '0', 3),
+(28, 'rafa', 'rafael', 'petroni', '221654456', '1934-01-10', 0, 1, 0, '3211', 'rafa@mail.com', '1162266', 'Terminal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -139,12 +149,12 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --

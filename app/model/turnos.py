@@ -13,7 +13,7 @@ class Turno(db.Model, UserMixin):
     fecha_turno = db.Column(db.Date)
     sede= db.Column(db.String(20))
     vacuna= db.Column(db.String(20))
-    estado= db.Column(db.Boolean)
+    estado= db.Column(db.Integer)
     asistio= db.Column(db.Boolean)
 
     def __init__(self,id_usuario,fecha_turno,sede,vacuna,estado):
@@ -29,10 +29,27 @@ class Turno(db.Model, UserMixin):
     @classmethod
     def get_by_id_usuario(cls, id_usuario):
         return cls.query.filter_by(id_usuario=id_usuario).all()
+        
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
     def get_by_nombre_vacuna(cls, nombre_vacuna):
         return cls.query.filter_by(nombre_vacuna=nombre_vacuna).all()
+
+    
+    @classmethod
+    def get_by_fecha(cls, fecha_turno, sede):
+        return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede).all()
+
+
+
+    @classmethod
+    def get_by_sede(cls, sede):
+        return cls.query.filter_by(sede=sede).all()
+
+
 
     @classmethod
     def get_all(cls):

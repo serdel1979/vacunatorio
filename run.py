@@ -166,6 +166,7 @@ def sacar_turno():
 
 
 
+
 @app.route('/registra_turno', methods=['GET','POST'])
 def registra_turno():
     if request.method=='POST':
@@ -250,6 +251,18 @@ def ver_paciente():
     turno = Turno.get_by_id(id_turno)
     return render_template('ver_paciente.html',paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
 
+
+
+@app.route('/marcar_vacunado', methods=['GET','POST'])
+def marcar_vacunado():
+    if request.method=='POST':
+        if 'vacunado' in request.form:
+            idturno = request.form['idturno']
+            turno = Turno.get_by_id(idturno)
+            turno.estado=2
+            turno.save()       
+            flash("El turno fue actualizado !!","success")
+    return redirect(url_for('turnos_hoy'))
 
 
 @app.route('/vacunas')

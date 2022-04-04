@@ -82,26 +82,22 @@
           <td>{{ mt.vacuna }}</td>
           {% if mt.estado == 0 %}
           <td>PENDIENTE</td>
-          <td>
-            <button
-              class="btn btn-primary"
-              onclick="window.location.href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}'"
-            >
-              Ver paciente
-            </button>
-          </td>
-          {% endif %} {% if mt.estado == 1 %}
+          
+          {% endif %} 
+          {% if mt.estado == 1 %}
           <td>CANCELADO</td>
+          {% endif %}
+          {% if mt.estado == 2 %}
+          <td>ATENDIDO</td>
+          {% endif %}
           <td>
             <button
-              disabled
               class="btn btn-primary"
               onclick="window.location.href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}'"
             >
               Ver paciente
             </button>
           </td>
-          {% endif %}
         </tr>
         {% endfor %}
       </tbody>

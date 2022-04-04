@@ -265,7 +265,7 @@ def marcar_vacunado():
             turno = Turno.get_by_id(idturno)
             turno.estado=2
             turno.save()       
-            flash("El registraron los datos!!","success")
+            flash("Se registraron los datos de la vacuna!!","success")
     return redirect(url_for('turnos_hoy'))
 
 

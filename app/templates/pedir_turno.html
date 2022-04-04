@@ -25,6 +25,7 @@
                     <div class="col-md-12">
                         <input min={{min}} style="margin-top: 30px;" id="fecha_turno" name="fecha_turno" type="date"
                             placeholder="Eliga una fecha" value={{min}}>
+                            <label class="form-signin" for="exampleCheck1">Seleccione un día</label>
                     </div>
                 </div>
                 <div class="form-signin">
@@ -35,6 +36,7 @@
                             <option value="{{ v }}">{{ v }}</option>
                             {% endfor %}
                         </select>
+                        <label class="form-signin" for="exampleCheck1">Seleccione la vacuna</label>
                     </div>
                 </div>
                 <div class="form-signin">
@@ -45,6 +47,7 @@
                             <option value="{{ s }}">{{ s }}</option>
                             {% endfor %}
                         </select>
+                        <label class="form-signin" for="exampleCheck1">Seleccione una sede</label>
                     </div>
                 </div>
                 <div class="form-signin" style="margin-top: 30px;">

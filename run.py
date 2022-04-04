@@ -176,7 +176,11 @@ def registra_turno():
         id_usuario=session["id_user"]
         fecha_turno = request.form['fecha_turno']
         sede =request.form['sede']
-        vacuna = request.form['vacuna']
+        if 'vacuna' in request.form:
+            vacuna = request.form['vacuna']
+        else:
+            flash("Lo hay vacunas para solicitar turno","danger")
+            return redirect(url_for('sacar_turno'))
         estado = 0
         #estado 0 = pendiente de vacunarse
         #estado 1 = cancelado por el usuario

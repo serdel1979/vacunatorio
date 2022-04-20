@@ -13,6 +13,8 @@ class User(db.Model, UserMixin):
     telefono = db.Column(db.String(20))
     nacimiento = db.Column(db.String(20))
     primera_dosis = db.Column(db.String(20))
+    fecha_primera_dosis = db.Column(db.String(20))
+    fecha_ultima_gripe = db.Column(db.String(20))
     paciente_riesgo = db.Column(db.String(20))
     fiebre_amarilla = db.Column(db.String(20))
     password = db.Column(db.String(20))
@@ -22,13 +24,15 @@ class User(db.Model, UserMixin):
     tipo = db.Column(db.Integer)
     sede = db.Column(db.String(20))
 
-    def __init__(self,usuario,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,paciente_riesgo=None,fiebre_amarilla=None,password=None,email=None,dni=None,tipo=3, sede_preferida=None,sede=None):
+    def __init__(self,usuario,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,fecha_primera_dosis=None, ultima_gripe=None,paciente_riesgo=None,fiebre_amarilla=None,password=None,email=None,dni=None,tipo=3, sede_preferida=None,sede=None):
         self.usuario = usuario
         self.nombre = nombre
         self.apellido = apellido
         self.telefono =telefono
         self.nacimiento = nacimiento
         self.primera_dosis = primera_dosis
+        self.fecha_primera_dosis = fecha_primera_dosis
+        self.fecha_ultima_gripe = ultima_gripe
         self.fiebre_amarilla = fiebre_amarilla
         self.paciente_riesgo = paciente_riesgo
         self.password = password

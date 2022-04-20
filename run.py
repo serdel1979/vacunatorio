@@ -97,11 +97,13 @@ def registro():
         if email:
             flash("El email pertenece a un usuario del sistema","danger")
             return render_template('registro.html',form=form)
-        
+
         usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, 
         apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= form.nacimiento.data, 
         primera_dosis=form.primera_dosis.data,
+        fecha_primera_dosis = form.fecha_primera_dosis.data,
+        ultima_gripe = form.fecha_ultima_gripe.data,
         paciente_riesgo=form.paciente_riesgo.data,fiebre_amarilla=form.fiebre_amarilla.data,
         password=form.password.data, email=form.email.data, dni=form.dni.data, 
         sede_preferida= form.sede_preferida.data, sede=0)
@@ -179,7 +181,7 @@ def registra_turno():
         if 'vacuna' in request.form:
             vacuna = request.form['vacuna']
         else:
-            flash("Lo hay vacunas para solicitar turno","danger")
+            flash("No hay vacunas para seleccionar turno","danger")
             return redirect(url_for('sacar_turno'))
         estado = 0
         #estado 0 = pendiente de vacunarse

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 21-04-2022 a las 02:51:28
+-- Tiempo de generación: 21-04-2022 a las 03:12:15
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -54,8 +54,8 @@ CREATE TABLE `usuarios` (
   `nacimiento` date DEFAULT NULL,
   `primera_dosis` tinyint(1) DEFAULT NULL,
   `fecha_primera_dosis` date DEFAULT NULL,
-  `fecha_ultima_gripe` tinyint(4) DEFAULT NULL,
-  `fecha_ultima_covid` tinyint(4) DEFAULT NULL,
+  `fecha_ultima_gripe` date DEFAULT NULL,
+  `fecha_ultima_covid` date DEFAULT NULL,
   `paciente_riesgo` tinyint(1) DEFAULT NULL,
   `fiebre_amarilla` tinyint(1) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,

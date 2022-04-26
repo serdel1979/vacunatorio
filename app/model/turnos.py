@@ -57,6 +57,9 @@ class Turno(db.Model, UserMixin):
     def get_by_sede(cls, sede):
         return cls.query.filter_by(sede=sede).all()
 
+    @classmethod
+    def cant_by_sede(cls, sede):
+        return cls.query.filter_by(sede=sede).all()
 
 
     @classmethod

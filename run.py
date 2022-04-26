@@ -270,8 +270,10 @@ def ver_paciente():
 @app.route('/ver_paciente_fiebre/', methods=['GET'])
 def ver_paciente_fiebre():
     id_paciente = request.args.get("idusr")
+    print(request.args.get("idusr") )
     id_turno = request.args.get("idt")
     paciente = User.get_by_id(id_paciente)
+
     turno = Turno.get_by_id(id_turno)
     #############################
     edad = relativedelta(datetime.now(), paciente.nacimiento)
@@ -365,10 +367,27 @@ def agrega_enfermero():
         return redirect(url_for('enfermeros'))
     return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"]) 
 
- 
+ # Aca hago las estadisticas por Sede
 
+@app.route('/estadisticas', methods=['GET'])
+def estadisticas():
+    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"])
 
+@app.route('/vacunas_por_sede', methods=['GET'])
+def vacunas_por_sede():
+    cantidad_por_sede = []
+    cementerio = ["cementerio",len(Turno.cant_by_sede("Cementerio"))]
+    cantidad_por_sede.append(cementerio)
+    terminal = ["terminal", len(Turno.cant_by_sede("Terminal"))]
+    cantidad_por_sede.append(terminal)
+    municipal = ["municipal", len(Turno.cant_by_sede("Municipal"))]
+    cantidad_por_sede.append(municipal)
 
+    print(cantidad_por_sede)
+    print(len(Turno.cant_by_sede("Cementerio")))
+    print(len(Turno.cant_by_sede("Terminal")))
+    print(len(Turno.cant_by_sede("Municipal")))
+    return redirect(url_for('estadisticas'))
 
 if __name__ == "__main__":
     app.run(debug=True)

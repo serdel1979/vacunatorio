@@ -1,0 +1,42 @@
+{% include './menu.html' %}
+{% block content %}
+
+
+<div class="container">
+
+    {% with msg = get_flashed_messages(with_categories=true) %}
+    {% if msg %}
+    {% for category,m in msg %}
+    <div class="alert alert-{{ category }}" role="alert"> {{ m }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+    <div style="margin-top: 10px;">
+        <h2>Estadisticas</h2>
+    </div>
+    <button style="position: relative;" type="button" class="btn btn-primary"
+        onclick="window.location.href='vacunas_por_sede'">Ver vacunas por sede</button>
+    <div class="table-responsive" style="margin-top: 10px;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sede</th>
+
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> </td>
+
+                    <td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -29,10 +29,11 @@ VACUNASSIST
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         {% if tipo == 1 %}
-        <li><a href="#" style="color:#ffffff">Estadísticas</a></li>
+        <li><a href="/estadisticas" style="color:#ffffff">Estadísticas</a></li>
         <li><a href="/enfermeros" style="color:#ffffff">Enfermeros</a></li>
         <li><a href="/vacunas" style="color:#ffffff">Vacunas</a></li>
         <li><a href="/turnos_fiebre_amarilla" style="color:#ffffff">Turnos de fiebre amarilla</a></li>
+
         {% endif %}
         {% if tipo == 1 or tipo == 2 %}
         <li><a href="#" style="color:#ffffff">Historial</a></li>

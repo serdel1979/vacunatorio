@@ -97,13 +97,11 @@ def registro():
         if email:
             flash("El email pertenece a un usuario del sistema","danger")
             return render_template('registro.html',form=form)
-
+        
         usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, 
         apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= form.nacimiento.data, 
         primera_dosis=form.primera_dosis.data,
-        fecha_primera_dosis = form.fecha_primera_dosis.data,
-        ultima_gripe = form.fecha_ultima_gripe.data,
         paciente_riesgo=form.paciente_riesgo.data,fiebre_amarilla=form.fiebre_amarilla.data,
         password=form.password.data, email=form.email.data, dni=form.dni.data, 
         sede_preferida= form.sede_preferida.data, sede=0)
@@ -178,16 +176,16 @@ def registra_turno():
         id_usuario=session["id_user"]
         fecha_turno = request.form['fecha_turno']
         sede =request.form['sede']
-        if 'vacuna' in request.form:
-            vacuna = request.form['vacuna']
+        vacuna = request.form['vacuna']
+        if vacuna == 'Fiebre amarilla':
+            estado = 4
         else:
-            flash("No hay vacunas para seleccionar turno","danger")
-            return redirect(url_for('sacar_turno'))
-        estado = 0
+            estado = 0
         #estado 0 = pendiente de vacunarse
         #estado 1 = cancelado por el usuario
         #estado 2 = atendido por el enfermero
         #estado 3 = rechazado por el administrador si es fiebre amarilla
+        #estado 4 = esperando confirmacion del administrador
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
     flash("pediste un re turno","success")
@@ -200,10 +198,6 @@ def edit_enfermero(id):
     enfermero = User.get_by_id(id)
     if enfermero != None:
         if request.method=='POST':
-            enfermero.nombre = request.form['nombre']
-            enfermero.apellido = request.form['apellido']
-            enfermero.dni=request.form['dni']
-            enfermero.telefono = request.form['telefono']
             enfermero.sede= request.form['sede']
             enfermero.save()
             flash("Datos actualizados","success")
@@ -244,8 +238,19 @@ def borra_enfermero(id):
 def turnos_hoy():
     hoy = date.today()
     sede = session["sede"]
-    turnos = Turno.get_by_fecha(hoy,sede)
+    if session["tipo"] == 1:
+        turnos = Turno.get_by_fecha_sedes(hoy)
+    else:
+        turnos = Turno.get_by_fecha(hoy,sede)
     return render_template('turnos_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"]) 
+
+
+
+@app.route('/turnos_fiebre_amarilla')
+def turnos_fiebre_amarilla():
+    hoy = date.today()
+    turnos = Turno.get_by_fiebre_amarilla()
+    return render_template('turnos_fiebre_amarilla.html',turnos=turnos,tipo = session["tipo"], id=session["id_user"]) 
 
 
 
@@ -267,7 +272,7 @@ def marcar_vacunado():
             turno = Turno.get_by_id(idturno)
             turno.estado=2
             turno.save()       
-            flash("Se registraron los datos de la vacuna!!","success")
+            flash("El turno fue actualizado !!","success")
     return redirect(url_for('turnos_hoy'))
 
 

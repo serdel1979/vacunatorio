@@ -1,0 +1,104 @@
+{% include './menu.html' %} {% import "bootstrap/wtf.html" as wtf %} {% block
+content %}
+<div class="container">
+    {% with msg = get_flashed_messages(with_categories=true) %} {% if msg %} {%
+    for category,m in msg %}
+    <div class="alert alert-{{ category }}" role="alert">
+        {{ m }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <div class="card">
+
+        <div style="margin-top: 20px">
+            <h3>Datos del paciente</h3>
+        </div>
+
+        <div style="margin-top: 20px" class="form-signin">
+            <form action="/aceptar_fiebre_amarilla" class="form-signin" method="post">
+                <input id="idturno" name="idturno" type="hidden" value="{{turno.id}}">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-group">Nombre </label>
+                        {{ paciente.nombre }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-group">Apellido</label>
+                        {{ paciente.apellido }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-group">DNI</label>
+                        {{ paciente.dni }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-group">Sede</label>
+                        {{ turno.sede }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-group">Vacuna</label>
+                        {{ turno.vacuna }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-group">Edad: </label>
+                        {{ edad.years }} años
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {% if turno.estado == 4 %}
+                        <input type="radio" id="aceptado" name="aceptado" value="aceptado">
+                        <label for="html">Aceptado</label><br>
+                        <input type="radio" id="rechazado" name="aceptado" value="rechazado">
+                        <label for="css">Rechazado</label><br>
+                        <input type="radio" id="esperando" name="aceptado" value="esperando" checked>
+                        <label for="css">Sin confirmar</label><br>
+                        {% endif %}
+                        {% if turno.estado == 3 %}
+                        <input type="radio" id="aceptado" name="aceptado" value="aceptado">
+                        <label for="html">Aceptado</label><br>
+                        <input type="radio" id="rechazado" name="aceptado" value="rechazado" checked>
+                        <label for="css">Rechazado</label><br>
+                        <input type="radio" id="esperando" name="aceptado" value="esperando">
+                        <label for="css">Sin confirmar</label><br>
+                        {% endif %}
+                        {% if turno.estado == 0 %}
+                        <input type="radio" id="aceptado" name="aceptado" value="aceptado" checked>
+                        <label for="html">Aceptado</label><br>
+                        <input type="radio" id="rechazado" name="aceptado" value="rechazado">
+                        <label for="css">Rechazado</label><br>
+                        <input type="radio" id="esperando" name="aceptado" value="esperando">
+                        <label for="css">Sin confirmar</label><br>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-signin">
+                    <div class="col-md-8 text-center">
+                        <button type="button" class="btn btn-primary btn-lg" style="margin-top: 10px"
+                            onclick="window.location.href='/turnos_fiebre_amarilla'">
+                            Volver
+                        </button>
+                        <button id="login" style="margin-top: 10px" type="submit" class="btn btn-primary btn-lg">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

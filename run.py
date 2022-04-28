@@ -260,7 +260,45 @@ def ver_paciente():
     id_turno = request.args.get("idt")
     paciente = User.get_by_id(id_paciente)
     turno = Turno.get_by_id(id_turno)
-    return render_template('ver_paciente.html',paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
+    #############################
+    edad = relativedelta(datetime.now(), paciente.nacimiento)
+    #############################
+    return render_template('ver_paciente.html',edad=edad,paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
+
+
+
+@app.route('/ver_paciente_fiebre/', methods=['GET'])
+def ver_paciente_fiebre():
+    id_paciente = request.args.get("idusr")
+    id_turno = request.args.get("idt")
+    paciente = User.get_by_id(id_paciente)
+    turno = Turno.get_by_id(id_turno)
+    #############################
+    edad = relativedelta(datetime.now(), paciente.nacimiento)
+    #############################
+    return render_template('ver_paciente_fiebre.html',edad=edad, paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
+
+
+@app.route('/aceptar_fiebre_amarilla', methods=['GET','POST'])
+def marcar_fiebre_amarilla():
+    if request.method=='POST':
+        if 'aceptado' in request.form:
+            idturno = request.form['idturno']
+            turno = Turno.get_by_id(idturno)
+            estado = request.form['aceptado']
+            if estado == 'aceptado':
+                turno.estado = 0
+                flash("El turno fue aceptado!!","success")
+            else:
+                if estado == 'rechazado':
+                   turno.estado = 3
+                   flash("El turno fue rechazado!!","success")
+                else:
+                    if estado == 'esperando':
+                        flash("El turno sigue en espera!!","success")
+                        turno.estado = 4
+            turno.save()       
+    return redirect(url_for('turnos_fiebre_amarilla'))
 
 
 

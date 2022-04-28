@@ -84,6 +84,9 @@ content %}
                         <input type="radio" id="esperando" name="aceptado" value="esperando">
                         <label for="css">Sin confirmar</label><br>
                         {% endif %}
+                        {% if turno.estado == 2 %}
+                        <h3>Atendido</h3>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="form-signin">
@@ -92,9 +95,15 @@ content %}
                             onclick="window.location.href='/turnos_fiebre_amarilla'">
                             Volver
                         </button>
-                        <button id="login" style="margin-top: 10px" type="submit" class="btn btn-primary btn-lg">
+                        {% if turno.estado == 2 %}
+                        <button disabled id="login" style="margin-top: 10px" type="submit" class="btn btn-primary btn-lg">
                             Guardar
                         </button>
+                        {% else %}
+                        <button disabled id="login" style="margin-top: 10px" type="submit" class="btn btn-primary btn-lg">
+                            Guardar
+                        </button>
+                        {% endif %}
                     </div>
                 </div>
             </form>

@@ -61,11 +61,16 @@ content %}
         <div class="col-md-3">
           <div class="form-group">
             {% if turno.estado == 2 %}
-            <input checked type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
+            <input disabled checked type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
             <label class="form-group" for="exampleCheck1">Atendido</label>
             {% else %}
+            {% if turno.estado == 0 %}
             <input type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
             <label class="form-group" for="exampleCheck1">Atendido</label>
+            {% else %}
+            <input disabled type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
+            <label class="form-group" for="exampleCheck1">Atendido</label>
+            {% endif %}
             {% endif %}
           </div>
         </div>

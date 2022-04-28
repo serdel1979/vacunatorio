@@ -88,7 +88,6 @@
           <td>{{ mt.vacuna }}</td>
           {% if mt.estado == 0 %}
           <td>PENDIENTE</td>
-          
           {% endif %} 
           {% if mt.estado == 1 %}
           <td>CANCELADO</td>
@@ -96,6 +95,12 @@
           {% if mt.estado == 2 %}
           <td>ATENDIDO</td>
           {% endif %}
+          {% if mt.estado == 3 %}
+          <td>RECHAZADO</td>
+          {% endif %}
+          {% if mt.estado == 4 %}
+          <td>SIN CONFIRMAR</td>
+          {% endif %} 
           <td>
             <button
               class="btn btn-primary"

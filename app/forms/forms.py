@@ -8,6 +8,10 @@ class LoginForm(FlaskForm):
     usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=100)])
     password = PasswordField('Contraseña',validators=[InputRequired(),Length(min=4,max=100)])
 
+
+class RecuperarClave(FlaskForm):
+    email = StringField('Ingrese su email',validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
+
 class RegistroForm(FlaskForm):
     usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=100)])
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])

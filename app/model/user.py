@@ -72,6 +72,11 @@ class User(db.Model, UserMixin):
         db.session.delete(usr)
         db.session.commit()
 
+    
+    def cambiar_clave(self, password):
+        self.password = password
+        db.session.commit()
+
     def save(self):
         db.session.add(self)
         db.session.commit()

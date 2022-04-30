@@ -4,20 +4,42 @@ from wsgiref.validate import validator
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required
-from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm
+from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm, RecuperarClave
 from app.model.user import User
 from app.model.vacunas import Vacuna
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from app.model.turnos import Turno
-
+from flask_mail import Mail
+from flask_mail import Message
+from random import choice
 
 
 from app import create_app
 
 app = create_app()
+mail = Mail(app)
+
 
 sedes = ["Cementerio","Terminal","Municipal"]
+
+
+def genera_clave():
+    longitud = 8
+    valores = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    p = ""
+    p = p.join([choice(valores) for i in range(longitud)])
+    return p
+
+
+def enviar_mail(destinatario,mensaje):
+    try:
+        msg = Message("Email-title",sender="vacunatorioing2g36@gmail.com",body=mensaje,recipients=[destinatario])
+        mail.send(msg)
+        return True
+    except:
+        return False
+
 
 @app.route('/')
 def index():
@@ -61,6 +83,9 @@ def login():
     return render_template('login.html',form=form) 
 
 
+
+
+
 @app.route('/home')
 def home():
     if "tipo" in session:
@@ -74,6 +99,37 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/recuperar_clave')
+def recuperar_clave():
+    form = RecuperarClave()
+    return render_template('recuperar_clave.html', form = form)
+
+
+@app.route('/enviar_clave', methods=['POST'])
+def enviar_clave():
+    form = RecuperarClave()
+    if form.validate_on_submit():
+        email = form.email.data
+        user = User.get_by_email(email)
+        if user: 
+            clave = genera_clave()
+            msj = "Su clave nueva es: "+ clave
+            if not enviar_mail(email,msj):
+                flash("No se pudo enviar el email!!!","danger")
+                return render_template('recuperar_clave.html',form=form)
+            else:
+                flash("La contraseña fue enviada al mail ingresado!!!","success")
+                user.cambiar_clave(clave)
+                return redirect(url_for('login'))
+        else:
+            flash("No existe el mail en el sistema!!!","danger")
+            return render_template('recuperar_clave.html',form=form)
+
+
+
+        
+
+    return render_template('recuperar_clave.html', form = form)
 
 def verifica_pass(pass1,pass2):
     return pass1==pass2
@@ -186,6 +242,7 @@ def registra_turno():
         #estado 2 = atendido por el enfermero
         #estado 3 = rechazado por el administrador si es fiebre amarilla
         #estado 4 = esperando confirmacion del administrador
+
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
     flash("pediste un re turno","success")
@@ -263,6 +320,12 @@ def ver_paciente():
     #############################
     edad = relativedelta(datetime.now(), paciente.nacimiento)
     #############################
+
+    if datetime.strptime(datetime.today().strftime('%Y-%m-%d'),'%Y-%m-%d') > datetime.strptime(turno.fecha_turno.strftime('%Y-%m-%d'),'%Y-%m-%d'):
+        turno.asistio = False
+      
+  
+    
     return render_template('ver_paciente.html',edad=edad,paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
 
 
@@ -278,6 +341,11 @@ def ver_paciente_fiebre():
     #############################
     edad = relativedelta(datetime.now(), paciente.nacimiento)
     #############################
+
+    
+    if datetime.strptime(datetime.today().strftime('%Y-%m-%d'),'%Y-%m-%d') > datetime.strptime(turno.fecha_turno.strftime('%Y-%m-%d'),'%Y-%m-%d'):
+        turno.asistio = False
+
     return render_template('ver_paciente_fiebre.html',edad=edad, paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
 
 
@@ -311,6 +379,7 @@ def marcar_vacunado():
             idturno = request.form['idturno']
             turno = Turno.get_by_id(idturno)
             turno.estado=2
+            turno.asistio = True
             turno.save()       
             flash("El turno fue actualizado !!","success")
     return redirect(url_for('turnos_hoy'))

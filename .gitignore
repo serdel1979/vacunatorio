@@ -1,6 +1,6 @@
 /venv
 *.pyc
-__init__.py
+/app/__init__.py
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -239,15 +239,26 @@ def registra_turno():
         fecha_turno = request.form['fecha_turno']
         sede =request.form['sede']
         vacuna = request.form['vacuna']
+        estado = 0
         if vacuna == 'Fiebre amarilla':
+            usuario = User.get_by_id(id_usuario)
+            if usuario.fiebre_amarilla == 1:    #si fue vacunado por fiebre amarilla no acepta el turno
+                flash("Usted ya fue vacunado por la fiebre amarilla","danger")
+                return redirect(url_for('sacar_turno'))
             estado = 4
-        else:
-            estado = 0
+        
+        if vacuna == 'Gripe':
+            fin = timedelta(364)      #asigna un turno para la proxima dosis en 90 dias
+            ini=datetime.today()-fin
+            print(type(fecha_turno))
+            print(type(ini))
+            print(type(fin))
         #estado 0 = pendiente de vacunarse
         #estado 1 = cancelado por el usuario
         #estado 2 = atendido por el enfermero
         #estado 3 = rechazado por el administrador si es fiebre amarilla
         #estado 4 = esperando confirmacion del administrador
+
 
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
@@ -329,9 +340,6 @@ def ver_paciente():
 
     if datetime.strptime(datetime.today().strftime('%Y-%m-%d'),'%Y-%m-%d') > datetime.strptime(turno.fecha_turno.strftime('%Y-%m-%d'),'%Y-%m-%d'):
         turno.asistio = False
-      
-  
-    
     return render_template('ver_paciente.html',edad=edad,paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
 
 
@@ -384,9 +392,25 @@ def marcar_vacunado():
         if 'vacunado' in request.form:
             idturno = request.form['idturno']
             turno = Turno.get_by_id(idturno)
+            usuario = User.get_by_id(turno.id_usuario)
+            if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
+                usuario.fecha_ultima_covid = datetime.today()
+                usuario.save()
+                td = timedelta(90)      #asigna un turno para la proxima dosis en 90 dias
+                nuevafecha=datetime.today()+td
+                turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
+                turnoproximo.save()
+                flash("Se asignó un nuevo turno en 90 dás","success")
+            if turno.vacuna == "Fiebre amarilla":
+                usuario.fiebre_amarilla = 1
+                usuario.save()
+            if turno.vacuna == "Gripe":
+                usuario.fecha_ultima_gripe = datetime.today()
+                usuario.save()
             turno.estado=2
             turno.asistio = True
             turno.save()       
+            
             flash("El turno fue actualizado !!","success")
     return redirect(url_for('turnos_hoy'))
 
@@ -459,10 +483,15 @@ def cambiar_contrasena():
     if request.method=='POST':
     
         password = request.form['password']
+        if len(password) < 4:
+            flash("La contraseña debe superar los 3 caracteres!!","danger")
+            return redirect(url_for('ver_perfil'))
         user = User.get_by_id(session['id_user'])
         user.cambiar_clave(password)
         flash("Cambio su contraseña correctamente!!","success")
     return redirect(url_for('ver_perfil'))
+
+
 
 @app.route('/vacunas_por_sede', methods=['GET'])
 def vacunas_por_sede():
@@ -491,7 +520,7 @@ if __name__ == "__main__":
     scheduler.start()
 
     try:
-        app.run(debug=True)
+        app.run(debug=True, use_reloader=True)
     except (KeyboardInterrupt, SystemExit):
         # Not strictly necessary if daemonic mode is enabled but should be done if possible
         scheduler.shutdown()

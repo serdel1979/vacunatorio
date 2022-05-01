@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     nacimiento = db.Column(db.String(20))
     primera_dosis = db.Column(db.String(20))
     fecha_primera_dosis = db.Column(db.String(20))
+    fecha_ultima_covid = db.Column(db.String(20))
     fecha_ultima_gripe = db.Column(db.String(20))
     paciente_riesgo = db.Column(db.String(20))
     fiebre_amarilla = db.Column(db.String(20))

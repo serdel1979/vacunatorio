@@ -1,3 +1,4 @@
+from sched import scheduler
 from app import create_app
 from enum import unique
 from wsgiref.validate import validator
@@ -13,6 +14,11 @@ from app.model.turnos import Turno
 from flask_mail import Mail
 from flask_mail import Message
 from random import choice
+from datetime import datetime
+import time
+import os
+
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 from app import create_app
@@ -442,6 +448,22 @@ def agrega_enfermero():
 def estadisticas():
     return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"])
 
+@app.route('/ver_perfil', methods=['GET'])
+def ver_perfil():
+    user = User.get_by_id(session['id_user'])
+    return render_template('perfil.html', tipo=session["tipo"], id=session["id_user"], user=user)
+
+
+@app.route('/cambiar_contrasena', methods=['GET','POST'])
+def cambiar_contrasena():
+    if request.method=='POST':
+    
+        password = request.form['password']
+        user = User.get_by_id(session['id_user'])
+        user.cambiar_clave(password)
+        flash("Cambio su contraseña correctamente!!","success")
+    return redirect(url_for('ver_perfil'))
+
 @app.route('/vacunas_por_sede', methods=['GET'])
 def vacunas_por_sede():
     cantidad_por_sede = []
@@ -458,5 +480,20 @@ def vacunas_por_sede():
     print(len(Turno.cant_by_sede("Municipal")))
     return redirect(url_for('estadisticas'))
 
+def job():
+    print("hola")
+
+    
 if __name__ == "__main__":
-    app.run(debug=True)
+    
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(job, 'cron', day_of_week='0-6', hour='21', minute='36', timezone="America/Buenos_Aires")
+    scheduler.start()
+
+    try:
+        app.run(debug=True)
+    except (KeyboardInterrupt, SystemExit):
+        # Not strictly necessary if daemonic mode is enabled but should be done if possible
+        scheduler.shutdown()
+        
+    

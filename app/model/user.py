@@ -42,7 +42,9 @@ class User(db.Model, UserMixin):
         self.tipo = tipo
         self.sede = sede
 
-    
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
         
     
     @classmethod

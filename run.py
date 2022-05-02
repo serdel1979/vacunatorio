@@ -19,7 +19,8 @@ from random import choice
 from datetime import datetime
 import time
 import os
-
+from subprocess import call
+from pytz import utc
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -149,10 +150,6 @@ def registro():
         if form.password.data != form.password2.data:
             flash("Las contraseñas no coinciden!!!","danger")
             return render_template('registro.html',form=form)
-        usr = User.get_by_username(form.usuario.data)
-        if usr:
-            flash("El usuario ya existe","danger")
-            return render_template('registro.html',form=form)
         dni = User.get_by_dni(form.dni.data)
         if dni:
             flash("El dni pertenece a un usuario del sistema", "danger")
@@ -162,7 +159,7 @@ def registro():
             flash("El email pertenece a un usuario del sistema","danger")
             return render_template('registro.html',form=form)
         
-        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, 
+        usuario = User(nombre = form.nombre.data, 
         apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= form.nacimiento.data, 
         primera_dosis=form.primera_dosis.data,
@@ -242,30 +239,39 @@ def registra_turno():
         sede =request.form['sede']
         vacuna = request.form['vacuna']
         estado = 0
+        usuario = User.get_by_id(id_usuario)
+        fecha_de_turno = datetime.strptime(fecha_turno,'%Y-%m-%d').date() #fecha del turno
+        vigentes = Turno.get_by_id_usuario_vigente(vacuna,id_usuario)
+        if len(vigentes) > 0:
+            flash("Tiene turno vigente para la vacuna seleccionada","danger")
+            return redirect(url_for('sacar_turno'))
+
         if vacuna == 'Fiebre amarilla':
-            usuario = User.get_by_id(id_usuario)
             if usuario.fiebre_amarilla == 1:    #si fue vacunado por fiebre amarilla no acepta el turno
                 flash("Usted ya fue vacunado por la fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
-            estado = 4
+            estado = 4  #esperar que acepte el administrador
         
         if vacuna == 'Gripe':
-            usuario = User.get_by_id(id_usuario)
             fecha_ultima_gripe = usuario.fecha_ultima_gripe
             if fecha_ultima_gripe != None:
-                fecha_dt = datetime.strptime(fecha_turno,'%Y-%m-%d').date()
-                fecha_ultima_gripe = datetime.strptime(fecha_ultima_gripe,'%Y-%m-%d').date()
-                print(fecha_ultima_gripe-fecha_dt)
+               # fecha_ultima_gripe = datetime.strptime(fecha_ultima_gripe,'%Y-%m-%d').date()
+                fecha_ult_grip = fecha_de_turno-timedelta(365)    #fecha de ultima vacuna de gripe
+                if fecha_ult_grip < fecha_ultima_gripe:
+                    flash("La fecha del turno debe superar el año de la última vacuna de gripe","danger")
+                    return redirect(url_for('sacar_turno'))
 
-            fecha_dt = datetime.strptime(fecha_turno,'%Y-%m-%d').date()
-            current_date = date.today()
+        if vacuna == 'Covid':
+            fecha_ultima_covid = usuario.fecha_ultima_covid
+            if fecha_ultima_covid != None:
+                fecha_ult_covi = fecha_de_turno-timedelta(90) 
+                if fecha_ult_covi < fecha_ultima_covid:
+                    flash("La fecha del turno debe superar 90 días de la última vacuna de Covid","danger")
+                    return redirect(url_for('sacar_turno'))
+
+
              #asigna un turno para la proxima dosis en 90 dias
-            fecha_ini = current_date-timedelta(365)
-            fecha_fin = current_date+timedelta(365)
-            print(fecha_dt)
-            print(current_date)
-            print(current_date+timedelta(365))
-            print(current_date-timedelta(365))
+
 
         #estado 0 = pendiente de vacunarse
         #estado 1 = cancelado por el usuario
@@ -275,7 +281,7 @@ def registra_turno():
 
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
-    flash("pediste un re turno","success")
+    flash("Su turno fue registrado","success")
     return redirect(url_for('sacar_turno'))
 
 
@@ -522,20 +528,24 @@ def vacunas_por_sede():
     print(len(Turno.cant_by_sede("Municipal")))
     return redirect(url_for('estadisticas'))
 
-def job():
-    print("hola")
 
-    
-if __name__ == "__main__":
-    
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(job, 'cron', day_of_week='0-6', hour='21', minute='36', timezone="America/Buenos_Aires")
-    scheduler.start()
 
-    try:
-        app.run(debug=True, use_reloader=True)
-    except (KeyboardInterrupt, SystemExit):
-        # Not strictly necessary if daemonic mode is enabled but should be done if possible
-        scheduler.shutdown()
         
-    
+#def job():
+#    print("")
+#    call(['python', 'scheduler/main.py'])
+
+
+if __name__ == '__main__':
+ #   scheduler = BackgroundScheduler()
+ #   scheduler.configure(timezone=utc)
+ #   scheduler.add_job(job, 'interval', seconds=10)
+ #   scheduler.start()
+ #   print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
+
+ #   try:
+        # This is here to simulate application activity (which keeps the main thread alive).
+        app.run(debug=True, use_reloader=True)
+ #   except (KeyboardInterrupt, SystemExit):
+        # Not strictly necessary if daemonic mode is enabled but should be done if possible
+#        scheduler.shutdown() 

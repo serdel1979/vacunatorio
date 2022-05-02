@@ -1,3 +1,4 @@
+from ast import And
 from app import db
 from flask_login import UserMixin, login_manager
 from datetime import date, datetime, timedelta
@@ -35,8 +36,8 @@ class Turno(db.Model, UserMixin):
         return cls.query.filter_by(id=id).first()
 
     @classmethod
-    def get_by_nombre_vacuna(cls, nombre_vacuna):
-        return cls.query.filter_by(nombre_vacuna=nombre_vacuna).all()
+    def get_by_id_usuario_vigente(cls, nombre_vacuna, idusr):
+        return cls.query.filter_by(vacuna=nombre_vacuna).filter_by(estado=0).filter_by(id_usuario=idusr).all()
 
     
     @classmethod

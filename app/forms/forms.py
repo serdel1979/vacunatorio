@@ -5,7 +5,7 @@ from wtforms.validators import InputRequired, Email, Length
 
 
 class LoginForm(FlaskForm):
-    usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=100)])
+    usuario = StringField('Dni',validators=[InputRequired(),Length(min=4,max=100)])
     password = PasswordField('Contraseña',validators=[InputRequired(),Length(min=4,max=100)])
 
 
@@ -13,7 +13,6 @@ class RecuperarClave(FlaskForm):
     email = StringField('Ingrese su email',validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
 
 class RegistroForm(FlaskForm):
-    usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=100)])
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
     apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=100)])
     telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=100)])
@@ -31,7 +30,7 @@ class RegistroForm(FlaskForm):
     
     def validate(self):
         if not Form.validate(self):
-            if self.usuario.data == None or self.nombre.data == None or self.apellido.data == None or self.telefono.data == None or self.nacimiento.data == None or self.dni.data == None or self.email.data == None:
+            if self.nombre.data == None or self.apellido.data == None or self.telefono.data == None or self.nacimiento.data == None or self.dni.data == None or self.email.data == None:
                 return False
             else:
                 return True
@@ -39,7 +38,6 @@ class RegistroForm(FlaskForm):
             return True
 
 class EnfermeroForm(FlaskForm):
-    usuario = StringField('Usuario',validators=[InputRequired(),Length(min=4,max=100)])
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
     apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=100)])
     telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=100)])

@@ -1,4 +1,6 @@
 from sched import scheduler
+
+from sqlalchemy import null
 from app import create_app
 from enum import unique
 from wsgiref.validate import validator
@@ -248,9 +250,18 @@ def registra_turno():
             estado = 4
         
         if vacuna == 'Gripe':
+            usuario = User.get_by_id(id_usuario)
+            fecha_ultima_gripe = usuario.fecha_ultima_gripe
+            if fecha_ultima_gripe != None:
+                fecha_dt = datetime.strptime(fecha_turno,'%Y-%m-%d').date()
+                fecha_ultima_gripe = datetime.strptime(fecha_ultima_gripe,'%Y-%m-%d').date()
+                print(fecha_ultima_gripe-fecha_dt)
+
             fecha_dt = datetime.strptime(fecha_turno,'%Y-%m-%d').date()
             current_date = date.today()
              #asigna un turno para la proxima dosis en 90 dias
+            fecha_ini = current_date-timedelta(365)
+            fecha_fin = current_date+timedelta(365)
             print(fecha_dt)
             print(current_date)
             print(current_date+timedelta(365))

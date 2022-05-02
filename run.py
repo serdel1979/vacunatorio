@@ -61,27 +61,28 @@ def login():
     if 'tipo' in session:
         return redirect(url_for('home'))
     form = LoginForm()
-    if form.validate_on_submit():
-        username = form.usuario.data
-        user = User.get_by_username(username)
-        if user: 
-            if verifica_pass(form.password.data, user.password):
-                session["tipo"]= user.tipo
-                session["id_user"] = user.id
-                session["sede"] = user.sede
-                return redirect(url_for('home'))
+    username = form.usuario.data
+    user = User.get_by_username(username)
+    if username == 'admin':
+        if verifica_pass(form.password.data, user.password):
+            session["tipo"]= user.tipo
+            session["id_user"] = user.id
+            session["sede"] = user.sede
+            return redirect(url_for('home'))
         else:
-            user = User.get_by_dni(username)
+            flash("Usuario o clave incorrecto","danger")
+            return render_template('login.html',form=form)
+    user = User.get_by_dni(username)
+    if user: 
+        if verifica_pass(form.password.data, user.password):
+            session["tipo"]= user.tipo
+            session["id_user"] = user.id
+            session["sede"] = user.sede
+            return redirect(url_for('home'))
+        else:
+            user = User.get_by_email(username)
             if user: 
-                if verifica_pass(form.password.data, user.password):
-                    session["tipo"]= user.tipo
-                    session["id_user"] = user.id
-                    session["sede"] = user.sede
-                    return redirect(url_for('home'))
-            else:
-                user = User.get_by_email(username)
-                if user: 
-                    if verifica_pass(form.password.data, user.password):
+                 if verifica_pass(form.password.data, user.password):
                         session["tipo"]= user.tipo
                         session["id_user"] = user.id
                         session["sede"] = user.sede

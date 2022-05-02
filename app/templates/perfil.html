@@ -9,35 +9,38 @@
   </div>
   {% endfor %} {% endif %} {% endwith %}
 
+  {% if tipo != 1 %}
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Nombre: {{user.nombre}}</li>
+   
     <li class="list-group-item">Apellido: {{user.apellido}}</li>
     <li class="list-group-item">DNI: {{user.dni}}</li>
     <li class="list-group-item">Telefono: {{user.dni}}</li>
     <li class="list-group-item">Fecha de nacimiento: {{user.nacimiento}}</li>
     <li class="list-group-item">Sede preferida: {{user.sede_preferida}}</li>
-
+   
   </ul>
 
   <div class="col-auto">
     <a href="/" class="btn btn-primary">Editar perfil</a>
 
     <a href="/" class="btn btn-primary">Volver</a>
-</div>
-  
-  <br/>
-  <br/>
-  <br/>
-
+  </div>
+  {% endif %}
   <form class="row g-3" action="/cambiar_contrasena" method="POST">
     <div class="col-auto">
       <label for="inputPassword2" class="visually-hidden">Cambiar contraseña</label>
-      <input style="width:250px" type="password" class="form-control" id="password" name="password" placeholder="Escriba su nueva contraseña">
+      <input style="width:250px" type="password" class="form-control" id="password" name="password"
+        placeholder="Escriba su nueva contraseña">
     </div>
     <div class="col-auto">
       <button style="margin-top: 10px;" type="submit" class="btn btn-primary mb-3">Aceptar</button>
     </div>
   </form>
 </div>
+
+
+
+
 
 {% endblock %}

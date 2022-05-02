@@ -25,8 +25,7 @@ class User(db.Model, UserMixin):
     tipo = db.Column(db.Integer)
     sede = db.Column(db.String(20))
 
-    def __init__(self,usuario,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,fecha_primera_dosis=None, ultima_gripe=None,paciente_riesgo=None,fiebre_amarilla=None,password=None,email=None,dni=None,tipo=3, sede_preferida=None,sede=None):
-        self.usuario = usuario
+    def __init__(self,nombre,apellido,telefono=None,nacimiento=None,primera_dosis=None,fecha_primera_dosis=None, ultima_gripe=None,paciente_riesgo=None,fiebre_amarilla=None,password=None,email=None,dni=None,tipo=3, sede_preferida=None,sede=None):
         self.nombre = nombre
         self.apellido = apellido
         self.telefono =telefono

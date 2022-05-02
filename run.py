@@ -62,7 +62,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     username = form.usuario.data
-    user = User.get_by_username(username)
+    #user = User.get_by_username(username)
     if username == 'admin':
         if verifica_pass(form.password.data, user.password):
             session["tipo"]= user.tipo
@@ -72,8 +72,9 @@ def login():
         else:
             flash("Usuario o clave incorrecto","danger")
             return render_template('login.html',form=form)
-    user = User.get_by_dni(username)
-    if user: 
+    else:
+     user = User.get_by_dni(username)
+     if user: 
         if verifica_pass(form.password.data, user.password):
             session["tipo"]= user.tipo
             session["id_user"] = user.id
@@ -88,8 +89,8 @@ def login():
                         session["sede"] = user.sede
                         #return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
                         return redirect(url_for('home'))
-            flash("Usuario o clave incorrecto","danger")
-            return render_template('login.html',form=form)
+                 flash("Usuario o clave incorrecto","danger")
+                 return render_template('login.html',form=form)
     return render_template('login.html',form=form) 
 
 

@@ -248,17 +248,19 @@ def registra_turno():
             estado = 4
         
         if vacuna == 'Gripe':
-            fin = timedelta(364)      #asigna un turno para la proxima dosis en 90 dias
-            ini=datetime.today()-fin
-            print(type(fecha_turno))
-            print(type(ini))
-            print(type(fin))
+            fecha_dt = datetime.strptime(fecha_turno,'%Y-%m-%d').date()
+            current_date = date.today()
+             #asigna un turno para la proxima dosis en 90 dias
+            print(fecha_dt)
+            print(current_date)
+            print(current_date+timedelta(365))
+            print(current_date-timedelta(365))
+
         #estado 0 = pendiente de vacunarse
         #estado 1 = cancelado por el usuario
         #estado 2 = atendido por el enfermero
         #estado 3 = rechazado por el administrador si es fiebre amarilla
         #estado 4 = esperando confirmacion del administrador
-
 
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()

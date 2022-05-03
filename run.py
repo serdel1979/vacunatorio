@@ -132,15 +132,12 @@ def enviar_clave():
         else:
             flash("No existe el mail en el sistema!!!","danger")
             return render_template('recuperar_clave.html',form=form)
-
-
-
-        
-
     return render_template('recuperar_clave.html', form = form)
+
 
 def verifica_pass(pass1,pass2):
     return pass1==pass2
+
 
 @app.route('/registro', methods=['GET','POST'])
 def registro():

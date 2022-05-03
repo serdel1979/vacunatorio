@@ -55,45 +55,42 @@ def index():
     return redirect(url_for('login'))
 
 
-
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'tipo' in session:
         return redirect(url_for('home'))
     form = LoginForm()
-    username = form.usuario.data
-    #user = User.get_by_username(username)
-    if username == 'admin':
-        if verifica_pass(form.password.data, user.password):
-            session["tipo"]= user.tipo
-            session["id_user"] = user.id
-            session["sede"] = user.sede
-            return redirect(url_for('home'))
+    if form.validate_on_submit():
+        username = form.usuario.data
+        user = User.get_by_username(username)
+        if user: 
+            if verifica_pass(form.password.data, user.password):
+                session["tipo"]= user.tipo
+                session["id_user"] = user.id
+                session["sede"] = user.sede
+                return redirect(url_for('home'))
+            else:
+                flash("Usuario o clave incorrecto","danger")
         else:
-            flash("Usuario o clave incorrecto","danger")
-            return render_template('login.html',form=form)
-    else:
-     user = User.get_by_dni(username)
-     if user: 
-        if verifica_pass(form.password.data, user.password):
-            session["tipo"]= user.tipo
-            session["id_user"] = user.id
-            session["sede"] = user.sede
-            return redirect(url_for('home'))
-        else:
-            user = User.get_by_email(username)
+            user = User.get_by_dni(username)
             if user: 
-                 if verifica_pass(form.password.data, user.password):
+                if verifica_pass(form.password.data, user.password):
+                    session["tipo"]= user.tipo
+                    session["id_user"] = user.id
+                    session["sede"] = user.sede
+                    return redirect(url_for('home'))
+            else:
+                user = User.get_by_email(username)
+                if user: 
+                    if verifica_pass(form.password.data, user.password):
                         session["tipo"]= user.tipo
                         session["id_user"] = user.id
                         session["sede"] = user.sede
                         #return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
                         return redirect(url_for('home'))
-                 flash("Usuario o clave incorrecto","danger")
-                 return render_template('login.html',form=form)
-    return render_template('login.html',form=form) 
-
-
+            flash("Usuario o clave incorrecto","danger")
+            return render_template('login.html',form=form)
+    return render_template('login.html',form=form)
 
 
 

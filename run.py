@@ -238,6 +238,7 @@ def registra_turno():
         usuario = User.get_by_id(id_usuario)
         fecha_de_turno = datetime.strptime(fecha_turno,'%Y-%m-%d').date() #fecha del turno
         vigentes = Turno.get_by_id_usuario_vigente(vacuna,id_usuario)
+   
         if len(vigentes) > 0:
             flash("Tiene turno vigente para la vacuna seleccionada","danger")
             return redirect(url_for('sacar_turno'))
@@ -245,6 +246,15 @@ def registra_turno():
         if vacuna == 'Fiebre amarilla':
             if usuario.fiebre_amarilla == 1:    #si fue vacunado por fiebre amarilla no acepta el turno
                 flash("Usted ya fue vacunado por la fiebre amarilla","danger")
+                return redirect(url_for('sacar_turno'))
+            edad = relativedelta(datetime.now(), usuario.nacimiento)
+            print(edad.years)
+            if edad.years > 60:    #si el paciente es mayor de 60 no acepta el turno
+                flash("Usted no puede vacunarse por fiebre amarilla","danger")
+                return redirect(url_for('sacar_turno'))
+            amarilla = Turno.get_by_vigente_amarilla(id_usuario)
+            if len(amarilla) > 0:
+                flash("Usted tiene turno vigente para fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
             estado = 4  #esperar que acepte el administrador
         

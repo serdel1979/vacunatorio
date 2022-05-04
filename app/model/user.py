@@ -67,6 +67,10 @@ class User(db.Model, UserMixin):
     def get_by_dni(cls, dni):
         return cls.query.filter_by(dni=dni).first()
 
+    @classmethod
+    def get_edad(cls):
+        return cls.query.filter_by().first()
+
 
     @classmethod
     def delete(cls, id):

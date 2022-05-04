@@ -39,6 +39,10 @@ class Turno(db.Model, UserMixin):
     def get_by_id_usuario_vigente(cls, nombre_vacuna, idusr):
         return cls.query.filter_by(vacuna=nombre_vacuna).filter_by(estado=0).filter_by(id_usuario=idusr).all()
 
+    @classmethod
+    def get_by_vigente_amarilla(cls, idusr):
+        return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=4).filter_by(id_usuario=idusr).all()
+
     
     @classmethod
     def get_by_fecha(cls, fecha_turno, sede):

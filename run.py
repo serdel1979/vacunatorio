@@ -248,13 +248,16 @@ def registra_turno():
                 flash("Usted ya fue vacunado por la fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
             edad = relativedelta(datetime.now(), usuario.nacimiento)
-            print(edad.years)
             if edad.years > 60:    #si el paciente es mayor de 60 no acepta el turno
                 flash("Usted no puede vacunarse por fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
             amarilla = Turno.get_by_vigente_amarilla(id_usuario)
             if len(amarilla) > 0:
-                flash("Usted tiene turno vigente para fiebre amarilla","danger")
+                flash("Usted tiene turno sin confirmar para fiebre amarilla","danger")
+                return redirect(url_for('sacar_turno'))
+            amarilla = Turno.get__amarilla_no_confirmado(id_usuario)
+            if len(amarilla) > 0:
+                flash("Usted tiene turno sin confirmar para fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
             estado = 4  #esperar que acepte el administrador
         

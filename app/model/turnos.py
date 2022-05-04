@@ -43,6 +43,10 @@ class Turno(db.Model, UserMixin):
     def get_by_vigente_amarilla(cls, idusr):
         return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=4).filter_by(id_usuario=idusr).all()
 
+    @classmethod
+    def get__amarilla_no_confirmado(cls, idusr):
+        return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=1).filter_by(id_usuario=idusr).all()
+
     
     @classmethod
     def get_by_fecha(cls, fecha_turno, sede):

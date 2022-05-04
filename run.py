@@ -205,7 +205,7 @@ def cancela_turno(id):
     misturnos = Turno.get_by_id(id)
     misturnos.estado = 1
     misturnos.save()
-    flash("El turno fue cancelado","danger")
+    flash("El turno fue cancelado","success")
     return redirect(url_for('mis_turnos'))
 
 
@@ -239,7 +239,7 @@ def registra_turno():
         fecha_de_turno = datetime.strptime(fecha_turno,'%Y-%m-%d').date() #fecha del turno
         vigentes = Turno.get_by_id_usuario_vigente(vacuna,id_usuario)
    
-        if len(vigentes) > 0:
+        if len(vigentes) > 0 and vacuna != "Fiebre amarilla":
             flash("Tiene turno vigente para la vacuna seleccionada","danger")
             return redirect(url_for('sacar_turno'))
 
@@ -251,14 +251,20 @@ def registra_turno():
             if edad.years > 60:    #si el paciente es mayor de 60 no acepta el turno
                 flash("Usted no puede vacunarse por fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
-            amarilla = Turno.get_by_vigente_amarilla(id_usuario)
+            amarilla = Turno.get_amarilla_vigente(id_usuario)
             if len(amarilla) > 0:
-                flash("Usted tiene turno sin confirmar para fiebre amarilla","danger")
+                flash("Usted tiene turno vigente para fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
-            amarilla = Turno.get__amarilla_no_confirmado(id_usuario)
+            amarilla = Turno.get__amarilla_espera_confirmacion(id_usuario)
             if len(amarilla) > 0:
-                flash("Usted tiene turno sin confirmar para fiebre amarilla","danger")
+                flash("Usted tiene turno esperando confirmación para fiebre amarilla","danger")
                 return redirect(url_for('sacar_turno'))
+            #get__amarilla_rechazado
+            amarilla = Turno.get__amarilla_rechazado(id_usuario)
+            if len(amarilla) > 0:
+                flash("Usted tiene turnos rechazados para fiebre amarilla","danger")
+                return redirect(url_for('sacar_turno'))
+
             estado = 4  #esperar que acepte el administrador
         
         if vacuna == 'Gripe':

@@ -40,13 +40,16 @@ class Turno(db.Model, UserMixin):
         return cls.query.filter_by(vacuna=nombre_vacuna).filter_by(estado=0).filter_by(id_usuario=idusr).all()
 
     @classmethod
-    def get_by_vigente_amarilla(cls, idusr):
+    def get_amarilla_vigente(cls,idusr):
+        return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=0).filter_by(id_usuario=idusr).all()
+
+    @classmethod
+    def get__amarilla_espera_confirmacion(cls, idusr):
         return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=4).filter_by(id_usuario=idusr).all()
 
     @classmethod
-    def get__amarilla_no_confirmado(cls, idusr):
-        return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=1).filter_by(id_usuario=idusr).all()
-
+    def get__amarilla_rechazado(cls, idusr):
+        return cls.query.filter_by(vacuna="Fiebre amarilla").filter_by(estado=3).filter_by(id_usuario=idusr).all()
     
     @classmethod
     def get_by_fecha(cls, fecha_turno, sede):

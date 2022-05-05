@@ -434,15 +434,15 @@ def marcar_vacunado():
             if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
                 if usuario.fecha_primera_dosis == None:
                     usuario.fecha_primera_dosis = datetime.today()
-                if usuario.fecha_ultima_covid  == None:
-                    usuario.fecha_ultima_covid = datetime.today()
-                
-                if usuario.fecha_ultima_covid == None or usuario.fecha_primera_dosis == None:
                     td = timedelta(90)      #asigna un turno para la proxima dosis en 90 dias
                     nuevafecha=datetime.today()+td
                     turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
                     turnoproximo.save()
                     flash("Se asignó un nuevo turno en 90 dás","success")
+                else: 
+                    usuario.fecha_ultima_covid  == None and usuario.fecha_primera_dosis != None
+                    usuario.fecha_ultima_covid = datetime.today()
+     
                 usuario.save()
             if turno.vacuna == "Fiebre amarilla":
                 usuario.fiebre_amarilla = 1

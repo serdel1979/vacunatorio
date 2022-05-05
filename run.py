@@ -277,6 +277,10 @@ def registra_turno():
                     return redirect(url_for('sacar_turno'))
 
         if vacuna == 'Covid':
+            if usuario.fecha_primera_dosis != None and usuario.fecha_ultima_covid != None:
+                flash("Usted ya tiene las dos dósis de Covid","danger")
+                return redirect(url_for('sacar_turno'))
+            
             fecha_ultima_covid = usuario.fecha_ultima_covid
             if fecha_ultima_covid != None:
                 fecha_ult_covi = fecha_de_turno-timedelta(90) 
@@ -428,13 +432,18 @@ def marcar_vacunado():
             turno = Turno.get_by_id(idturno)
             usuario = User.get_by_id(turno.id_usuario)
             if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
-                usuario.fecha_ultima_covid = datetime.today()
+                if usuario.fecha_primera_dosis == None:
+                    usuario.fecha_primera_dosis = datetime.today()
+                if usuario.fecha_ultima_covid  == None:
+                    usuario.fecha_ultima_covid = datetime.today()
+                
+                if usuario.fecha_ultima_covid == None or usuario.fecha_primera_dosis == None:
+                    td = timedelta(90)      #asigna un turno para la proxima dosis en 90 dias
+                    nuevafecha=datetime.today()+td
+                    turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
+                    turnoproximo.save()
+                    flash("Se asignó un nuevo turno en 90 dás","success")
                 usuario.save()
-                td = timedelta(90)      #asigna un turno para la proxima dosis en 90 dias
-                nuevafecha=datetime.today()+td
-                turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
-                turnoproximo.save()
-                flash("Se asignó un nuevo turno en 90 dás","success")
             if turno.vacuna == "Fiebre amarilla":
                 usuario.fiebre_amarilla = 1
                 usuario.save()

@@ -16,9 +16,12 @@
     <li class="list-group-item">Apellido: {{user.apellido}}</li>
     <li class="list-group-item">DNI: {{user.dni}}</li>
     <li class="list-group-item">Telefono: {{user.telefono}}</li>
+    {% if tipo == 3 %}
     <li class="list-group-item">Fecha de nacimiento: {{user.nacimiento}}</li>
     <li class="list-group-item">Sede preferida: {{user.sede_preferida}}</li>
-   
+    {% else %}
+    <li class="list-group-item">Sede actual: {{user.sede}}</li>
+    {% endif %}
   </ul>
 
   <div class="col-auto">

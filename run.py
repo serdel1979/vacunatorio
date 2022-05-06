@@ -324,13 +324,14 @@ def guardar_perfil(id):
         if request.method=='POST':
             usuario.telefono = request.form['telefono']
             usuario.mail= request.form['mail']
-            usr= User.get_by_email(usuario.email)
-            if usr != None:
-                flash("El mail ya existe","danger")
-                return redirect(url_for('edit_perfil'))
+            usr= User.get_by_email(request.form['mail'])
             usuario.sede_preferida= request.form['sede_preferida']
+            if usr != None:
+                print(usr)
+                flash("El mail ya existe", "danger")
+                return redirect(url_for('edit_perfil'))
             usuario.save()
-            flash("Datos actualizados","success")
+            flash("Datos actualizados", "success")
             return redirect(url_for('edit_perfil'))
     return render_template('perfil.html',sedes=sedes, usuario=usuario,tipo = session["tipo"], id=session["id_user"])
 

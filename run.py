@@ -316,6 +316,29 @@ def edit_enfermero(id):
             return redirect(url_for('enfermeros'))
     return render_template('edit_enfermero.html',sedes=sedes, enfermero=enfermero,tipo = session["tipo"], id=session["id_user"])
 
+@app.route('/guardar_perfil/<int:id>', methods=['GET','POST'])
+def guardar_perfil(id):
+    sedes = ["Cementerio","Terminal","Municipal"]
+    usuario = User.get_by_id(id)
+    if usuario != None:
+        if request.method=='POST':
+            usuario.telefono = request.form['telefono']
+            usuario.mail= request.form['mail']
+            usr= User.get_by_email(usuario.email)
+            if usr != None:
+                flash("El mail ya existe","danger")
+                return redirect(url_for('edit_perfil'))
+            usuario.sede_preferida= request.form['sede_preferida']
+            usuario.save()
+            flash("Datos actualizados","success")
+            return redirect(url_for('edit_perfil'))
+    return render_template('perfil.html',sedes=sedes, usuario=usuario,tipo = session["tipo"], id=session["id_user"])
+
+@app.route('/edit_perfil')
+def edit_perfil():
+    sedes = ["Cementerio","Terminal","Municipal"]
+    usuario= User.get_by_id(session["id_user"])
+    return render_template('editar_perfil.html',sedes=sedes, usuario=usuario)
 
 @app.route('/borra_vacuna/<int:id>')
 def borra_vacuna(id):

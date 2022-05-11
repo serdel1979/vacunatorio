@@ -198,7 +198,8 @@ def enfermeros():
 @app.route('/mis_turnos')
 def mis_turnos():
     misturnos = Turno.get_by_id_usuario(session["id_user"])
-    return render_template('mis_turnos.html',misturnos=misturnos,tipo = session["tipo"], id=session["id_user"]) 
+    return render_template('mis_turnos.html',misturnos=misturnos,tipo = session["tipo"], id=session["id_user"])
+
 
 @app.route('/cancela_turno/<int:id>')
 def cancela_turno(id):
@@ -327,10 +328,14 @@ def guardar_perfil(id):
             usr= User.get_by_email(request.form['mail'])
             usuario.sede_preferida= request.form['sede_preferida']
             if usr != None:
-                print(usr)
-                flash("El mail ya existe", "danger")
-                return redirect(url_for('edit_perfil'))
+                if usr != usuario.mail:
+                    print(usr)
+                    flash("El mail ya existe", "danger")
+                    return redirect(url_for('edit_perfil'))
+           # usuario.mail = User.get_by_email(request.form['mail'])
             usuario.save()
+            print(usuario.mail)
+            print(usuario.telefono)
             flash("Datos actualizados", "success")
             return redirect(url_for('edit_perfil'))
     return render_template('perfil.html',sedes=sedes, usuario=usuario,tipo = session["tipo"], id=session["id_user"])
@@ -340,6 +345,7 @@ def edit_perfil():
     sedes = ["Cementerio","Terminal","Municipal"]
     usuario= User.get_by_id(session["id_user"])
     return render_template('editar_perfil.html',sedes=sedes, usuario=usuario)
+
 
 @app.route('/borra_vacuna/<int:id>')
 def borra_vacuna(id):
@@ -544,11 +550,14 @@ def ver_perfil():
     user = User.get_by_id(session['id_user'])
     return render_template('perfil.html', tipo=session["tipo"], id=session["id_user"], user=user)
 
+@app.route('/mis_vacunas' , methods=['GET'])
+def mis_vacunas():
+    user = User.get_by_id(session['id_user'])
+    return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], user=user)
 
 @app.route('/cambiar_contrasena', methods=['GET','POST'])
 def cambiar_contrasena():
     if request.method=='POST':
-    
         password = request.form['password']
         if len(password) < 4:
             flash("La contraseña debe superar los 3 caracteres!!","danger")

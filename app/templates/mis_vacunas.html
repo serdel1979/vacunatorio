@@ -1,0 +1,47 @@
+{% include './menu.html' %}
+{% block content %}
+
+<div class="container">
+
+  {% with msg = get_flashed_messages(with_categories=true) %}
+  {% if msg %}
+  {% for category,m in msg %}
+  <div class="alert alert-{{ category }}" role="alert"> {{ m }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+
+  <div style="margin-top: 10px;">
+    <h2>Vacunas aplicadas</h2>
+  </div>
+
+  <div class="table-responsive" style="margin-top: 10px;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Fecha de turno</th>
+          <th>Sede</th>
+          <th>Vacuna</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in vacunas %}
+        <tr>
+          <td>{{ v.fecha_turno }}</td>
+          <td>{{ v.sede }}</td>
+          <td>{{ v.vacuna }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/"  class="btn btn-primary">Volver</a>
+  </div>
+
+</div><!-- /.container -->
+
+</div>
+
+{% endblock %}

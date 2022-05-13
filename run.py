@@ -323,19 +323,20 @@ def guardar_perfil(id):
     usuario = User.get_by_id(id)
     if usuario != None:
         if request.method=='POST':
-            usuario.telefono = request.form['telefono']
-            usuario.mail= request.form['mail']
+            if(usuario.email == request.form['mail'] and usuario.telefono == request.form['telefono'] and usuario.sede_preferida == request.form['sede_preferida']):
+                flash("No actualizó ningun dato", "warning")
+                return redirect(url_for('edit_perfil'))
             usr= User.get_by_email(request.form['mail'])
-            usuario.sede_preferida= request.form['sede_preferida']
             if usr != None:
-                if usr != usuario.mail:
-                    print(usr)
+                if usuario.id != usr.id:
+                    print("ADENTRO DEL IF" , usr)
                     flash("El mail ya existe", "danger")
                     return redirect(url_for('edit_perfil'))
            # usuario.mail = User.get_by_email(request.form['mail'])
+            usuario.telefono = request.form['telefono']
+            usuario.email = request.form['mail']
+            usuario.sede_preferida= request.form['sede_preferida']
             usuario.save()
-            print(usuario.mail)
-            print(usuario.telefono)
             flash("Datos actualizados", "success")
             return redirect(url_for('edit_perfil'))
     return render_template('perfil.html',sedes=sedes, usuario=usuario,tipo = session["tipo"], id=session["id_user"])
@@ -555,17 +556,17 @@ def mis_vacunas():
     user = User.get_by_id(session['id_user'])
     return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], user=user)
 
-@app.route('/cambiar_contrasena', methods=['GET','POST'])
+@app.route('/cambiar_contrasena/<int:id>', methods=['GET','POST'])
 def cambiar_contrasena():
     if request.method=='POST':
         password = request.form['password']
-        if len(password) < 4:
+        if len(password) < 4 and :
             flash("La contraseña debe superar los 3 caracteres!!","danger")
-            return redirect(url_for('ver_perfil'))
+            return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
         user = User.get_by_id(session['id_user'])
         user.cambiar_clave(password)
         flash("Cambio su contraseña correctamente!!","success")
-    return redirect(url_for('ver_perfil'))
+    return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
 
 
 
@@ -586,7 +587,10 @@ def vacunas_por_sede():
     return redirect(url_for('estadisticas'))
 
 
-
+@app.route('/modificar_contrasena', methods=['GET'])
+def modificar_contrasena():
+    print("ESTOY EN MODIFICAR CONTRASENA")
+    return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
         
 #def job():
 #    print("")

@@ -553,8 +553,8 @@ def ver_perfil():
 
 @app.route('/mis_vacunas' , methods=['GET'])
 def mis_vacunas():
-    user = User.get_by_id(session['id_user'])
-    return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], user=user)
+    mis_vacunas = Turno.get_mis_vacunas(session['id_user'])
+    return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], vacunas=mis_vacunas)
 
 @app.route('/vacunas_por_sede', methods=['GET'])
 def vacunas_por_sede():

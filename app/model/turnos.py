@@ -26,7 +26,8 @@ class Turno(db.Model, UserMixin):
         self.estado = estado
         self.asistio = False
     
-        
+
+
     @classmethod
     def get_by_id_usuario(cls, id_usuario):
         return cls.query.filter_by(id_usuario=id_usuario).all()
@@ -78,6 +79,10 @@ class Turno(db.Model, UserMixin):
     def get_all(cls):
         return cls.query.all()
 
+
+    @classmethod
+    def get_mis_vacunas(cls, idusr):
+        return cls.query.filter_by(estado=2).filter_by(id_usuario=idusr).all()
 
     @classmethod
     def delete(cls, id):

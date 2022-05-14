@@ -345,7 +345,7 @@ def guardar_perfil(id):
 def edit_perfil():
     sedes = ["Cementerio","Terminal","Municipal"]
     usuario= User.get_by_id(session["id_user"])
-    return render_template('editar_perfil.html',sedes=sedes, usuario=usuario)
+    return render_template('editar_perfil.html',sedes=sedes, usuario=usuario,tipo = session["tipo"], id=session["id_user"])
 
 
 @app.route('/borra_vacuna/<int:id>')

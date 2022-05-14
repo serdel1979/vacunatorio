@@ -556,20 +556,6 @@ def mis_vacunas():
     user = User.get_by_id(session['id_user'])
     return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], user=user)
 
-@app.route('/cambiar_contrasena/<int:id>', methods=['GET','POST'])
-def cambiar_contrasena():
-    if request.method=='POST':
-        password = request.form['password']
-        if len(password) < 4 and :
-            flash("La contraseña debe superar los 3 caracteres!!","danger")
-            return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
-        user = User.get_by_id(session['id_user'])
-        user.cambiar_clave(password)
-        flash("Cambio su contraseña correctamente!!","success")
-    return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
-
-
-
 @app.route('/vacunas_por_sede', methods=['GET'])
 def vacunas_por_sede():
     cantidad_por_sede = []
@@ -586,8 +572,28 @@ def vacunas_por_sede():
     print(len(Turno.cant_by_sede("Municipal")))
     return redirect(url_for('estadisticas'))
 
+@app.route('/cambiar_contrasena', methods=['GET','POST'])
+def cambiar_contrasena():
+    if request.method=='POST':
+        password = request.form['password']
+        password_new = request.form['password_new']
+        re_password = request.form['re-password']
+        usuario = User.get_by_id(session["id_user"])
+        print(usuario.id)
+        if len(password) < 4 or usuario.password != password:
+            flash("Contraseña actual incorrecta","danger")
+            return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
+        if usuario.password == password and password_new != re_password:
+            flash("Las contraseñas ingresadas no coinciden","danger")
+            return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
+        if len(password_new) < 4 or len(re_password) < 4:
+            flash("La contraseña nueva debe tener mas de 3 caracteres","danger")
+            return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
+        usuario.cambiar_clave(password_new)
+        flash("Cambio su contraseña correctamente!!","success")
+    return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
 
-@app.route('/modificar_contrasena', methods=['GET'])
+@app.route('/modificar_contrasena/', methods=['GET'])
 def modificar_contrasena():
     print("ESTOY EN MODIFICAR CONTRASENA")
     return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])

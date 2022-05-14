@@ -19,6 +19,7 @@ class RegistroForm(FlaskForm):
     nacimiento = DateField('Fecha de nacimiento')
     primera_dosis = BooleanField('Tengo la primera dosis de covid')
     fecha_primera_dosis = DateField('')
+    segunda_covid = BooleanField('Tengo dos dosis de covid')
     fecha_ultima_gripe = DateField('')
     fiebre_amarilla = BooleanField('Estoy vacunado para la fiebre amarilla')
     paciente_riesgo = BooleanField('Soy paciente de riesgo')

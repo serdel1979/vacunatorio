@@ -143,6 +143,16 @@ def verifica_pass(pass1,pass2):
 def registro():
     form = RegistroForm()
     if form.validate_on_submit():
+        #validacion de fechas y demás
+        print(form.nombre.data)
+        print(type(form.nacimiento.data))
+        if form.nacimiento.data != None: 
+            if date.today() < form.nacimiento.data:
+                flash("Las fecha de nacimiento es incorrecta!!!","danger")
+                return render_template('registro.html',form=form)
+        print(form.primera_dosis.data)
+        print(form.dni.data)
+        ################
         if form.password.data != form.password2.data:
             flash("Las contraseñas no coinciden!!!","danger")
             return render_template('registro.html',form=form)

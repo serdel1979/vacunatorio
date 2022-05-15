@@ -205,30 +205,37 @@ def registro():
         sede_preferida= form.sede_preferida.data, sede=0)
         usuario.save()
         
+        usuario = User.get_by_dni(form.dni.data)
         #calcula edad de la persona que se registra
         fecha_nacimiento = form.nacimiento.data
         edad = relativedelta(datetime.now(), fecha_nacimiento)
         #print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
         #aca si es mayor de 60 se registra un turno para covid
+ 
         if (edad.years > 60 or usuario.paciente_riesgo == 1) and usuario.primera_dosis == 0: #y si no tiene las dos dósis(primera dosis es segunda jaj)
-            usrturno = User.get_by_dni(usuario.dni)
-            fecha_seg_covid = usrturno.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
             hoy = datetime.now().date()
+            if usuario.fecha_primera_dosis != None:
+                fecha_seg_covid = usuario.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
+            else:
+                fecha_seg_covid = hoy + timedelta(days=7)
+            
             if hoy > fecha_seg_covid:
                 fecha_turno = hoy + timedelta(days=7) #si se pasaron de los 21 días le da el turno para la próxima semana
-                turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Covid",False)
-                print("hoy es mayor a fecha segunda covid ->",fecha_turno)
+                turno = Turno(usuario.id,fecha_turno,usuario.sede_preferida,"Covid",False)
                 turno.save() 
                 flash("Se le asignó un turno para Covid!!!","success")
             else:
-                print("hoy NO es mayor a fecha segunda covid ->",fecha_seg_covid)
-                turno = Turno(usrturno.id,fecha_seg_covid,usrturno.sede_preferida,"Covid",False)
+                turno = Turno(usuario.id,fecha_seg_covid,usuario.sede_preferida,"Covid",False)
                 turno.save() 
                 flash("Se le asignó un turno para Covid!!!","success")
 
             #asignar turno para gripe
         if edad.years > 60:
             usrturno = User.get_by_dni(usuario.dni)
+            if usrturno.fecha_primera_dosis != None:
+                fecha_ult_grip = usrturno.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
+            else:
+                fecha_ult_grip = hoy + timedelta(days=7)
             fecha_ult_grip = usrturno.fecha_ultima_gripe+timedelta(365)
             hoy = datetime.now().date()
             if hoy > fecha_ult_grip:

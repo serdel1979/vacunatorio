@@ -246,7 +246,7 @@ def registro():
 
 def checkstr(nombre):
     for c in nombre:
-        if c not in "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ":
+        if c not in " abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ":
             return False
     return True
 
@@ -289,9 +289,6 @@ def sacar_turno():
 @app.route('/registra_turno', methods=['GET','POST'])
 def registra_turno():
     if request.method=='POST':
-        fecha_turno = request.form['fecha_turno']
-        sede = request.form['sede']
-        vacuna = request.form['vacuna']
         id_usuario=session["id_user"]
         fecha_turno = request.form['fecha_turno']
         sede =request.form['sede']
@@ -339,15 +336,15 @@ def registra_turno():
                     return redirect(url_for('sacar_turno'))
 
         if vacuna == 'Covid':
-            if (usuario.fecha_primera_dosis != None and usuario.fecha_ultima_covid != None) or usuario.primera_dosis:
+            if (usuario.fecha_primera_dosis != None and usuario.fecha_ultima_covid != None) or usuario.primera_dosis: #si ya fue vacunado las dos dósis o se registro con 2 dósis directamente
                 flash("Usted ya tiene las dos dósis de Covid","danger")
                 return redirect(url_for('sacar_turno'))
             
             fecha_ultima_covid = usuario.fecha_ultima_covid
             if fecha_ultima_covid != None:
-                fecha_ult_covi = fecha_de_turno-timedelta(90) 
+                fecha_ult_covi = fecha_de_turno-timedelta(21) 
                 if fecha_ult_covi < fecha_ultima_covid:
-                    flash("La fecha del turno debe superar 90 días de la última vacuna de Covid","danger")
+                    flash("La fecha del turno debe superar 21 días de la última vacuna de Covid","danger")
                     return redirect(url_for('sacar_turno'))
 
 
@@ -390,7 +387,6 @@ def guardar_perfil(id):
             usr= User.get_by_email(request.form['mail'])
             if usr != None:
                 if usuario.id != usr.id:
-                    print("ADENTRO DEL IF" , usr)
                     flash("El mail ya existe", "danger")
                     return redirect(url_for('edit_perfil'))
            # usuario.mail = User.get_by_email(request.form['mail'])
@@ -526,11 +522,11 @@ def marcar_vacunado():
             if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
                 if usuario.fecha_primera_dosis == None:
                     usuario.fecha_primera_dosis = datetime.today()
-                    td = timedelta(90)      #asigna un turno para la proxima dosis en 90 dias
+                    td = timedelta(21)      #asigna un turno para la proxima dosis en 90 dias
                     nuevafecha=datetime.today()+td
                     turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
                     turnoproximo.save()
-                    flash("Se asignó un nuevo turno en 90 dás","success")
+                    flash("Se asignó un nuevo turno en 21 dás","success")
                 else: 
                     usuario.fecha_ultima_covid  == None and usuario.fecha_primera_dosis != None
                     usuario.fecha_ultima_covid = datetime.today()
@@ -580,10 +576,6 @@ def agrega_enfermero():
         if form.password.data != form.password2.data:
             flash("Las contraseñas no coinciden!!!","error")
             return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
-        usr = User.get_by_username(form.usuario.data)
-        if usr:
-            flash("El usuario ya existe","error")
-            return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
         dni = User.get_by_dni(form.dni.data)
         if dni:
             flash("El dni pertenece a un usuario del sistema", "error")
@@ -592,7 +584,7 @@ def agrega_enfermero():
         if email:
             flash("El email pertenece a un usuario del sistema","error")
             return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
-        usuario = User(usuario=form.usuario.data, nombre = form.nombre.data, apellido=form.apellido.data, 
+        usuario = User(nombre = form.nombre.data, apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= None, primera_dosis=None,
         paciente_riesgo=None, password=form.password.data, email=form.email.data, dni=form.dni.data, tipo=2, sede=form.sede.data)
        

@@ -231,20 +231,18 @@ def registro():
 
             #asignar turno para gripe
         if edad.years > 60:
-            usrturno = User.get_by_dni(usuario.dni)
-            if usrturno.fecha_primera_dosis != None:
-                fecha_ult_grip = usrturno.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
+            if usuario.fecha_ultima_gripe != None:
+                fecha_ult_grip = usuario.fecha_ultima_gripe+timedelta(365) #calcula fecha que le iría si tuviera una dósis de covid
             else:
                 fecha_ult_grip = hoy + timedelta(days=7)
-            fecha_ult_grip = usrturno.fecha_ultima_gripe+timedelta(365)
             hoy = datetime.now().date()
             if hoy > fecha_ult_grip:
                 fecha_turno = hoy + timedelta(days=7)
-                turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Gripe",False)
+                turno = Turno(usuario.id,fecha_turno,usuario.sede_preferida,"Gripe",False)
                 flash("Se le asignó un turno para la Gripe!!!","success")
                 turno.save()
             else:
-                turno = Turno(usrturno.id,fecha_ult_grip,usrturno.sede_preferida,"Gripe",False)
+                turno = Turno(usuario.id,fecha_ult_grip,usuario.sede_preferida,"Gripe",False)
                 flash("Se le asignó un turno para la Gripe!!!","success")
                 turno.save()
 

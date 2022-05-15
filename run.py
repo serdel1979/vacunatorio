@@ -143,15 +143,44 @@ def verifica_pass(pass1,pass2):
 def registro():
     form = RegistroForm()
     if form.validate_on_submit():
-        #validacion de fechas y demás
-        print(form.nombre.data)
-        print(type(form.nacimiento.data))
+        #validacion de fechas y nombres
+
+        if form.nombre.data != None: 
+            if not checkstr(form.nombre.data):
+                flash("El nombre tiene caracteres inválidos!!!","danger")
+                return render_template('registro.html',form=form)
+
+        if form.apellido.data != None: 
+            if not checkstr(form.apellido.data):
+                flash("El apellido tiene caracteres inválidos!!!","danger")
+                return render_template('registro.html',form=form)
+
         if form.nacimiento.data != None: 
             if date.today() < form.nacimiento.data:
                 flash("Las fecha de nacimiento es incorrecta!!!","danger")
                 return render_template('registro.html',form=form)
-        print(form.primera_dosis.data)
-        print(form.dni.data)
+        if form.fecha_primera_dosis.data != None: 
+            if date.today() < form.fecha_primera_dosis.data:
+                flash("La fecha en la primera dósis de covid es incorrecta!!!","danger")
+                return render_template('registro.html',form=form)
+        
+        if form.fecha_primera_dosis.data != None: 
+            if form.nacimiento.data > form.fecha_primera_dosis.data:
+                flash("Error en la fecha de vacunación por covid con respecto al nacimiento!!!","danger")
+                return render_template('registro.html',form=form)
+
+        if form.fecha_ultima_gripe.data != None: 
+            if form.nacimiento.data > form.fecha_ultima_gripe.data:
+                flash("Error en la fecha de vacunación de gripe con respecto al nacimiento!!!","danger")
+                return render_template('registro.html',form=form)
+
+        #fecha_ultima_gripe
+        if form.fecha_ultima_gripe.data != None: 
+            if date.today() < form.fecha_ultima_gripe.data:
+                flash("La fecha en la dósis de gripe es incorrecta!!!","danger")
+                return render_template('registro.html',form=form)
+   
+ 
         ################
         if form.password.data != form.password2.data:
             flash("Las contraseñas no coinciden!!!","danger")
@@ -168,7 +197,8 @@ def registro():
         usuario = User(nombre = form.nombre.data, 
         apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= form.nacimiento.data, 
-        primera_dosis=form.primera_dosis.data,
+        primera_dosis=form.segunda_covid.data, fecha_primera_dosis=form.fecha_primera_dosis.data,
+        ultima_gripe=form.fecha_ultima_gripe.data,
         paciente_riesgo=form.paciente_riesgo.data,fiebre_amarilla=form.fiebre_amarilla.data,
         password=form.password.data, email=form.email.data, dni=form.dni.data, 
         sede_preferida= form.sede_preferida.data, sede=0)
@@ -179,25 +209,46 @@ def registro():
         edad = relativedelta(datetime.now(), fecha_nacimiento)
         #print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
         #aca si es mayor de 60 se registra un turno para covid
-        if edad.years > 60 or usuario.paciente_riesgo == 1:
+        if (edad.years > 60 or usuario.paciente_riesgo == 1) and usuario.primera_dosis == 0: #y si no tiene las dos dósis(primera dosis es segunda jaj)
             usrturno = User.get_by_dni(usuario.dni)
-            hoy = datetime.now()
-            fecha_turno = hoy + timedelta(days=7)
-            turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Covid",False)
-            turno.save() 
-            flash("Se le asignó un turno para Covid!!!","success")
+            fecha_seg_covid = usrturno.fecha_primera_dosis+timedelta(90)
+            hoy = datetime.now().date()
+            if hoy > fecha_seg_covid:
+                fecha_turno = hoy + timedelta(days=7)
+                turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Covid",False)
+                turno.save() 
+                flash("Se le asignó un turno para Covid!!!","success")
+            else:
+                turno = Turno(usrturno.id,fecha_seg_covid,usrturno.sede_preferida,"Covid",False)
+                turno.save() 
+                flash("Se le asignó un turno para Covid!!!","success")
+
             #asignar turno para gripe
         if edad.years > 60:
             usrturno = User.get_by_dni(usuario.dni)
-            hoy = datetime.now()
-            fecha_turno = hoy + timedelta(days=7)
-            turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Gripe",False)
-            flash("Se le asignó un turno para la Gripe!!!","success")
-            turno.save()
+            fecha_ult_grip = usrturno.fecha_ultima_gripe+timedelta(365)
+            hoy = datetime.now().date()
+            if hoy > fecha_ult_grip:
+                fecha_turno = hoy + timedelta(days=7)
+                turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Gripe",False)
+                flash("Se le asignó un turno para la Gripe!!!","success")
+                turno.save()
+            else:
+                turno = Turno(usrturno.id,fecha_ult_grip,usrturno.sede_preferida,"Gripe",False)
+                flash("Se le asignó un turno para la Gripe!!!","success")
+                turno.save()
+
 
         flash("Usuario agregado!!!","success")
         return redirect(url_for('login'))
     return render_template('registro.html',form=form) 
+
+
+def checkstr(nombre):
+    for c in nombre:
+        if c not in "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ":
+            return False
+    return True
 
 
 @app.route('/enfermeros')
@@ -288,7 +339,7 @@ def registra_turno():
                     return redirect(url_for('sacar_turno'))
 
         if vacuna == 'Covid':
-            if usuario.fecha_primera_dosis != None and usuario.fecha_ultima_covid != None:
+            if (usuario.fecha_primera_dosis != None and usuario.fecha_ultima_covid != None) or usuario.primera_dosis:
                 flash("Usted ya tiene las dos dósis de Covid","danger")
                 return redirect(url_for('sacar_turno'))
             

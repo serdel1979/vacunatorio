@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, DateField, SelectField, Form
+from wtforms import StringField, PasswordField, BooleanField, DateField, SelectField, Form, IntegerField
 from wtforms.validators import InputRequired, Email, Length
 
 
@@ -15,7 +15,7 @@ class RecuperarClave(FlaskForm):
 class RegistroForm(FlaskForm):
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
     apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=100)])
-    telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=100)])
+    telefono = IntegerField('Teléfono',validators=[InputRequired()])
     nacimiento = DateField('Fecha de nacimiento')
     primera_dosis = BooleanField('Tengo la primera dosis de covid')
     fecha_primera_dosis = DateField('')
@@ -26,7 +26,7 @@ class RegistroForm(FlaskForm):
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
-    dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=20)])
+    dni = IntegerField('Dni',validators=[InputRequired()])
     sede_preferida = SelectField("Sede Preferida",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])
     
     def validate(self):
@@ -45,7 +45,7 @@ class EnfermeroForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
-    dni = StringField('Dni',validators=[InputRequired(),Length(min=4,max=100)])
+    dni = IntegerField('Dni',validators=[InputRequired()])
     sede = SelectField("Sede",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])
 
 class VacunaForm(FlaskForm):

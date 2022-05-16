@@ -25,6 +25,17 @@ VACUNASSIST
       <a class="navbar-brand" href="/" style="color:#ffffff">
         <img style="margin-left: 0px;" class="imagen" width="60" heigth="100" src="../static/image/logo.png">
       </a>
+      {% if session["tipo"] == 1 %}
+      ADMIN
+      {% endif %}
+      {% if session["dni"] != None %}
+      {% if session["tipo"] == 3 %}
+      DNI Usuario paciente {{ session["dni"] }}
+      {% endif %}
+      {% if session["tipo"] == 2 %}
+      DNI Usuario enfermero {{ session["dni"] }}
+      {% endif %}
+      {% endif %}
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">

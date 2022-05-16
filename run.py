@@ -68,6 +68,7 @@ def login():
                 session["tipo"]= user.tipo
                 session["id_user"] = user.id
                 session["sede"] = user.sede
+                session["dni"] = user.dni
                 return redirect(url_for('home'))
             else:
                 flash("Usuario o clave incorrecto","danger")
@@ -78,6 +79,7 @@ def login():
                     session["tipo"]= user.tipo
                     session["id_user"] = user.id
                     session["sede"] = user.sede
+                    session["dni"] = user.dni
                     return redirect(url_for('home'))
             else:
                 user = User.get_by_email(username)
@@ -86,6 +88,7 @@ def login():
                         session["tipo"]= user.tipo
                         session["id_user"] = user.id
                         session["sede"] = user.sede
+                        session["dni"] = user.dni
                         #return render_template('index.html',tipo = session["tipo"], id=session["id_user"])
                         return redirect(url_for('home'))
             flash("Usuario o clave incorrecto","danger")
@@ -267,7 +270,8 @@ def enfermeros():
 @app.route('/mis_turnos')
 def mis_turnos():
     misturnos = Turno.get_by_id_usuario(session["id_user"])
-    return render_template('mis_turnos.html',misturnos=misturnos,tipo = session["tipo"], id=session["id_user"])
+    cantidad_turnos = len(misturnos)
+    return render_template('mis_turnos.html',misturnos=misturnos,tipo = session["tipo"], id=session["id_user"], cantidad_turnos=cantidad_turnos)
 
 
 @app.route('/cancela_turno/<int:id>')

@@ -45,7 +45,7 @@
   {% endif %}
   {% endwith %}
 
-
+{% if cantidad_turnos != 0 %}
   <div style="margin-top: 10px;">
     <h2>Turnos</h2>
   </div>
@@ -110,6 +110,11 @@
     </table>
     <a href="/"  class="btn btn-primary">Volver</a>
   </div>
+  {% else %}
+
+  <h3>No tiene ningún turno aún</h3>
+
+  {% endif %}
 
 </div><!-- /.container -->
 

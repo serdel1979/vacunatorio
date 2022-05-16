@@ -337,6 +337,7 @@ def registra_turno():
                 return redirect(url_for('sacar_turno'))
 
             estado = 4  #esperar que acepte el administrador
+            flash("El turno queda pendiente de aceptación","warning")
         
         if vacuna == 'Gripe':
             fecha_ultima_gripe = usuario.fecha_ultima_gripe

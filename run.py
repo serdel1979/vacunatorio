@@ -214,9 +214,9 @@ def registro():
         edad = relativedelta(datetime.now(), fecha_nacimiento)
         #print(f"{edad.years} años, {edad.months} meses y {edad.days} días")
         #aca si es mayor de 60 se registra un turno para covid
- 
+        hoy = datetime.now().date()
         if (edad.years > 60 or usuario.paciente_riesgo == 1) and usuario.primera_dosis == 0: #y si no tiene las dos dósis(primera dosis es segunda jaj)
-            hoy = datetime.now().date()
+            
             if usuario.fecha_primera_dosis != None:
                 fecha_seg_covid = usuario.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
             else:

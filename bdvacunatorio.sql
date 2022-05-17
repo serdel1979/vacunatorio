@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.2
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 16-05-2022 a las 20:54:05
--- Versión del servidor: 10.3.31-MariaDB
--- Versión de PHP: 7.1.7
+-- Servidor: localhost
+-- Tiempo de generación: 17-05-2022 a las 14:07:54
+-- Versión del servidor: 8.0.17
+-- Versión de PHP: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -85,17 +85,17 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `nacimiento`, `primera_dosis`, `fecha_primera_dosis`, `fecha_ultima_gripe`, `fecha_ultima_covid`, `paciente_riesgo`, `fiebre_amarilla`, `password`, `email`, `dni`, `sede_preferida`, `sede`, `tipo`) VALUES
 (56, 'admin', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'admin', NULL, NULL, NULL, NULL, 1),
-(57, NULL, 'MARIO', 'PANTALEON', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'marito@gmail.com', '2223', NULL, 'Municipal', 2),
-(58, NULL, 'marisa', 'bali', '221654987', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'mari@mail.com', '2222', NULL, 'Terminal', 2),
-(90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '2221', NULL, 'Cementerio', 2),
-(99, NULL, 'Patricio', 'Lustou', '221654456', '1985-10-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'plusto@gmail.com', '1115', 'Municipal', '0', 3),
-(100, NULL, 'Mauricio', 'Macro', '2216544654', '2000-05-20', 0, NULL, '2022-05-16', NULL, 0, 0, '3211', 'mauriciomacro@gmail.com', '1116', 'Municipal', '0', 3),
-(101, NULL, 'Federico', 'Pinedo', '2216544654', '1996-03-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'federicopinedo@gmail.com', '1117', 'Municipal', '0', 3),
-(102, NULL, 'Juan', 'Piedra', '221563987', '1987-05-20', 0, '2022-05-16', NULL, NULL, 0, 0, '3211', 'juanpiedra@gmail.com', '1118', 'Municipal', '0', 3),
-(103, NULL, 'Fernando', 'Severo', '22321321', '1986-05-10', 0, '2022-05-16', NULL, '2022-05-16', 0, 0, '3211', 'severo@gmail.com', '1119', 'Municipal', '0', 3),
-(104, NULL, 'Paola', 'Nandez', '221321321', '1990-09-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'paolanandez@gmail.com', '5555', 'Municipal', '0', 3),
-(105, NULL, 'Pablo', 'Aimar', '221654987', '1979-08-05', 0, NULL, NULL, NULL, 0, 0, '3211', 'aimar@gmail.com', '1888', 'Municipal', '0', 3),
-(106, NULL, 'Guillermo', 'Gatica', '2321321', '2000-06-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'gatica@gmail.com', '1889', 'Municipal', '0', 3);
+(57, NULL, 'MARIO', 'PANTALEON', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'marito@gmail.com', '22222223', NULL, 'Municipal', 2),
+(58, NULL, 'marisa', 'bali', '221654987', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'mari@mail.com', '22222222', NULL, 'Terminal', 2),
+(90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Cementerio', 2),
+(99, NULL, 'Patricio', 'Lustou', '221654456', '1985-10-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'plusto@gmail.com', '11111115', 'Municipal', '0', 3),
+(100, NULL, 'Mauricio', 'Macro', '2216544654', '2000-05-20', 0, NULL, '2022-05-16', NULL, 0, 0, '3211', 'mauriciomacro@gmail.com', '11111116', 'Municipal', '0', 3),
+(101, NULL, 'Federico', 'Pinedo', '2216544654', '1996-03-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'federicopinedo@gmail.com', '11111117', 'Municipal', '0', 3),
+(102, NULL, 'Juan', 'Piedra', '221563987', '1987-05-20', 0, '2022-05-16', NULL, NULL, 0, 0, '3211', 'juanpiedra@gmail.com', '11111118', 'Municipal', '0', 3),
+(103, NULL, 'Fernando', 'Severo', '22321321', '1986-05-10', 0, '2022-05-16', NULL, '2022-05-16', 0, 0, '3211', 'severo@gmail.com', '11111119', 'Municipal', '0', 3),
+(104, NULL, 'Paola', 'Nandez', '221321321', '1990-09-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'paolanandez@gmail.com', '55555555', 'Municipal', '0', 3),
+(105, NULL, 'Pablo', 'Aimar', '221654987', '1979-08-05', 0, NULL, NULL, NULL, 0, 0, '3211', 'aimar@gmail.com', '11111888', 'Municipal', '0', 3),
+(106, NULL, 'Guillermo', 'Gatica', '2321321', '2000-06-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'gatica@gmail.com', '11111889', 'Municipal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -148,16 +148,19 @@ ALTER TABLE `vacunas`
 --
 ALTER TABLE `turnos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --
 ALTER TABLE `vacunas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

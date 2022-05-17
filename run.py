@@ -43,7 +43,7 @@ def genera_clave():
 
 def enviar_mail(destinatario,mensaje):
     try:
-        msg = Message("Email-title",sender="vacunatorioing2g36@gmail.com",body=mensaje,recipients=[destinatario])
+        msg = Message("NUEVA PASSWORD",sender="vacunatorioing2g36@gmail.com",body=mensaje,recipients=[destinatario])
         mail.send(msg)
         return True
     except:
@@ -372,7 +372,8 @@ def registra_turno():
 
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
-    flash("Su turno fue registrado","success")
+    if estado != 4:
+        flash("Su turno fue registrado","success")
     return redirect(url_for('sacar_turno'))
 
 

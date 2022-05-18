@@ -27,10 +27,10 @@ class NullableDateField(DateField):
                 self.data = None
                 return
             try:
-                self.data = datetime.datetime.strptime(date_str, self.format).date()
+                self.data = datetime.datetime.strptime(date_str, self.format[0]).date()
             except ValueError:
                 self.data = None
-                raise ValueError(self.gettext('Not a valid date value'))
+                raise ValueError(self.gettext('No es una fecha válida'))
 
 
 
@@ -40,9 +40,9 @@ class RegistroForm(FlaskForm):
     telefono = IntegerField('Teléfono',validators=[InputRequired()])
     nacimiento = DateField('Fecha de nacimiento',validators=[InputRequired('Fecha de nacimiento inválida')])
     primera_dosis = BooleanField('Tengo la primera dosis de covid')
-    fecha_primera_dosis = DateField('')
+    fecha_primera_dosis = NullableDateField('')
     segunda_covid = BooleanField('Tengo dos dosis de covid')
-    fecha_ultima_gripe = DateField('')
+    fecha_ultima_gripe = NullableDateField('')
     fiebre_amarilla = BooleanField('Estoy vacunado para la fiebre amarilla')
     paciente_riesgo = BooleanField('Soy paciente de riesgo')
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
@@ -58,6 +58,7 @@ class RegistroForm(FlaskForm):
             if self.nombre.data == None or self.apellido.data == None or self.telefono.data == None or self.nacimiento.data == None or self.dni.data == None or self.email.data == None:
                 return False
             else:
+                print("primera dosis ---> ",self.fecha_primera_dosis.data)
                 return True
         else:
             return True

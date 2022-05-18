@@ -13,7 +13,20 @@
   {% endif %}
   {% endwith %}
 
-
+  {% if dos_dosis == True %}
+  <h3>Usted tiene dos dósis de Covid aplicadas</h3>
+  {% endif %}
+  {% if fiebre_amarilla == True %}
+  <h3>Usted se vacunó por Fiebre amarilla</h3>
+  {% endif %}
+  {% if cantidad_vacunas == 0 %}
+  {% if fecha_primera_dosis != None %}
+  <h3>Usted se registró con una dósis de covid aplicada el {{ fecha_primera_dosis }}</h3> 
+  {% endif %}
+  {% if ultima_gripe != None %}
+  <h3>Usted se registró con una dósis de gripe aplicada el {{ ultima_gripe }}</h3> 
+  {% endif %}
+  {% endif %}
   {% if cantidad_vacunas != 0 %}
   <div style="margin-top: 10px;">
     <h2>Vacunas aplicadas</h2>
@@ -41,7 +54,7 @@
     <a href="/" class="btn btn-primary">Volver</a>
   </div>
   {% else %}
-  <h3>No hay vacunas aplicadas</h3>
+  <h3>No tiene vacunas aplicadas en el vacunatorio</h3>
   {% endif %}
 
 </div><!-- /.container -->

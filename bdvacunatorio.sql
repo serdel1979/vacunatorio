@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.7.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 17-05-2022 a las 14:07:54
--- Versión del servidor: 8.0.17
--- Versión de PHP: 7.3.10
+-- Servidor: localhost:3306
+-- Tiempo de generación: 18-05-2022 a las 21:12:50
+-- Versión del servidor: 10.3.31-MariaDB
+-- Versión de PHP: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,26 +31,13 @@ SET time_zone = "+00:00";
 CREATE TABLE `turnos` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `fecha_solicitud` date NOT NULL,
-  `fecha_turno` date NOT NULL,
-  `sede` varchar(50) NOT NULL,
+  `fecha_solicitud` date DEFAULT NULL,
+  `fecha_turno` date DEFAULT NULL,
+  `sede` varchar(50) DEFAULT NULL,
   `vacuna` varchar(50) NOT NULL,
   `estado` int(4) NOT NULL,
   `asistio` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `turnos`
---
-
-INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `estado`, `asistio`) VALUES
-(102, 99, '2022-05-16', '2022-05-16', 'Cementerio', 'Fiebre amarilla', 2, 1),
-(103, 100, '2022-05-16', '2022-05-16', 'Cementerio', 'Gripe', 2, 1),
-(104, 102, '2022-05-16', '2022-05-16', 'Cementerio', 'Covid', 2, 1),
-(105, 102, '2022-05-16', '2022-06-06', 'Cementerio', 'Covid', 0, 0),
-(106, 103, '2022-05-16', '2022-05-16', 'Cementerio', 'Covid', 2, 1),
-(108, 103, '2022-05-16', '2022-05-16', 'Cementerio', 'Covid', 2, 1),
-(112, 105, '2022-05-16', '2022-06-02', 'Cementerio', 'Gripe', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -87,15 +74,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (56, 'admin', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'admin', NULL, NULL, NULL, NULL, 1),
 (57, NULL, 'MARIO', 'PANTALEON', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'marito@gmail.com', '22222223', NULL, 'Municipal', 2),
 (58, NULL, 'marisa', 'bali', '221654987', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'mari@mail.com', '22222222', NULL, 'Terminal', 2),
-(90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Cementerio', 2),
-(99, NULL, 'Patricio', 'Lustou', '221654456', '1985-10-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'plusto@gmail.com', '11111115', 'Municipal', '0', 3),
-(100, NULL, 'Mauricio', 'Macro', '2216544654', '2000-05-20', 0, NULL, '2022-05-16', NULL, 0, 0, '3211', 'mauriciomacro@gmail.com', '11111116', 'Municipal', '0', 3),
-(101, NULL, 'Federico', 'Pinedo', '2216544654', '1996-03-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'federicopinedo@gmail.com', '11111117', 'Municipal', '0', 3),
-(102, NULL, 'Juan', 'Piedra', '221563987', '1987-05-20', 0, '2022-05-16', NULL, NULL, 0, 0, '3211', 'juanpiedra@gmail.com', '11111118', 'Municipal', '0', 3),
-(103, NULL, 'Fernando', 'Severo', '22321321', '1986-05-10', 0, '2022-05-16', NULL, '2022-05-16', 0, 0, '3211', 'severo@gmail.com', '11111119', 'Municipal', '0', 3),
-(104, NULL, 'Paola', 'Nandez', '221321321', '1990-09-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'paolanandez@gmail.com', '55555555', 'Municipal', '0', 3),
-(105, NULL, 'Pablo', 'Aimar', '221654987', '1979-08-05', 0, NULL, NULL, NULL, 0, 0, '3211', 'aimar@gmail.com', '11111888', 'Municipal', '0', 3),
-(106, NULL, 'Guillermo', 'Gatica', '2321321', '2000-06-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'gatica@gmail.com', '11111889', 'Municipal', '0', 3);
+(90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Cementerio', 2);
 
 -- --------------------------------------------------------
 
@@ -147,20 +126,17 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --
 ALTER TABLE `vacunas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

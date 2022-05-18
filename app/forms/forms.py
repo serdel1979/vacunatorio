@@ -3,7 +3,7 @@ from wsgiref.validate import validator
 from flask_wtf import FlaskForm
 from pymysql import Date
 from wtforms import StringField, PasswordField, BooleanField, DateField, SelectField, Form, IntegerField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms.validators import InputRequired, Email, Length, NumberRange
 
 
 
@@ -40,17 +40,19 @@ class RegistroForm(FlaskForm):
     telefono = IntegerField('Teléfono',validators=[InputRequired()])
     nacimiento = DateField('Fecha de nacimiento',validators=[InputRequired('Fecha de nacimiento inválida')])
     primera_dosis = BooleanField('Tengo la primera dosis de covid')
-    fecha_primera_dosis = NullableDateField('')
+    fecha_primera_dosis = DateField('')
     segunda_covid = BooleanField('Tengo dos dosis de covid')
-    fecha_ultima_gripe = NullableDateField('')
+    fecha_ultima_gripe = DateField('')
     fiebre_amarilla = BooleanField('Estoy vacunado para la fiebre amarilla')
     paciente_riesgo = BooleanField('Soy paciente de riesgo')
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
-    dni = IntegerField('Dni',validators=[InputRequired()])
+    dni = IntegerField('Dni',validators=[InputRequired(),NumberRange(min=4000, max=99999999, message='Longitud inválida')])
     sede_preferida = SelectField("Sede Preferida",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])
     
+    #validators=[NumberRange(min=1, max=5, message='Invalid length')]
+
     def validate(self):
         if not Form.validate(self):
             if self.nombre.data == None or self.apellido.data == None or self.telefono.data == None or self.nacimiento.data == None or self.dni.data == None or self.email.data == None:

@@ -209,6 +209,20 @@ def registro():
         usuario.save()
         
         usuario = User.get_by_dni(form.dni.data)
+        
+        print(usuario.fecha_primera_dosis)
+        print(usuario.primera_dosis)
+        print(usuario.fecha_ultima_gripe)
+        #print(usuario.id)
+        if usuario.primera_dosis:
+            print("Se registró con 2 dósis de covid")
+        if usuario.fecha_primera_dosis:
+            print("Primera dósis de covid ",usuario.fecha_primera_dosis)
+        if usuario.fecha_ultima_gripe:
+            print("Ultima de gripe ",usuario.fecha_ultima_gripe)
+        if usuario.fiebre_amarilla:
+            print("Se registró con dosis de fiebre amarilla ")
+
         #calcula edad de la persona que se registra
         fecha_nacimiento = form.nacimiento.data
         edad = relativedelta(datetime.now(), fecha_nacimiento)
@@ -237,10 +251,10 @@ def registro():
             if usuario.fecha_ultima_gripe != None:
                 fecha_ult_grip = usuario.fecha_ultima_gripe+timedelta(365) #calcula fecha que le iría si tuviera una dósis de covid
             else:
-                fecha_ult_grip = hoy + timedelta(days=7)
+                fecha_ult_grip = hoy + timedelta(days=30)
             hoy = datetime.now().date()
             if hoy > fecha_ult_grip:
-                fecha_turno = hoy + timedelta(days=7)
+                fecha_turno = hoy + timedelta(days=30)
                 turno = Turno(usuario.id,fecha_turno,usuario.sede_preferida,"Gripe",False)
                 flash("Se le asignó un turno para la Gripe!!!","success")
                 turno.save()
@@ -620,9 +634,22 @@ def ver_perfil():
 
 @app.route('/mis_vacunas' , methods=['GET'])
 def mis_vacunas():
+    dos_dosis = False
+    fiebre_amarilla = False
+    fecha_primera_dosis = None
+    ultima_gripe = None
+    usuario = User.get_by_id(session['id_user'])
+    if usuario.primera_dosis: #el campo primera dosis indica si tiene dos dosis de covid
+            dos_dosis = True
+    if usuario.fiebre_amarilla:
+            fiebre_amarilla = True
+    if usuario.fecha_primera_dosis:
+            fecha_primera_dosis = usuario.fecha_primera_dosis
+    if usuario.fecha_ultima_gripe:
+            ultima_gripe = usuario.fecha_ultima_gripe
     mis_vacunas = Turno.get_mis_vacunas(session['id_user'])
     cantidad_vacunas = len(mis_vacunas)
-    return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], vacunas=mis_vacunas, cantidad_vacunas = cantidad_vacunas)
+    return render_template('mis_vacunas.html', tipo=session["tipo"], id=session["id_user"], vacunas=mis_vacunas, cantidad_vacunas = cantidad_vacunas, dos_dosis= dos_dosis, fiebre_amarilla=fiebre_amarilla, fecha_primera_dosis = fecha_primera_dosis, ultima_gripe=ultima_gripe)
 
 @app.route('/vacunas_por_sede', methods=['GET'])
 def vacunas_por_sede():

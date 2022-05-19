@@ -16,7 +16,7 @@
   {% if dos_dosis == True %}
   <h3>Usted tiene dos dósis de Covid aplicadas</h3>
   {% endif %}
-  {% if fiebre_amarilla == True %}
+  {% if cantidad_vacunas == 0 and fiebre_amarilla == True %}
   <h3>Usted se vacunó por Fiebre amarilla</h3>
   {% endif %}
   {% if cantidad_vacunas == 0 %}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 19-05-2022 a las 13:14:48
+-- Tiempo de generación: 19-05-2022 a las 13:58:02
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -44,7 +44,8 @@ CREATE TABLE `turnos` (
 --
 
 INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `estado`, `asistio`) VALUES
-(122, 124, '2022-05-19', '2022-06-18', 'Municipal', 'Gripe', 0, 0);
+(122, 124, '2022-05-19', '2022-06-18', 'Municipal', 'Gripe', 0, 0),
+(124, 127, '2022-05-19', '2022-05-19', 'Cementerio', 'Fiebre amarilla', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,9 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Cementerio', 2),
 (123, NULL, 'Horacio', 'Gomez', '2213211', '1990-06-10', 0, NULL, NULL, NULL, 0, 0, '3211', 'horacio@gmail.com', '55555555', 'Municipal', '0', 3),
 (124, NULL, 'Cristian', 'Pantaleone', '22132111', '1951-07-10', 1, NULL, NULL, NULL, 0, 0, '3211', 'cristian@gmail.com', '66666666', 'Municipal', '0', 3),
-(125, NULL, 'Bruno', 'Zuculini', '22513211', '2001-09-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'brunoz@gmail.com', '77777777', 'Municipal', '0', 3);
+(125, NULL, 'Bruno', 'Zuculini', '22513211', '2001-09-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'brunoz@gmail.com', '77777777', 'Municipal', '0', 3),
+(126, NULL, 'Pity', 'Martinez', '2215636555', '1999-02-11', 0, NULL, '2020-01-20', NULL, 0, 0, '3211', 'pity@gmail.com', '88888888', 'Municipal', '0', 3),
+(127, NULL, 'Juan', 'Fernando', '22165454', '2000-02-11', 0, NULL, NULL, NULL, 0, 1, '3211', 'juanfer@gmail.com', '99999999', 'Municipal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -136,12 +139,12 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --

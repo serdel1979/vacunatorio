@@ -35,20 +35,20 @@ class NullableDateField(DateField):
 
 
 class RegistroForm(FlaskForm):
-    nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
-    apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=100)])
-    telefono = IntegerField('Teléfono',validators=[InputRequired()])
-    nacimiento = DateField('Fecha de nacimiento',validators=[InputRequired('Fecha de nacimiento inválida')])
+    nombre = StringField('Nombre *',validators=[InputRequired(),Length(min=4,max=100)])
+    apellido = StringField('Apellido *',validators=[InputRequired(),Length(min=4,max=100)])
+    telefono = IntegerField('Teléfono *',validators=[InputRequired()])
+    nacimiento = DateField('Fecha de nacimiento *',validators=[InputRequired('Fecha de nacimiento inválida')])
     primera_dosis = BooleanField('Tengo la primera dosis de covid')
-    fecha_primera_dosis = NullableDateField('')
+    fecha_primera_dosis = NullableDateField('Primera dósis de Covid')
     segunda_covid = BooleanField('Tengo dos dosis de covid')
-    fecha_ultima_gripe = NullableDateField('')
+    fecha_ultima_gripe = NullableDateField('Última vacuna de Gripe')
     fiebre_amarilla = BooleanField('Estoy vacunado para la fiebre amarilla')
     paciente_riesgo = BooleanField('Soy paciente de riesgo')
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
-    email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
-    dni = IntegerField('Dni',validators=[InputRequired(),NumberRange(min=4000, max=99999999, message='Longitud inválida')])
+    email = StringField('Email *', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
+    dni = IntegerField('Dni *',validators=[InputRequired(),NumberRange(min=4000, max=99999999, message='Longitud inválida')])
     sede_preferida = SelectField("Sede Preferida",choices=[("Municipal","Municipal"),("Terminal","Terminal"),("Cementerio","Cementerio")])
     
     #validators=[NumberRange(min=1, max=5, message='Invalid length')]

@@ -271,7 +271,7 @@ def registro():
 
 def checkstr(nombre):
     for c in nombre:
-        if c not in " abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ":
+        if c not in " abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ":
             return False
     return True
 

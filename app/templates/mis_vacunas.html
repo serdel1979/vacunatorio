@@ -28,10 +28,12 @@
   {% endif %}
   {% endif %}
   {% if cantidad_vacunas != 0 %}
+  {% if fecha_primera_dosis != None %}
+  <h4>Su primera dósis de covid fue aplicada el {{ fecha_primera_dosis }}</h4> 
+  {% endif %}
   <div style="margin-top: 10px;">
-    <h2>Vacunas aplicadas</h2>
+    <h2>Vacunas aplicadas en el vacunatorio</h2>
   </div>
-
   <div class="table-responsive" style="margin-top: 10px;">
     <table class="table table-striped">
       <thead>

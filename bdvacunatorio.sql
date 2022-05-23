@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 21-05-2022 a las 22:13:36
+-- Tiempo de generación: 23-05-2022 a las 18:51:30
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -89,7 +89,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (123, NULL, 'Horacio', 'Gomez', '2213211', '1990-06-10', 0, NULL, NULL, NULL, 0, 0, '3211', 'horacio@gmail.com', '55555555', 'Municipal', '0', 3),
 (124, NULL, 'Cristian', 'Pantaleone', '22132111', '1951-07-10', 1, NULL, NULL, NULL, 0, 0, '3211', 'cristian@gmail.com', '66666666', 'Municipal', '0', 3),
 (125, NULL, 'Bruno', 'Zuculini', '22513211', '2001-09-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'naum@gmail.com', '77777777', 'Municipal', '0', 3),
-(126, NULL, 'Pity', 'Martinez', '2215636555', '1999-02-11', 0, NULL, '2020-01-22', NULL, 0, 0, '3211', 'pity@gmail.com', '88888888', 'Municipal', '0', 3),
+(126, NULL, 'Pity', 'Martinez', '2215636555', '1999-02-11', 0, NULL, '2022-01-22', NULL, 0, 0, '3211', 'pity@gmail.com', '88888888', 'Municipal', '0', 3),
 (127, NULL, 'Juan', 'Fernando', '22165454', '2000-02-11', 0, NULL, NULL, NULL, 0, 1, '3211', 'juanfer@gmail.com', '99999999', 'Municipal', '0', 3),
 (128, NULL, 'Paulo', 'Ferrari', '22132111', '1995-05-10', 0, NULL, NULL, NULL, 0, 0, '3211', 'paulo@gmail.com', '10000000', 'Municipal', '0', 3),
 (129, NULL, 'Raul', 'Peralta', '22165444', '1950-10-11', 0, '2021-05-10', NULL, '2022-05-21', 0, 0, '3211', 'rauli@gmail.com', '27154011', 'Municipal', '0', 3);

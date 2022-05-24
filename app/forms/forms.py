@@ -8,8 +8,8 @@ from wtforms.validators import InputRequired, Email, Length, NumberRange
 
 
 class LoginForm(FlaskForm):
-    usuario = StringField('Dni',validators=[InputRequired(),Length(min=4,max=100)])
-    password = PasswordField('Contraseña',validators=[InputRequired(),Length(min=4,max=100)])
+    usuario = IntegerField('Dni',validators=[InputRequired(),NumberRange(min=1000000, max=99999999, message='Longitud inválida')])
+    password = PasswordField('Contraseña',validators=[InputRequired(),Length(min=4,max=50)])
 
 
 class RecuperarClave(FlaskForm):

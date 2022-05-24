@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 23-05-2022 a las 18:51:30
+-- Tiempo de generación: 24-05-2022 a las 03:23:55
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -45,9 +45,9 @@ CREATE TABLE `turnos` (
 
 INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `estado`, `asistio`) VALUES
 (122, 124, '2022-05-19', '2022-06-18', 'Municipal', 'Gripe', 0, 0),
-(124, 127, '2022-05-19', '2022-05-19', 'Cementerio', 'Fiebre amarilla', 2, 1),
+(124, 127, '2022-05-12', '2022-05-19', 'Cementerio', 'Fiebre amarilla', 2, 1),
 (125, 128, '2022-05-19', '2022-06-23', 'Cementerio', 'Fiebre amarilla', 4, 0),
-(126, 129, '2022-05-21', '2022-05-21', 'Municipal', 'Covid', 2, 1),
+(126, 129, '2022-05-14', '2022-05-21', 'Municipal', 'Covid', 2, 1),
 (127, 129, '2022-05-21', '2022-06-20', 'Municipal', 'Gripe', 0, 0);
 
 -- --------------------------------------------------------

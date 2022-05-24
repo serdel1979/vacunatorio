@@ -29,6 +29,15 @@
 
     <a href="/" class="btn btn-primary">Volver</a>
   </div>
+  {% else %}
+  <button
+      type="button"
+      class="btn btn-primary btn-lg"
+      style="margin-top: 10px"
+      onclick="window.location.href='/modificar_contrasena'"
+    >
+      Modificar Contraseña
+    </button>
   {% endif %}
 </div>
 

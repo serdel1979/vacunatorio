@@ -22,6 +22,9 @@
     {% else %}
     <li class="list-group-item">Sede actual: {{user.sede}}</li>
     {% endif %}
+    {% if riesgo == True %}
+    <li class="list-group-item"><h3>Paciente de riesgo</h3></li>
+    {% endif %}
   </ul>
 
   <div class="col-auto">

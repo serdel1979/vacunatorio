@@ -630,7 +630,11 @@ def estadisticas():
 @app.route('/ver_perfil', methods=['GET'])
 def ver_perfil():
     user = User.get_by_id(session['id_user'])
-    return render_template('perfil.html', tipo=session["tipo"], id=session["id_user"], user=user)
+    if user.paciente_riesgo == 1:
+        riesgo = True
+    else:
+        riesgo = False
+    return render_template('perfil.html', tipo=session["tipo"], id=session["id_user"], user=user, riesgo = riesgo)
 
 @app.route('/mis_vacunas' , methods=['GET'])
 def mis_vacunas():

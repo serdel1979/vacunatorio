@@ -409,7 +409,7 @@ def guardar_perfil(id):
     usuario = User.get_by_id(id)
     if usuario != None:
         if request.method=='POST':
-            if(usuario.email == request.form['mail'] and usuario.telefono == request.form['telefono'] and usuario.sede_preferida == request.form['sede_preferida']):
+            if(usuario.email == request.form['mail'] and usuario.telefono == request.form['telefono'] and usuario.sede_preferida == request.form['sede_preferida'] and usuario.nombre == request.form['nombre'] and usuario.apellido == request.form['apellido'] and usuario.dni == request.form['dni']):
                 flash("No actualizó ningun dato", "warning")
                 return redirect(url_for('edit_perfil'))
             usr= User.get_by_email(request.form['mail'])
@@ -417,7 +417,14 @@ def guardar_perfil(id):
                 if usuario.id != usr.id:
                     flash("El mail ya existe", "danger")
                     return redirect(url_for('edit_perfil'))
-           # usuario.mail = User.get_by_email(request.form['mail'])
+            usr= User.get_by_dni(request.form['dni'])
+            if usr != None:
+                if usuario.id != usr.id:
+                    flash("El dni ya existe", "danger")
+                    return redirect(url_for('edit_perfil'))
+            usuario.nombre = request.form['nombre']
+            usuario.dni = request.form['dni']
+            usuario.apellido = request.form['apellido']
             usuario.telefono = request.form['telefono']
             usuario.email = request.form['mail']
             usuario.sede_preferida= request.form['sede_preferida']
@@ -456,9 +463,8 @@ def edit_vacuna(id):
 @app.route('/borra_enfermero/<int:id>')
 def borra_enfermero(id):
     User.delete(id)
-    enfermeros = User.get_by_tipo(tipo=2)
     flash("Eliminado","success")
-    return render_template('enfermeros.html',enfermeros=enfermeros,tipo = session["tipo"], id=session["id_user"]) 
+    return redirect(url_for('enfermeros'))
 
 
 
@@ -586,11 +592,11 @@ def agrega_vacuna():
     if form.validate_on_submit():
         vacuna = Vacuna.get_by_nombre(form.nombre.data)
         if vacuna:
-            flash("La vacuna ya existe!!!","error")
+            flash("La vacuna ya existe!!!","danger")
             return render_template('agrega_vacuna.html',form=form,tipo = session["tipo"], id=session["id_user"]) 
         vacuna = Vacuna(form.nombre.data)
         vacuna.save()
-        flash("Vacuna guardada!!!","error")
+        flash("Vacuna guardada!!!","danger")
         return redirect(url_for('vacunas'))
     return render_template('agrega_vacuna.html',form=form,tipo = session["tipo"], id=session["id_user"]) 
 
@@ -602,15 +608,15 @@ def agrega_enfermero():
     form = EnfermeroForm()
     if  form.validate_on_submit():
         if form.password.data != form.password2.data:
-            flash("Las contraseñas no coinciden!!!","error")
+            flash("Las contraseñas no coinciden!!!","danger")
             return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
         dni = User.get_by_dni(form.dni.data)
         if dni:
-            flash("El dni pertenece a un usuario del sistema", "error")
+            flash("El dni pertenece a un usuario del sistema", "danger")
             return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
         email = User.get_by_email(form.email.data)
         if email:
-            flash("El email pertenece a un usuario del sistema","error")
+            flash("El email pertenece a un usuario del sistema","danger")
             return render_template('agrega_enfermero.html', form=form, tipo = session["tipo"], id=session["id_user"])
         usuario = User(nombre = form.nombre.data, apellido=form.apellido.data, 
         telefono= form.telefono.data, nacimiento= None, primera_dosis=None,
@@ -694,9 +700,21 @@ def cambiar_contrasena():
 
 @app.route('/modificar_contrasena/', methods=['GET'])
 def modificar_contrasena():
-    print("ESTOY EN MODIFICAR CONTRASENA")
+    
     return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
         
+
+@app.route('/historial', methods=['GET'])
+def historial():
+    pacientes = User.get_by_tipo(2)
+    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
+
+
+@app.route('/buscar_paciente', methods=['GET','POST'])
+def buscar_pacientes():
+    if request.method=='POST':
+        pacientes = User.by_username(request.form['buscar'])
+    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
 #def job():
 #    print("")
 #    call(['python', 'scheduler/main.py'])

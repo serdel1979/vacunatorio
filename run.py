@@ -706,7 +706,7 @@ def modificar_contrasena():
 
 @app.route('/historial', methods=['GET'])
 def historial():
-    pacientes = User.get_by_tipo(2)
+    pacientes = User.get_by_tipo(3)
     return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
 
 

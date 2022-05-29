@@ -705,12 +705,20 @@ def modificar_contrasena():
         
 
 @app.route('/pacientes', methods=['GET','POST'])
-def historial():
+def pacientes():
     if request.method=='POST':
         pacientes = User.by_username(request.form['buscar'])
     else:
         pacientes = User.get_by_tipo(3)
     return render_template('pacientes.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
+
+
+@app.route('/ver_historial/<int:id>', methods=['GET','POST'])
+def ver_historial(id):
+    vacunas = Turno.get_historial(id)
+    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], vacunas = vacunas)
+
+
 
 
 #def job():

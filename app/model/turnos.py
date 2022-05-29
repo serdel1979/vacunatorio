@@ -38,7 +38,7 @@ class Turno(db.Model, UserMixin):
     
     @classmethod
     def get_historial(cls, id):
-        return cls.query.filter_by(id=id).all()
+        return cls.query.filter_by(id_usuario=id).all()
 
     @classmethod
     def get_by_id_usuario_vigente(cls, nombre_vacuna, idusr):

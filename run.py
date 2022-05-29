@@ -698,23 +698,21 @@ def cambiar_contrasena():
         flash("Cambio su contraseña correctamente!!","success")
     return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
 
+
 @app.route('/modificar_contrasena/', methods=['GET'])
-def modificar_contrasena():
-    
+def modificar_contrasena(): 
     return render_template('cambiar_contrasena.html', tipo=session["tipo"], id=session["id_user"])
         
 
-@app.route('/historial', methods=['GET'])
+@app.route('/pacientes', methods=['GET','POST'])
 def historial():
-    pacientes = User.get_by_tipo(3)
-    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
-
-
-@app.route('/buscar_paciente', methods=['GET','POST'])
-def buscar_pacientes():
     if request.method=='POST':
         pacientes = User.by_username(request.form['buscar'])
-    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
+    else:
+        pacientes = User.get_by_tipo(3)
+    return render_template('pacientes.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)
+
+
 #def job():
 #    print("")
 #    call(['python', 'scheduler/main.py'])

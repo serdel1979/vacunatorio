@@ -9,7 +9,7 @@
     </div>
     {% endfor %} {% endif %} {% endwith %}
 
-    <form action="/buscar_paciente" method="POST">
+    <form action="/pacientes" method="POST">
         <div class="input-group">
             <div class="form-outline">
                 <input type="search" id="form1" name= "buscar"/>
@@ -36,6 +36,7 @@
                 <th scope="col">Apellido</th>
                 <th scope="col">Email</th>
                 <th scope="col">Telefono</th>
+                <th scope="col">Sede preferida</th>
                 <th scope="col">Ver historial</th>
             </tr>
         </thead>
@@ -47,6 +48,7 @@
                 <td>{{p.apellido}}</td>
                 <td>{{p.email}}</td>
                 <td>{{p.telefono}}</td>
+                <td>{{p.sede_preferida}}</td>
                 <td>
                     <button type="button" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

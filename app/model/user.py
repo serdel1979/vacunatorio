@@ -74,7 +74,6 @@ class User(db.Model, UserMixin):
 
     @classmethod
     def delete(cls, id):
-        print("ESTOY EN BORRAR ENFERMERO: ", id)
         usr = cls.query.get(id)
         print(usr)
         db.session.delete(usr)
@@ -82,7 +81,7 @@ class User(db.Model, UserMixin):
 
     @classmethod
     def by_username(cls, username):
-        return cls.query.filter((cls.nombre.like("%{}%".format(username))) & (cls.tipo == 3) | ((cls.dni==username)) & (cls.tipo == 3) | ((cls.apellido.like("%{}%".format(username)))) & (cls.tipo == 3))
+        return cls.query.filter((cls.nombre.like("%{}%".format(username))) & (cls.tipo == 3) | ((cls.dni==username)) & (cls.tipo == 3) | ((cls.apellido.like("%{}%".format(username)))) & (cls.tipo == 3) | ((cls.sede_preferida.like("%{}%".format(username)))) & (cls.tipo == 3) )
 
     def cambiar_clave(self, password):
         self.password = password

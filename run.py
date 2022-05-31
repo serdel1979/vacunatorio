@@ -409,25 +409,41 @@ def guardar_perfil(id):
     usuario = User.get_by_id(id)
     if usuario != None:
         if request.method=='POST':
-            if(usuario.email == request.form['mail'] and usuario.telefono == request.form['telefono'] and usuario.sede_preferida == request.form['sede_preferida'] and usuario.nombre == request.form['nombre'] and usuario.apellido == request.form['apellido'] and usuario.dni == request.form['dni']):
-                flash("No actualizó ningun dato", "warning")
-                return redirect(url_for('edit_perfil'))
-            usr= User.get_by_email(request.form['mail'])
-            if usr != None:
-                if usuario.id != usr.id:
-                    flash("El mail ya existe", "danger")
+            if usuario.tipo == 3:
+                if(usuario.email == request.form['mail'] and usuario.telefono == request.form['telefono'] and usuario.sede_preferida == request.form['sede_preferida'] and usuario.nombre == request.form['nombre'] and usuario.apellido == request.form['apellido'] and usuario.dni == request.form['dni']):
+                    flash("No actualizó ningun dato", "warning")
                     return redirect(url_for('edit_perfil'))
-            usr= User.get_by_dni(request.form['dni'])
-            if usr != None:
-                if usuario.id != usr.id:
-                    flash("El dni ya existe", "danger")
+                usr= User.get_by_email(request.form['mail'])
+                if usr != None:
+                    if usuario.id != usr.id:
+                        flash("El mail ya existe", "danger")
+                        return redirect(url_for('edit_perfil'))
+                usr= User.get_by_dni(request.form['dni'])
+                if usr != None:
+                    if usuario.id != usr.id:
+                        flash("El dni ya existe", "danger")
+                        return redirect(url_for('edit_perfil'))
+            else:
+                if(usuario.email == request.form['mail'] and usuario.telefono == request.form['telefono'] and usuario.nombre == request.form['nombre'] and usuario.apellido == request.form['apellido'] and usuario.dni == request.form['dni']):
+                    flash("No actualizó ningun dato", "warning")
                     return redirect(url_for('edit_perfil'))
+                usr= User.get_by_email(request.form['mail'])
+                if usr != None:
+                    if usuario.id != usr.id:
+                        flash("El mail ya existe", "danger")
+                        return redirect(url_for('edit_perfil'))
+                usr= User.get_by_dni(request.form['dni'])
+                if usr != None:
+                    if usuario.id != usr.id:
+                        flash("El dni ya existe", "danger")
+                        return redirect(url_for('edit_perfil'))
             usuario.nombre = request.form['nombre']
             usuario.dni = request.form['dni']
             usuario.apellido = request.form['apellido']
             usuario.telefono = request.form['telefono']
             usuario.email = request.form['mail']
-            usuario.sede_preferida= request.form['sede_preferida']
+            if usuario.tipo == 3:
+                usuario.sede_preferida= request.form['sede_preferida']
             usuario.save()
             flash("Datos actualizados", "success")
             return redirect(url_for('edit_perfil'))
@@ -716,7 +732,8 @@ def pacientes():
 @app.route('/ver_historial/<int:id>', methods=['GET','POST'])
 def ver_historial(id):
     vacunas = Turno.get_historial(id)
-    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], vacunas = vacunas)
+    cantidad = len(vacunas)
+    return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], vacunas = vacunas, cantidad= cantidad)
 
 
 

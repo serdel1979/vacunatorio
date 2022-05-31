@@ -8,7 +8,7 @@
         <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     {% endfor %} {% endif %} {% endwith %}
-
+    {% if cantidad != 0 %}
     <h3>Historial del paciente</h3>
     
     <table class="table">
@@ -26,11 +26,30 @@
                 <td>{{ v.fecha_solicitud }}</td>
                 <td>{{ v.fecha_turno }}</td>
                 <td>{{ v.vacuna }}</td>
-                <td>{{ v.estado }}</td>     
+                {% if v.estado == 0 %}
+                <td>PENDIENTE</td>    
+                {% endif %}
+                {% if v.estado == 1 %}
+                <td>CANCELADO</td>    
+                {% endif %}
+                {% if v.estado == 2 %}
+                <td>ATENDIDO</td>    
+                {% endif %}
+                {% if v.estado == 3 %}
+                <td>RECHAZADO</td>    
+                {% endif %}
+                {% if v.estado == 4 %}
+                <td>ESPERANDO CONFIRMACION</td>    
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+
+  <h3>El paciente no cuenta con vacunas en el vacunatorio </h3>
+  {% endif %}
+    <a href="/pacientes"  class="btn btn-primary">Volver</a>
 
     {% endblock %}
 </div>

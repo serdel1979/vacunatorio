@@ -66,6 +66,7 @@
           <th>Vacuna</th>
           <th>Estado</th>
           <th>Laboratorio</th>
+          <th>Lote</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -91,20 +92,35 @@
           {% if mt.estado == 4 %}
           <td>SIN CONFIRMAR</td>
           {% endif %}
-
+          {% if mt.vacuna == "Covid" %}
           <td>
-            <select id="lab"
-              name="lab" type="text" placeholder="Laboratorio" class="form-control">
+            <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
               <option value="Sinopharm">Sinopharm</option>
               <option value="Sputnik">Sputnik</option>
               <option value="Astrazeneca">Astrazeneca</option>
             </select>
           </td>
-
+          {% else %}
+          <td>
+            <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
+              <option value="Sinopharm">Bagó</option>
+              <option value="Sputnik">Richmond</option>
+            </select>
+          </td>
+          {% endif %}
+          <td>
+            <input id="lote" name="lote" placeholder="Número de lote">
+          </td>
           <td>
             <button class="btn btn-primary"
               onclick="window.location.href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}'">
               Ver paciente
+            </button>
+            <button class="btn btn-primary">
+              Vacunado
+            </button>
+            <button class="btn btn-primary">
+              No asistió
             </button>
           </td>
         </tr>
@@ -118,7 +134,7 @@
 
 {% block javascripts %}
 <script>
-  function showMessage(accion,usuario,id) {
+  function showMessage(accion, usuario, id) {
     $(".accion").text(accion);
     $("#usuario").text(usuario);
     $("#userId").val(id);

@@ -1,24 +1,13 @@
 {% include './menu.html' %} {% block content %}
-<div
-  class="modal fade"
-  id="customModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="customModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="customModalLabel">
           <span class="accion"></span> Turno
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -76,6 +65,7 @@
           <th>Sede</th>
           <th>Vacuna</th>
           <th>Estado</th>
+          <th>Laboratorio</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -88,7 +78,7 @@
           <td>{{ mt.vacuna }}</td>
           {% if mt.estado == 0 %}
           <td>PENDIENTE</td>
-          {% endif %} 
+          {% endif %}
           {% if mt.estado == 1 %}
           <td>CANCELADO</td>
           {% endif %}
@@ -100,12 +90,20 @@
           {% endif %}
           {% if mt.estado == 4 %}
           <td>SIN CONFIRMAR</td>
-          {% endif %} 
+          {% endif %}
+
           <td>
-            <button
-              class="btn btn-primary"
-              onclick="window.location.href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}'"
-            >
+            <select id="lab"
+              name="lab" type="text" placeholder="Laboratorio" class="form-control">
+              <option value="Sinopharm">Sinopharm</option>
+              <option value="Sputnik">Sputnik</option>
+              <option value="Astrazeneca">Astrazeneca</option>
+            </select>
+          </td>
+
+          <td>
+            <button class="btn btn-primary"
+              onclick="window.location.href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}'">
               Ver paciente
             </button>
           </td>
@@ -120,7 +118,7 @@
 
 {% block javascripts %}
 <script>
-  function showMessage(accion, usuario, id) {
+  function showMessage(accion,usuario,id) {
     $(".accion").text(accion);
     $("#usuario").text(usuario);
     $("#userId").val(id);

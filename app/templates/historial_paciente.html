@@ -10,7 +10,7 @@
     {% endfor %} {% endif %} {% endwith %}
     {% if cantidad != 0 %}
     <h3>Historial del paciente</h3>
-    
+
     <table class="table">
         <thead>
             <tr>
@@ -27,19 +27,19 @@
                 <td>{{ v.fecha_turno }}</td>
                 <td>{{ v.vacuna }}</td>
                 {% if v.estado == 0 %}
-                <td>PENDIENTE</td>    
+                <td>PENDIENTE</td>
                 {% endif %}
                 {% if v.estado == 1 %}
-                <td>CANCELADO</td>    
+                <td>CANCELADO</td>
                 {% endif %}
                 {% if v.estado == 2 %}
-                <td>ATENDIDO</td>    
+                <td>ATENDIDO</td>
                 {% endif %}
                 {% if v.estado == 3 %}
-                <td>RECHAZADO</td>    
+                <td>RECHAZADO</td>
                 {% endif %}
                 {% if v.estado == 4 %}
-                <td>ESPERANDO CONFIRMACION</td>    
+                <td>ESPERANDO CONFIRMACION</td>
                 {% endif %}
             </tr>
             {% endfor %}
@@ -47,9 +47,9 @@
     </table>
     {% else %}
 
-  <h3>El paciente no cuenta con vacunas en el vacunatorio </h3>
-  {% endif %}
-    <a href="/pacientes"  class="btn btn-primary">Volver</a>
+    <h3>El paciente no cuenta con vacunas en el vacunatorio </h3>
+    {% endif %}
+    <a href="/pacientes" class="btn btn-primary">Volver</a>
 
     {% endblock %}
 </div>

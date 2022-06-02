@@ -73,57 +73,61 @@
       <tbody>
         {% for mt in turnos %}
         <tr>
-          <td>{{ mt.fecha_solicitud }}</td>
-          <td>{{ mt.fecha_turno }}</td>
-          <td>{{ mt.sede }}</td>
-          <td>{{ mt.vacuna }}</td>
-          {% if mt.estado == 0 %}
-          <td>PENDIENTE</td>
-          {% endif %}
-          {% if mt.estado == 1 %}
-          <td>CANCELADO</td>
-          {% endif %}
-          {% if mt.estado == 2 %}
-          <td>ATENDIDO</td>
-          {% endif %}
-          {% if mt.estado == 3 %}
-          <td>RECHAZADO</td>
-          {% endif %}
-          {% if mt.estado == 4 %}
-          <td>SIN CONFIRMAR</td>
-          {% endif %}
-          {% if mt.vacuna == "Covid" %}
-          <td>
-            <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
-              <option value="Sinopharm">Sinopharm</option>
-              <option value="Sputnik">Sputnik</option>
-              <option value="Astrazeneca">Astrazeneca</option>
-            </select>
-          </td>
-          {% else %}
-          <td>
-            <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
-              <option value="Sinopharm">Bagó</option>
-              <option value="Sputnik">Richmond</option>
-            </select>
-          </td>
-          {% endif %}
-          <td>
-            <input id="lote" name="lote" placeholder="Número de lote">
-          </td>
-          <td>
-            <button class="btn btn-primary"
-              onclick="window.location.href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}'">
-              Ver paciente
-            </button>
-            <button class="btn btn-primary">
-              Vacunado
-            </button>
-            <button class="btn btn-primary">
-              No asistió
-            </button>
-          </td>
-        </tr>
+          <form action="/marcar_vacunado" method="POST">
+            <input id="idturno" name="idturno" type="hidden" value="{{ mt.id }}">
+            <td>{{ mt.fecha_solicitud }}</td>
+            <td>{{ mt.fecha_turno }}</td>
+            <td>{{ mt.sede }}</td>
+            <td>{{ mt.vacuna }}</td>
+            {% if mt.estado == 0 %}
+            <td>PENDIENTE</td>
+            {% endif %}
+            {% if mt.estado == 1 %}
+            <td>CANCELADO</td>
+            {% endif %}
+            {% if mt.estado == 2 %}
+            <td>ATENDIDO</td>
+            {% endif %}
+            {% if mt.estado == 3 %}
+            <td>RECHAZADO</td>
+            {% endif %}
+            {% if mt.estado == 4 %}
+            <td>SIN CONFIRMAR</td>
+            {% endif %}
+            {% if mt.vacuna == "Covid" %}
+            <td>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
+               {% if mt.laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else %}<option value="Sinopharm">Sinopharm</option> {% endif %}
+               {% if mt.laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}<option value="Sputnik">Sputnik</option> {% endif %}
+               {% if mt.laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else %}<option value="Astrazeneca">Astrazeneca</option> {% endif %}
+              </select>
+            </td>
+            {% else %}
+            <td>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
+                {% if mt.laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option value="Bagó">Bagó</option> {% endif %}
+                {% if mt.laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}<option value="Richmond">Richmond</option> {% endif %}
+              </select>
+            </td>
+            {% endif %}
+            <td>
+              <input id="lote" name="lote" placeholder="Número de lote" value="{{mt.lote}}">
+            </td>
+            <td>
+              <a href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}' class="btn btn-primary">Ver paciente</a>
+              {% if mt.estado == 0 %}
+              <button type="submit">vacunar</button>            
+          
+              {% else %}
+             
+              {% endif %}
+              <button class="btn btn-primary">
+                No asistió
+              </button>
+            </td>
+          </form>
+          </tr>
+        
         {% endfor %}
       </tbody>
     </table>
@@ -132,22 +136,5 @@
 </div>
 <!-- /.container -->
 
-{% block javascripts %}
-<script>
-  function showMessage(accion, usuario, id) {
-    $(".accion").text(accion);
-    $("#usuario").text(usuario);
-    $("#userId").val(id);
-    $("#customModal").modal("show");
-  }
-
-  function toggleInactive() {
-    $("#usrPageForm").submit();
-  }
-
-  function confirm() {
-    $("#customModal").modal("hide");
-    location.replace("/cancela_turno/" + $("#userId").val());
-  }
-</script>
-{% endblock javascripts %} {% endblock %}
+     
+{% endblock %}

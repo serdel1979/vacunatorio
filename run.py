@@ -383,6 +383,7 @@ def registra_turno():
         #estado 2 = atendido por el enfermero
         #estado 3 = rechazado por el administrador si es fiebre amarilla
         #estado 4 = esperando confirmacion del administrador
+        #estado 5 = ausente
 
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
         turno.save()
@@ -513,10 +514,23 @@ def ver_paciente():
     #############################
     edad = relativedelta(datetime.now(), paciente.nacimiento)
     #############################
-
+    vacunas = Turno.get_historial(id_paciente)
+    cantidad = len(vacunas)
+    dos_dosis = False
+    fiebre_amarilla = False
+    fecha_primera_dosis = None
+    ultima_gripe = None
+    if paciente.primera_dosis: #el campo primera dosis indica si tiene dos dosis de covid
+            dos_dosis = True
+    if paciente.fiebre_amarilla:
+            fiebre_amarilla = True
+    if paciente.fecha_primera_dosis:
+            fecha_primera_dosis = paciente.fecha_primera_dosis
+    if paciente.fecha_ultima_gripe:
+            ultima_gripe = paciente.fecha_ultima_gripe
     if datetime.strptime(datetime.today().strftime('%Y-%m-%d'),'%Y-%m-%d') > datetime.strptime(turno.fecha_turno.strftime('%Y-%m-%d'),'%Y-%m-%d'):
         turno.asistio = False
-    return render_template('ver_paciente.html',edad=edad,paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"]) 
+    return render_template('ver_paciente.html',edad=edad,paciente = paciente, turno=turno,tipo = session["tipo"], id=session["id_user"], vacunas = vacunas, cantidad = cantidad, dos_dosis=dos_dosis, fiebre_amarilla=fiebre_amarilla,fecha_primera_dosis=fecha_primera_dosis,ultima_gripe=ultima_gripe) 
 
 
 
@@ -564,36 +578,39 @@ def marcar_fiebre_amarilla():
 
 @app.route('/marcar_vacunado', methods=['GET','POST'])
 def marcar_vacunado():
-    if request.method=='POST':
-        if 'vacunado' in request.form:
-            idturno = request.form['idturno']
-            turno = Turno.get_by_id(idturno)
-            usuario = User.get_by_id(turno.id_usuario)
-            if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
-                if usuario.fecha_primera_dosis == None:
-                    usuario.fecha_primera_dosis = datetime.today()
-                    td = timedelta(21)      #asigna un turno para la proxima dosis en 90 dias
-                    nuevafecha=datetime.today()+td
-                    turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
-                    turnoproximo.save()
-                    flash("Se asignó un nuevo turno en 21 dás","success")
-                else: 
-                    usuario.fecha_ultima_covid  == None and usuario.fecha_primera_dosis != None
+        idturno = request.form['idturno']
+        lab = request.form['laboratorio']
+        lot = request.form['lote']
+        print(lab)
+        print(lot)
+        turno = Turno.get_by_id(idturno)
+        usuario = User.get_by_id(turno.id_usuario)
+        if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
+            if usuario.fecha_primera_dosis == None:
+                usuario.fecha_primera_dosis = datetime.today()
+                td = timedelta(21)      #asigna un turno para la proxima dosis en 21 dias
+                nuevafecha=datetime.today()+td
+                turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
+                turnoproximo.save()
+                flash("Se asignó un nuevo turno en 21 dás","success")
+            else: 
+                if usuario.fecha_ultima_covid  == None and usuario.fecha_primera_dosis != None:
                     usuario.fecha_ultima_covid = datetime.today()
-     
-                usuario.save()
-            if turno.vacuna == "Fiebre amarilla":
-                usuario.fiebre_amarilla = 1
-                usuario.save()
-            if turno.vacuna == "Gripe":
-                usuario.fecha_ultima_gripe = datetime.today()
-                usuario.save()
-            turno.estado=2
-            turno.asistio = True
-            turno.save()       
+            usuario.save()
+        if turno.vacuna == "Fiebre amarilla":
+            usuario.fiebre_amarilla = 1
+            usuario.save()
+        if turno.vacuna == "Gripe":
+            usuario.fecha_ultima_gripe = datetime.today()
+            usuario.save()
+        turno.estado=2
+        turno.laboratorio = lab
+        turno.lote = lot
+        turno.asistio = True
+        turno.save()       
             
-            flash("El turno fue actualizado !!","success")
-    return redirect(url_for('turnos_hoy'))
+        flash("El turno fue actualizado !!","success")
+        return redirect(url_for('turnos_hoy'))
 
 
 @app.route('/vacunas')
@@ -612,7 +629,7 @@ def agrega_vacuna():
             return render_template('agrega_vacuna.html',form=form,tipo = session["tipo"], id=session["id_user"]) 
         vacuna = Vacuna(form.nombre.data)
         vacuna.save()
-        flash("Vacuna guardada!!!","danger")
+        flash("Vacuna guardada!!!","success")
         return redirect(url_for('vacunas'))
     return render_template('agrega_vacuna.html',form=form,tipo = session["tipo"], id=session["id_user"]) 
 

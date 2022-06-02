@@ -1,5 +1,5 @@
-{% include './menu.html' %} {% import "bootstrap/wtf.html" as wtf %} {% block
-content %}
+{% include './menu.html' %} {% import "bootstrap/wtf.html" as wtf %} 
+{% block content %}
 <div class="container">
   {% with msg = get_flashed_messages(with_categories=true) %} {% if msg %} {%
   for category,m in msg %}
@@ -15,84 +15,119 @@ content %}
       <h3>Datos del paciente</h3>
     </div>
 
+    {% if dos_dosis == True %}
+    <h3>Paciente con dos dósis de Covid</h3>
+    {% endif %}
+    {% if cantidad_vacunas == 0 and fiebre_amarilla == True %}
+    <h3>El paciente fue vacunado por Fiebre amarilla</h3>
+    {% endif %}
+    {% if cantidad == 0 %}
+      {% if fecha_primera_dosis != None %}
+        <h3>El paciente se registró con una dósis de covid aplicada el {{ fecha_primera_dosis }}</h3>
+      {% endif %}
+      {% if ultima_gripe != None %}
+        <h3>El paciente se registró con una dósis de gripe aplicada el {{ ultima_gripe }}</h3>
+      {% endif %}
+    {% endif %}
+    {% if cantidad != 0 %}
+      {% if fecha_primera_dosis != None %}
+      <h4>La primera dósis de covid fue aplicada el {{ fecha_primera_dosis }}</h4>
+      {% endif %}
+    {% endif %}
     <div style="margin-top: 20px" class="form-signin">
-      <form action="/marcar_vacunado" class="form-signin" method="post">
-        <input id="idturno" name="idturno" type="hidden" value="{{turno.id}}">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="form-group">Nombre </label>
-            {{ paciente.nombre }}
-          </div>
+      <!-- <form action="/marcar_vacunado" class="form-signin" method="post">
+        <input id="idturno" name="idturno" type="hidden" value="{{turno.id}}">-->
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-group">Nombre </label>
+          {{ paciente.nombre }}
         </div>
+      </div>
 
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="form-group">Apellido</label>
-            {{ paciente.apellido }}
-          </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-group">Apellido</label>
+          {{ paciente.apellido }}
         </div>
+      </div>
 
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="form-group">DNI</label>
-            {{ paciente.dni }}
-          </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-group">DNI</label>
+          {{ paciente.dni }}
         </div>
+      </div>
 
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="form-group">Sede</label>
-            {{ turno.sede }}
-          </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-group">Sede</label>
+          {{ turno.sede }}
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="form-group">Vacuna</label>
-            {{ turno.vacuna }}
-          </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-group">Vacuna</label>
+          {{ turno.vacuna }}
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="form-group">Edad: </label>
-            {{ edad.years }} años
-          </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-group">Edad: </label>
+          {{ edad.years }} años
         </div>
+      </div>
 
-        <div class="col-md-3">
-          <div disabled class="form-group">
-            {% if turno.estado == 2 %}
-            <input disabled checked type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
-            <label class="form-group" for="exampleCheck1">Atendido</label>
-            {% else %}
-            {% if turno.estado == 0 %}
-            <input type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
-            <label class="form-group" for="exampleCheck1">Atendido</label>
-            {% else %}
-            <input disabled type="checkbox" class="form-check-input" id="vacunado" name="vacunado">
-            <label class="form-group" for="exampleCheck1">Atendido</label>
-            {% endif %}
-            {% endif %}
-          </div>
-        </div>
-        <div class="form-signin">
-          <div class="col-md-8 text-center">
-            <button type="button" class="btn btn-primary btn-lg" style="margin-top: 10px"
-              onclick="window.location.href='/turnos_hoy'">
-              Volver
-            </button>
-            {% if turno.estado == 0 %}
-            <button id="login" style="margin-top: 10px" type="submit" class="btn btn-primary btn-lg">
-              Guardar
-            </button>
-            {% else %}
-            <button disabled id="login" style="margin-top: 10px" type="submit" class="btn btn-primary btn-lg">
-              Guardar
-            </button>
-            {% endif %}
-          </div>
-        </div>
-      </form>
     </div>
+    <br>
+
+    {% if cantidad != 0 %}
+    <h3>Historial del paciente</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Fecha de solicitud</th>
+          <th scope="col">Fecha del turno</th>
+          <th scope="col">Vacuna</th>
+          <th scope="col">Laboratorio</th>
+          <th scope="col">Lote</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in vacunas %}
+        <tr>
+          <td>{{ v.fecha_solicitud }}</td>
+          <td>{{ v.fecha_turno }}</td>
+          <td>{{ v.vacuna }}</td>
+          <td>{{ v.laboratorio }}</td>
+          <td>{{ v.lote }}</td>
+          {% if v.estado == 0 %}
+          <td>PENDIENTE</td>
+          {% endif %}
+          {% if v.estado == 1 %}
+          <td>CANCELADO</td>
+          {% endif %}
+          {% if v.estado == 2 %}
+          <td>ATENDIDO</td>
+          {% endif %}
+          {% if v.estado == 3 %}
+          <td>RECHAZADO</td>
+          {% endif %}
+          {% if v.estado == 4 %}
+          <td>ESPERANDO CONFIRMACION</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+
+    <h3>El paciente no cuenta con vacunas en el vacunatorio </h3>
+    {% endif %}
+    <a href="/turnos_hoy" class="btn btn-primary">Volver</a>
+
+
   </div>
 </div>
 {% endblock %}

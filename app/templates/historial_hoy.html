@@ -1,0 +1,139 @@
+{% include './menu.html' %} {% block content %}
+<div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customModalLabel">
+          <span class="accion"></span> Turno
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span>
+          Usted va a <span class="accion"></span> como atendido
+          <span style="font-weight: bolder" id="usuario"></span> ?
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+        <button type="button" class="btn btn-primary" onclick="confirm()">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-4">
+  <form action="" method="POST" id="usrPageForm">
+    <input id="userId" name="userId" type="hidden" />
+    <div style="float: right" class="row"></div>
+  </form>
+</div>
+
+<div class="container">
+  {% with msg = get_flashed_messages(with_categories=true) %} {% if msg %} {%
+  for category,m in msg %}
+  <div class="alert alert-{{ category }}" role="alert">
+    {{ m }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <div style="margin-top: 10px">
+
+    {% if session["tipo"] == 2 %}
+    <h2>Historial del día - {{sede}}</h2>
+    {% endif %}
+    {% if session["tipo"] == 1 %}
+    <h2>Turnos de hoy</h2>
+    {% endif %}
+  </div>
+  <br />
+  <br />
+  <div class="table-responsive" style="margin-top: 10px">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Fecha solicitud</th>
+          <th>Fecha de turno</th>
+          <th>Sede</th>
+          <th>Vacuna</th>
+          <th>Estado</th>
+          <th>Laboratorio</th>
+          <th>Lote</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mt in turnos %}
+        <tr>
+          
+            <input id="idturno" name="idturno" type="hidden" value="{{ mt.id }}">
+            <td>{{ mt.fecha_solicitud }}</td>
+            <td>{{ mt.fecha_turno }}</td>
+            <td>{{ mt.sede }}</td>
+            <td>{{ mt.vacuna }}</td>
+            {% if mt.estado == 0 %}
+            <td>PENDIENTE</td>
+            {% endif %}
+            {% if mt.estado == 1 %}
+            <td>CANCELADO</td>
+            {% endif %}
+            {% if mt.estado == 2 %}
+            <td>ATENDIDO</td>
+            {% endif %}
+            {% if mt.estado == 3 %}
+            <td>RECHAZADO</td>
+            {% endif %}
+            {% if mt.estado == 4 %}
+            <td>SIN CONFIRMAR</td>
+            {% endif %}
+            {% if mt.estado == 5 %}
+            <td>AUSENTE</td>
+            {% endif %}
+            {% if mt.vacuna == "Covid" %}
+            <td>
+              <select disabled id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
+                {% if mt.laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else %}
+                <option value="Sinopharm">Sinopharm</option> {% endif %}
+                {% if mt.laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}<option
+                  value="Sputnik">Sputnik</option> {% endif %}
+                {% if mt.laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else %}
+                <option value="Astrazeneca">Astrazeneca</option> {% endif %}
+              </select>
+            </td>
+            {% else %}
+            <td>
+              <select disabled id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
+                {% if mt.laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
+                  value="Bagó">Bagó</option> {% endif %}
+                {% if mt.laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
+                <option value="Richmond">Richmond</option> {% endif %}
+              </select>
+            </td>
+            {% endif %}
+            <td>
+              {% if mt.lote != '' %}
+              <input disabled id="lote" name="lote" placeholder="Número de lote" value="{{mt.lote}}">
+              {% else %}
+              <input disabled id="lote" name="lote" placeholder="Número de lote">
+              {% endif %}
+            </td>
+         
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/" class="btn btn-primary">Volver</a>
+  </div>
+</div>
+<!-- /.container -->
+
+
+{% endblock %}

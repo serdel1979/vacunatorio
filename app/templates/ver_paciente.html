@@ -111,22 +111,22 @@
           <td>No especificado</td>
           {% endif %}
           {% if v.estado == 0 %}
-          <td>PENDIENTE</td>
+          <td><p style="color:#0d4d0b";>PENDIENTE </p></td>
           {% endif %}
           {% if v.estado == 1 %}
-          <td>CANCELADO</td>
+          <td> <p style="color:#126e0f";>CANCELADO </p></td>
           {% endif %}
           {% if v.estado == 2 %}
-          <td>ATENDIDO</td>
+          <td> <p style="color:#1ca517";>ATENDIDO </p></td>
           {% endif %}
           {% if v.estado == 3 %}
-          <td>RECHAZADO</td>
+          <td><p style="color:#FF0000";><U>RECHAZADO</U> </p></td>
           {% endif %}
           {% if v.estado == 4 %}
-          <td>ESPERANDO CONFIRMACION</td>
+          <td><p style="color:#9e7b06";>NO CONFIRMADO</p></td>
           {% endif %}
           {% if v.estado == 5 %}
-          <td>NO SE PRESENTÓ</td>
+          <td><p style="color:#FF0000";>AUSENTE </p> </td>
           {% endif %}
         </tr>
         {% endfor %}

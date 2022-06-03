@@ -70,37 +70,44 @@
           <td>{{ mt.sede }}</td>
           <td>{{ mt.vacuna }}</td>
           {% if mt.estado == 0 %}
-          <td> PENDIENTE </td>
+          <td> <p style="color:#0d4d0b";>PENDIENTE </p></td>
           <td>
             <button class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 1 %}
-          <td> CANCELADO </td>
+          <td> <p style="color:#126e0f";>CANCELADO </p></td>
           <td>
             <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 2 %}
-          <td> ATENDIDO </td>
+          <td> <p style="color:#1ca517";>ATENDIDO </p></td>
           <td>
             <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 3 %}
-          <td> RECHAZADO </td>
+          <td> <p style="color:#FF0000";><U>RECHAZADO</U> </p></td>
           <td>
             <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 4 %}
-          <td> NO CONFIRMADO </td>
+          <td> <p style="color:#9e7b06";>NO CONFIRMADO</p></td>
           <td>
             <button class="btn btn-danger"
+              onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
+          </td>
+          {% endif %}
+          {% if mt.estado == 5 %}
+          <td> <p style="color:#FF0000";>AUSENTE </p> </td>
+          <td>
+            <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}

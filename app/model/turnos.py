@@ -62,7 +62,17 @@ class Turno(db.Model, UserMixin):
     
     @classmethod
     def get_by_fecha(cls, fecha_turno, sede):
+        return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede, cls.estado == 0).all()
+
+    @classmethod
+    def historial_by_fecha(cls, fecha_turno, sede):
         return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede).all()
+
+
+    @classmethod
+    def historial_by_fecha_sede(cls, fecha_turno, sede):
+        return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede).all()
+
 
     @classmethod
     def get_by_fiebre_amarilla(cls):

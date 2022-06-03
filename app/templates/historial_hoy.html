@@ -56,7 +56,9 @@
   </div>
   <br />
   <br />
+ 
   <div class="table-responsive" style="margin-top: 10px">
+    {% if cantidad > 0 %}
     <table class="table table-striped">
       <thead>
         <tr>
@@ -79,22 +81,22 @@
             <td>{{ mt.sede }}</td>
             <td>{{ mt.vacuna }}</td>
             {% if mt.estado == 0 %}
-            <td>PENDIENTE</td>
+            <td><p style="color:#0d4d0b";>PENDIENTE </p></td>
             {% endif %}
             {% if mt.estado == 1 %}
-            <td>CANCELADO</td>
+            <td><p style="color:#126e0f";>CANCELADO </p></td>
             {% endif %}
             {% if mt.estado == 2 %}
-            <td>ATENDIDO</td>
+            <td><p style="color:#1ca517";>ATENDIDO </p></td>
             {% endif %}
             {% if mt.estado == 3 %}
-            <td>RECHAZADO</td>
+            <td><p style="color:#FF0000";><U>RECHAZADO</U> </p></td>
             {% endif %}
             {% if mt.estado == 4 %}
-            <td>SIN CONFIRMAR</td>
+            <td><p style="color:#9e7b06";>NO CONFIRMADO</p></td>
             {% endif %}
             {% if mt.estado == 5 %}
-            <td>AUSENTE</td>
+            <td><p style="color:#FF0000";>AUSENTE </p> </td>
             {% endif %}
             {% if mt.vacuna == "Covid" %}
             <td>
@@ -130,8 +132,12 @@
         {% endfor %}
       </tbody>
     </table>
+    {% else %}
+    <h3>Nada por ahora...</h3>
+    {% endif %}
     <a href="/" class="btn btn-primary">Volver</a>
   </div>
+ 
 </div>
 <!-- /.container -->
 

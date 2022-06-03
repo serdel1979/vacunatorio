@@ -493,7 +493,8 @@ def turnos_hoy():
         turnos = Turno.get_by_fecha_sedes(hoy)
     else:
         turnos = Turno.get_by_fecha(hoy,sede)
-    return render_template('turnos_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"]) 
+    cantidad = len(turnos)
+    return render_template('turnos_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad) 
 
 
 @app.route('/historial_hoy')
@@ -504,7 +505,8 @@ def historial_hoy():
         turnos = Turno.historial_by_fecha(hoy)
     else:
         turnos = Turno.historial_by_fecha_sede(hoy,sede)
-    return render_template('historial_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"]) 
+    cantidad = len(turnos)
+    return render_template('historial_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"], cantidad=cantidad) 
 
 
 

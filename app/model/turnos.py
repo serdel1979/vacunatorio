@@ -25,6 +25,8 @@ class Turno(db.Model, UserMixin):
         self.fecha_turno = fecha_turno
         self.sede =sede
         self.vacuna = vacuna
+        self.laboratorio = ""
+        self.lote = ""
         self.estado = estado
         self.asistio = False
     

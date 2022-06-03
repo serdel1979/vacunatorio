@@ -100,8 +100,16 @@
           <td>{{ v.fecha_solicitud }}</td>
           <td>{{ v.fecha_turno }}</td>
           <td>{{ v.vacuna }}</td>
+          {% if v.laboratorio != '' %}
           <td>{{ v.laboratorio }}</td>
+          {% else %}
+          <td>No especificado</td>
+          {% endif %}
+          {% if v.lote != '' %}
           <td>{{ v.lote }}</td>
+          {% else %}
+          <td>No especificado</td>
+          {% endif %}
           {% if v.estado == 0 %}
           <td>PENDIENTE</td>
           {% endif %}
@@ -116,6 +124,9 @@
           {% endif %}
           {% if v.estado == 4 %}
           <td>ESPERANDO CONFIRMACION</td>
+          {% endif %}
+          {% if v.estado == 5 %}
+          <td>NO SE PRESENTÓ</td>
           {% endif %}
         </tr>
         {% endfor %}

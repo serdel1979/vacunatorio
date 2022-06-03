@@ -94,40 +94,67 @@
             {% if mt.estado == 4 %}
             <td>SIN CONFIRMAR</td>
             {% endif %}
+            {% if mt.estado == 5 %}
+            <td>AUSENTE</td>
+            {% endif %}
             {% if mt.vacuna == "Covid" %}
             <td>
               <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
-               {% if mt.laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else %}<option value="Sinopharm">Sinopharm</option> {% endif %}
-               {% if mt.laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}<option value="Sputnik">Sputnik</option> {% endif %}
-               {% if mt.laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else %}<option value="Astrazeneca">Astrazeneca</option> {% endif %}
+                {% if mt.laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else %}
+                <option value="Sinopharm">Sinopharm</option> {% endif %}
+                {% if mt.laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}<option
+                  value="Sputnik">Sputnik</option> {% endif %}
+                {% if mt.laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else %}
+                <option value="Astrazeneca">Astrazeneca</option> {% endif %}
               </select>
             </td>
             {% else %}
             <td>
               <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
-                {% if mt.laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option value="Bagó">Bagó</option> {% endif %}
-                {% if mt.laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}<option value="Richmond">Richmond</option> {% endif %}
+                {% if mt.laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
+                  value="Bagó">Bagó</option> {% endif %}
+                {% if mt.laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
+                <option value="Richmond">Richmond</option> {% endif %}
               </select>
             </td>
             {% endif %}
             <td>
+              {% if mt.lote != '' %}
               <input id="lote" name="lote" placeholder="Número de lote" value="{{mt.lote}}">
+              {% else %}
+              <input id="lote" name="lote" placeholder="Número de lote">
+              {% endif %}
             </td>
             <td>
-              <a href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}' class="btn btn-primary">Ver paciente</a>
+              <a href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}' class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-zoom-in"
+                  viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                  <path
+                    d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
+                  <path fill-rule="evenodd"
+                    d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
+                </svg>
+              </a>
               {% if mt.estado == 0 %}
-              <button type="submit">vacunar</button>            
-          
-              {% else %}
-             
-              {% endif %}
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" type="submit">vacunar</button>
+              <button type="button" class="btn btn-primary" onclick="window.location.href='/marcar_ausente/{{mt.id}}'">
                 No asistió
               </button>
+              {% else %}
+              <button class="btn btn-primary" disabled type="submit">vacunar</button>
+
+              <button class="btn btn-primary" disabled>
+                No asistió
+              </button>
+
+              {% endif %}
+
             </td>
           </form>
-          </tr>
-        
+        </tr>
+
         {% endfor %}
       </tbody>
     </table>
@@ -136,5 +163,5 @@
 </div>
 <!-- /.container -->
 
-     
+
 {% endblock %}

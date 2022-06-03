@@ -581,8 +581,10 @@ def marcar_vacunado():
         idturno = request.form['idturno']
         lab = request.form['laboratorio']
         lot = request.form['lote']
-        print(lab)
-        print(lot)
+        print(type(lot))
+        if lot == None or lot == "":
+            flash("Ingrese el número de lote","danger")
+            return redirect(url_for("turnos_hoy"))
         turno = Turno.get_by_id(idturno)
         usuario = User.get_by_id(turno.id_usuario)
         if turno.vacuna == "Covid":     #registra fecha en ultima dosis de covid en el usuario
@@ -609,6 +611,16 @@ def marcar_vacunado():
         turno.asistio = True
         turno.save()       
             
+        flash("El turno fue actualizado !!","success")
+        return redirect(url_for('turnos_hoy'))
+
+
+@app.route('/marcar_ausente/<int:id>')
+def marcar_ausente(id):
+        turno = Turno.get_by_id(id)
+        turno.estado=5
+        turno.asistio = False
+        turno.save()         
         flash("El turno fue actualizado !!","success")
         return redirect(url_for('turnos_hoy'))
 

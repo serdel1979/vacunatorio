@@ -10,7 +10,6 @@
     <button type="button" class="close" data-dismiss="alert">&times;</button>
   </div>
   {% endfor %} {% endif %} {% endwith %}
-
   <div style="margin-top: 10px">
 
     {% if session["tipo"] == 2 %}
@@ -20,6 +19,24 @@
     <h2>Turnos de hoy</h2>
     {% endif %}
   </div>
+  <form action="/buscar_paciente_turno" method="POST">
+    <div class="input-group">
+      <div class="form-outline">
+        <input type="search" id="form1" name="buscar" />
+        <button type="submit" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-zoom-in"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+            <path
+              d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
+            <path fill-rule="evenodd"
+              d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </form>
   <br />
   <br />
   <div class="table-responsive" style="margin-top: 10px">
@@ -27,9 +44,10 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
           <th>Fecha solicitud</th>
-          <th>Fecha de turno</th>
-          <th>Sede</th>
           <th>Vacuna</th>
           <th>Estado</th>
           <th>Laboratorio</th>
@@ -38,72 +56,75 @@
         </tr>
       </thead>
       <tbody>
-        {% for mt in turnos %}
+        {% for mt in usuarios %}
         <tr>
           <form action="/marcar_vacunado" method="POST">
-            <input id="idturno" name="idturno" type="hidden" value="{{ mt.id }}">
-            <td>{{ mt.fecha_solicitud }}</td>
-            <td>{{ mt.fecha_turno }}</td>
-            <td>{{ mt.sede }}</td>
-            <td>{{ mt.vacuna }}</td>
-            {% if mt.estado == 0 %}
+            <input id="idturno" name="idturno" type="hidden" value="{{ mt[1].id }}">
+            <td>{{ mt[0].dni }}</td>
+            <td>{{ mt[0].nombre }}</td>
+            <td>{{ mt[0].apellido }}</td>
+            <td>{{ mt[1].fecha_solicitud }}</td>
+            <td>{{ mt[1].vacuna }}</td>
+            {% if mt[1].estado == 0 %}
             <td>PENDIENTE</td>
             {% endif %}
-            {% if mt.estado == 1 %}
+            {% if mt[1].estado == 1 %}
             <td>
               <p style="color:#126e0f" ;>CANCELADO </p>
             </td>
             {% endif %}
-            {% if mt.estado == 2 %}
+            {% if mt[1].estado == 2 %}
             <td>
               <p style="color:#1ca517" ;>ATENDIDO </p>
             </td>
             {% endif %}
-            {% if mt.estado == 3 %}
+            {% if mt[1].estado == 3 %}
             <td>
               <p style="color:#FF0000" ;><U>RECHAZADO</U> </p>
             </td>
             {% endif %}
-            {% if mt.estado == 4 %}
+            {% if mt[1].estado == 4 %}
             <td>
               <p style="color:#9e7b06" ;>NO CONFIRMADO</p>
             </td>
             {% endif %}
-            {% if mt.estado == 5 %}
+            {% if mt[1].estado == 5 %}
             <td>
               <p style="color:#FF0000" ;>AUSENTE </p>
             </td>
             {% endif %}
-            {% if mt.vacuna == "Covid" %}
+            {% if mt[1].vacuna == "Covid" %}
             <td>
               <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
-                {% if mt.laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else %}
+                {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
+                %}
                 <option value="Sinopharm">Sinopharm</option> {% endif %}
-                {% if mt.laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}<option
-                  value="Sputnik">Sputnik</option> {% endif %}
-                {% if mt.laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else %}
+                {% if mt[1].laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}
+                <option value="Sputnik">Sputnik</option> {% endif %}
+                {% if mt[1].laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else
+                %}
                 <option value="Astrazeneca">Astrazeneca</option> {% endif %}
               </select>
             </td>
             {% else %}
             <td>
               <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
-                {% if mt.laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
+                {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
                   value="Bagó">Bagó</option> {% endif %}
-                {% if mt.laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
+                {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
                 <option value="Richmond">Richmond</option> {% endif %}
               </select>
             </td>
             {% endif %}
             <td>
-              {% if mt.lote != '' %}
-              <input id="lote" name="lote" placeholder="Número de lote" value="{{mt.lote}}">
+              {% if mt[1].lote != "" %}
+              <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}">
               {% else %}
               <input id="lote" name="lote" placeholder="Número de lote">
               {% endif %}
             </td>
             <td>
-              <a href='/ver_paciente/?idusr={{mt.id_usuario}}&idt={{mt.id}}' class="btn btn-primary">
+              <a href='/ver_paciente/?idusr={{mt[1].id_usuario}}&idt={{mt[1].id}}' class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-zoom-in"
                   viewBox="0 0 16 16">
                   <path fill-rule="evenodd"
@@ -114,9 +135,10 @@
                     d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
                 </svg>
               </a>
-              {% if mt.estado == 0 %}
-              <button class="btn btn-primary" type="submit">vacunar</button>
-              <button type="button" class="btn btn-primary" onclick="window.location.href='/marcar_ausente/{{mt.id}}'">
+              {% if mt[1].estado == 0 %}
+              <button class="btn btn-primary" type="submit">Vacunar</button>
+              <button type="button" class="btn btn-primary"
+                onclick="window.location.href='/marcar_ausente/{{mt[1].id}}'">
                 No asistió
               </button>
               {% else %}
@@ -126,20 +148,20 @@
                 No asistió
               </button>
               {% endif %}
-            
-            </div>
-            </td>
-          </form>
-        </tr>
 
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-    <h3>Nada por ahora...</h3>
-    {% endif %}
-    <a href="/" class="btn btn-primary">Volver</a>
   </div>
+  </td>
+  </form>
+  </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+  {% else %}
+  <h3>Nada por ahora...</h3>
+  {% endif %}
+  <a href="/" class="btn btn-primary">Volver</a>
+</div>
 </div>
 <!-- /.container -->
 

@@ -3,6 +3,8 @@ from app import db
 from flask_login import UserMixin, login_manager
 from datetime import date, datetime, timedelta
 
+from app.model.user import User
+
 
 
 
@@ -107,6 +109,24 @@ class Turno(db.Model, UserMixin):
         usr = cls.query.get(id)
         db.session.delete(usr)
         db.session.commit()
+    
+    @classmethod
+    def usuario_hoy(cls,fecha_turno,sede):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.estado==0).filter(Turno.fecha_turno==fecha_turno).filter(Turno.sede == sede).all()
+    
+    @classmethod
+    def usuario_hoy_historial(cls,hoy,sede):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).all()
+
+    @classmethod
+    def historial_usuario_hoy(cls,hoy,usuario,sede):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.estado==0).filter(Turno.fecha_turno==hoy).filter(usuario.id == User.id).filter(Turno.sede == sede).all()
 
     def save(self):
         db.session.add(self)

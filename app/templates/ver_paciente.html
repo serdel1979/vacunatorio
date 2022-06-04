@@ -15,9 +15,7 @@
       <h3>Datos del paciente</h3>
     </div>
 
-    {% if dos_dosis == True %}
-    <h3>Paciente con dos dósis de Covid</h3>
-    {% endif %}
+    
     {% if cantidad_vacunas == 0 and fiebre_amarilla == True %}
     <h3>El paciente fue vacunado por Fiebre amarilla</h3>
     {% endif %}
@@ -27,11 +25,6 @@
       {% endif %}
       {% if ultima_gripe != None %}
         <h3>El paciente se registró con una dósis de gripe aplicada el {{ ultima_gripe }}</h3>
-      {% endif %}
-    {% endif %}
-    {% if cantidad != 0 %}
-      {% if fecha_primera_dosis != None %}
-      <h4>La primera dósis de covid fue aplicada el {{ fecha_primera_dosis }}</h4>
       {% endif %}
     {% endif %}
     <div style="margin-top: 20px" class="form-signin">
@@ -97,36 +90,38 @@
       <tbody>
         {% for v in vacunas %}
         <tr>
-          <td>{{ v.fecha_solicitud }}</td>
-          <td>{{ v.fecha_turno }}</td>
-          <td>{{ v.vacuna }}</td>
-          {% if v.laboratorio != '' %}
-          <td>{{ v.laboratorio }}</td>
-          {% else %}
-          <td>No especificado</td>
-          {% endif %}
-          {% if v.lote != '' %}
-          <td>{{ v.lote }}</td>
-          {% else %}
-          <td>No especificado</td>
-          {% endif %}
-          {% if v.estado == 0 %}
-          <td><p style="color:#0d4d0b";>PENDIENTE </p></td>
-          {% endif %}
-          {% if v.estado == 1 %}
-          <td> <p style="color:#126e0f";>CANCELADO </p></td>
-          {% endif %}
           {% if v.estado == 2 %}
-          <td> <p style="color:#1ca517";>ATENDIDO </p></td>
-          {% endif %}
-          {% if v.estado == 3 %}
-          <td><p style="color:#FF0000";><U>RECHAZADO</U> </p></td>
-          {% endif %}
-          {% if v.estado == 4 %}
-          <td><p style="color:#9e7b06";>NO CONFIRMADO</p></td>
-          {% endif %}
-          {% if v.estado == 5 %}
-          <td><p style="color:#FF0000";>AUSENTE </p> </td>
+            <td>{{ v.fecha_solicitud }}</td>
+            <td>{{ v.fecha_turno }}</td>
+            <td>{{ v.vacuna }}</td>
+            {% if v.laboratorio != None %}
+            <td>{{ v.laboratorio }}</td>
+            {% else %}
+            <td>No especificado</td>
+            {% endif %}
+            {% if v.lote != None %}
+            <td>{{ v.lote }}</td>
+            {% else %}
+            <td>No especificado</td>
+            {% endif %}
+            {% if v.estado == 0 %}
+            <td><p style="color:#0d4d0b";>PENDIENTE </p></td>
+            {% endif %}
+            {% if v.estado == 1 %}
+            <td> <p style="color:#126e0f";>CANCELADO </p></td>
+            {% endif %}
+            {% if v.estado == 2 %}
+            <td> <p style="color:#1ca517";>ATENDIDO </p></td>
+            {% endif %}
+            {% if v.estado == 3 %}
+            <td><p style="color:#FF0000";><U>RECHAZADO</U> </p></td>
+            {% endif %}
+            {% if v.estado == 4 %}
+            <td><p style="color:#9e7b06";>NO CONFIRMADO</p></td>
+            {% endif %}
+            {% if v.estado == 5 %}
+            <td><p style="color:#FF0000";>AUSENTE </p> </td>
+            {% endif %}
           {% endif %}
         </tr>
         {% endfor %}

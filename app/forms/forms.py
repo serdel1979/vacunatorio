@@ -72,8 +72,8 @@ class RegistroForm(FlaskForm):
 class EnfermeroForm(FlaskForm):
     nombre = StringField('Nombre',validators=[InputRequired(),Length(min=4,max=100)])
     apellido = StringField('Apellido',validators=[InputRequired(),Length(min=4,max=100)])
-    telefono = StringField('Teléfono',validators=[InputRequired(),Length(min=4,max=100)])
-    email = StringField('Email', validators=[InputRequired(), Email(message='Email inválido'), Length(max=100)])
+    telefono = IntegerField('Teléfono',validators=[InputRequired()])
+    email = StringField('Email *', validators=[InputRequired(), Email(message='Email inválido'), Length(min=4,max=100)])
     password = PasswordField('Escriba una contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     password2 = PasswordField('Repita la contraseña',validators=[InputRequired(),Length(min=4,max=100)])
     dni = IntegerField('Dni',validators=[InputRequired()])

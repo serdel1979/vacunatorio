@@ -75,12 +75,20 @@ def login():
         else:
             user = User.get_by_dni(username)
             if user: 
+                if verifica_pass(form.password.data, user.password) and user.tipo == 2:
+                    session["tipo"]= user.tipo
+                    session["id_user"] = user.id
+                    session["sede"] = user.sede
+                    session["dni"] = user.dni
+                    return redirect(url_for('turnos_hoy'))
+
                 if verifica_pass(form.password.data, user.password):
                     session["tipo"]= user.tipo
                     session["id_user"] = user.id
                     session["sede"] = user.sede
                     session["dni"] = user.dni
                     return redirect(url_for('home'))
+                
             else:
                 user = User.get_by_email(username)
                 if user: 
@@ -490,23 +498,24 @@ def turnos_hoy():
     hoy = date.today()
     sede = session["sede"]
     if session["tipo"] == 1:
-        turnos = Turno.get_by_fecha_sedes(hoy)
+        usuarios = Turno.get_by_fecha_sedes(hoy)
     else:
-        turnos = Turno.get_by_fecha(hoy,sede)
-    cantidad = len(turnos)
-    return render_template('turnos_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad) 
+        usuarios = Turno.usuario_hoy(hoy,sede)
+    cantidad = len(usuarios)
+    return render_template('turnos_hoy.html',sede=sede,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad, usuarios=usuarios) 
 
 
 @app.route('/historial_hoy')
 def historial_hoy():
     hoy = date.today()
     sede = session["sede"]
+    print("ESTOY EN HISTORIAL DEL DIA")
     if session["tipo"] == 1:
-        turnos = Turno.historial_by_fecha(hoy)
+        usuarios = Turno.historial_by_fecha(hoy)
     else:
-        turnos = Turno.historial_by_fecha_sede(hoy,sede)
-    cantidad = len(turnos)
-    return render_template('historial_hoy.html',sede=sede,turnos=turnos,tipo = session["tipo"], id=session["id_user"], cantidad=cantidad) 
+        usuarios = Turno.usuario_hoy_historial(hoy,sede)
+    cantidad = len(usuarios)
+    return render_template('historial_hoy.html',sede=sede,tipo = session["tipo"], id=session["id_user"], cantidad=cantidad, usuarios=usuarios) 
 
 
 
@@ -607,7 +616,7 @@ def marcar_vacunado():
                 nuevafecha=datetime.today()+td
                 turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
                 turnoproximo.save()
-                flash("Se asignó un nuevo turno en 21 dás","success")
+                flash("Se le asignó un turno para el dia: " + turnoproximo.fecha_turno.strftime('%d/%m/%Y'),"success")
             else: 
                 if usuario.fecha_ultima_covid  == None and usuario.fecha_primera_dosis != None:
                     usuario.fecha_ultima_covid = datetime.today()
@@ -777,7 +786,19 @@ def ver_historial(id):
     cantidad = len(vacunas)
     return render_template('historial_paciente.html', tipo=session["tipo"], id=session["id_user"], vacunas = vacunas, cantidad= cantidad)
 
-
+@app.route('/buscar_paciente_turno', methods=['POST'])
+def buscar_paciente():
+    sede = session["sede"]
+    hoy = date.today()
+    dni = request.form['buscar']
+    usr = User.get_by_dni(dni)
+    if request.method=='POST':
+        if usr != None:
+            usuarios = Turno.historial_usuario_hoy(hoy,usr,sede)
+        else:
+            usuarios = Turno.usuario_hoy(hoy,sede)
+    cantidad = len(usuarios)
+    return render_template('turnos_hoy.html', sede=sede,tipo=session["tipo"], id=session["id_user"], usuarios = usuarios, cantidad=cantidad)
 
 
 #def job():

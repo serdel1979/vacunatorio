@@ -18,25 +18,109 @@
     <div style="margin-top: 10px;">
         <h2>Estadisticas</h2>
     </div>
-    <button style="position: relative;" type="button" class="btn btn-primary"
-        onclick="window.location.href='vacunas_por_sede'">Ver vacunas por sede</button>
-    <div class="table-responsive" style="margin-top: 10px;">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Sede</th>
 
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td> </td>
 
-                    <td>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+    <!-- Tab links -->
+    <div class="tab"  style="margin-top: 30px;">
+        <button class="tablinks" onclick="openCity(event, 'Sedes')" id="defaultOpen">Cantidad por sede</button>
+        <button class="tablinks" onclick="openCity(event, 'Enfermedades')">Cantidad por enfermedad</button>
+        <button class="tablinks" onclick="openCity(event, 'Edad')">Cantidad por rango de edad</button>
     </div>
-{% endblock %}
+
+    <!-- Tab content -->
+    <div id="Sedes" class="tabcontent">
+        <div class="table-responsive" style="margin-top: 10px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Sede</th>
+
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> </td>
+
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="Enfermedades" class="tabcontent">
+        <div class="table-responsive" style="margin-top: 10px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Enfermedad</th>
+
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> </td>
+
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="Edad" class="tabcontent">
+        <div class="table-responsive" style="margin-top: 10px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Rango de edad</th>
+
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> </td>
+
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    {% block javascripts %}
+    <script>
+        document.getElementById("defaultOpen").click();
+        function openCity(evt,cityName) {
+            // Declare all variables
+            var i,tabcontent,tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for(i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for(i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active","");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+    {% endblock javascripts %}
+    {% endblock %}

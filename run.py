@@ -159,6 +159,7 @@ def registro():
             if date.today() < form.nacimiento.data:
                 flash("Las fecha de nacimiento es incorrecta!!!","danger")
                 return render_template('registro.html',form=form)
+
         if form.fecha_primera_dosis.data != None: 
             if date.today() < form.fecha_primera_dosis.data:
                 flash("La fecha en la primera dósis de covid es incorrecta!!!","danger")
@@ -211,14 +212,16 @@ def registro():
         #aca si es mayor de 60 se registra un turno para covid
         if (edad.years > 60 or usuario.paciente_riesgo == 1) and usuario.primera_dosis == 0: #y si no tiene las dos dósis(primera dosis es segunda jaj)
             usrturno = User.get_by_dni(usuario.dni)
-            fecha_seg_covid = usrturno.fecha_primera_dosis+timedelta(90)
+            fecha_seg_covid = usrturno.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
             hoy = datetime.now().date()
             if hoy > fecha_seg_covid:
-                fecha_turno = hoy + timedelta(days=7)
+                fecha_turno = hoy + timedelta(days=7) #si se pasaron de los 21 días le da el turno para la próxima semana
                 turno = Turno(usrturno.id,fecha_turno,usrturno.sede_preferida,"Covid",False)
+                print("hoy es mayor a fecha segunda covid ->",fecha_turno)
                 turno.save() 
                 flash("Se le asignó un turno para Covid!!!","success")
             else:
+                print("hoy NO es mayor a fecha segunda covid ->",fecha_seg_covid)
                 turno = Turno(usrturno.id,fecha_seg_covid,usrturno.sede_preferida,"Covid",False)
                 turno.save() 
                 flash("Se le asignó un turno para Covid!!!","success")

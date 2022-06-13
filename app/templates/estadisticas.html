@@ -40,12 +40,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for cant in cant_por_sedes %}
                     <tr>
-                        <td> </td>
-
-                        <td>
-                        </td>
+                        <td> {{ cant[0] }} </td>
+                        <td> {{ cant[1] }} </td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -62,12 +62,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for enf in cant_por_enfermedad %}
                     <tr>
-                        <td> </td>
+                        <td>{{ enf[0] }}</td>
 
-                        <td>
-                        </td>
+                        <td>{{ enf[1] }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

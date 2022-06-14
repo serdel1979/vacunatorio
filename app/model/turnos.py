@@ -92,7 +92,11 @@ class Turno(db.Model, UserMixin):
 
     @classmethod
     def cant_by_sede(cls, sede):
-        return cls.query.filter_by(sede=sede).all()
+        return cls.query.filter_by(sede=sede).filter_by(estado=2).all()
+
+    @classmethod
+    def cant_by_enfermedad(cls, enfermedad):
+        return cls.query.filter_by(vacuna=enfermedad).filter_by(estado=2).all()
 
 
     @classmethod

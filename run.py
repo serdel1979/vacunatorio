@@ -698,7 +698,23 @@ def agrega_enfermero():
 
 @app.route('/estadisticas', methods=['GET'])
 def estadisticas():
-    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"])
+    cantidad_por_sede = []
+    for sede in sedes:
+        cantidad_por_sede.append([sede,len(Turno.cant_by_sede(sede))])
+    
+    vacunas = Vacuna.get_all()
+    enfermedades = []
+    for enfermedad in vacunas:
+        enfermedades.append(enfermedad.nombre)
+    cantidad_por_enfermedad = []
+
+    for enf in enfermedades:
+        cantidad_por_enfermedad.append([enf,len(Turno.cant_by_enfermedad(enf))])
+
+  
+    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad)
+
+
 
 @app.route('/ver_perfil', methods=['GET'])
 def ver_perfil():
@@ -708,6 +724,8 @@ def ver_perfil():
     else:
         riesgo = False
     return render_template('perfil.html', tipo=session["tipo"], id=session["id_user"], user=user, riesgo = riesgo)
+
+
 
 @app.route('/mis_vacunas' , methods=['GET'])
 def mis_vacunas():

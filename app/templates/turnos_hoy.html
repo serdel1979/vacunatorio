@@ -24,15 +24,7 @@
       <div class="form-outline">
         <input type="search" id="form1" name="buscar" />
         <button type="submit" class="btn btn-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-zoom-in"
-            viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-            <path
-              d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
-            <path fill-rule="evenodd"
-              d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
-          </svg>
+          Buscar
         </button>
       </div>
     </div>
@@ -95,7 +87,8 @@
             {% endif %}
             {% if mt[1].vacuna == "Covid" %}
             <td>
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
+              {% if mt[1].estado == 2 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
                 {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
                 %}
                 <option value="Sinopharm">Sinopharm</option> {% endif %}
@@ -105,22 +98,98 @@
                 %}
                 <option value="Astrazeneca">Astrazeneca</option> {% endif %}
               </select>
+              {% endif %}
+              
+              {% if mt[1].estado == 5 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+                {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
+                %}
+                <option value="Sinopharm">Sinopharm</option> {% endif %}
+                {% if mt[1].laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}
+                <option value="Sputnik">Sputnik</option> {% endif %}
+                {% if mt[1].laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else
+                %}
+                <option value="Astrazeneca">Astrazeneca</option> {% endif %}
+              </select>
+              {% endif %}
+              {% if mt[1].estado == 0 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" >
+                {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
+                %}
+                <option value="Sinopharm">Sinopharm</option> {% endif %}
+                {% if mt[1].laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}
+                <option value="Sputnik">Sputnik</option> {% endif %}
+                {% if mt[1].laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else
+                %}
+                <option value="Astrazeneca">Astrazeneca</option> {% endif %}
+              </select>
+              {% endif %}
+              {% if mt[1].estado == 1 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+                {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
+                %}
+                <option value="Sinopharm">Sinopharm</option> {% endif %}
+                {% if mt[1].laboratorio == 'Sputnik' %} <option selected value="Sputnik">Sputnik</option>{% else %}
+                <option value="Sputnik">Sputnik</option> {% endif %}
+                {% if mt[1].laboratorio == 'Astrazeneca' %} <option selected value="Astrazeneca">Sputnik</option>{% else
+                %}
+                <option value="Astrazeneca">Astrazeneca</option> {% endif %}
+              </select>
+              {% endif %}
             </td>
             {% else %}
             <td>
+              {% if mt[1].estado == 2 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+                {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
+                  value="Bagó">Bagó</option> {% endif %}
+                {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
+                <option value="Richmond">Richmond</option> {% endif %}
+              </select>
+              {% endif %}
+              {% if mt[1].estado == 1 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+                {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
+                  value="Bagó">Bagó</option> {% endif %}
+                {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
+                <option value="Richmond">Richmond</option> {% endif %}
+              </select>
+              {% endif %}
+              {% if mt[1].estado == 5 %}
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+                {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
+                  value="Bagó">Bagó</option> {% endif %}
+                {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
+                <option value="Richmond">Richmond</option> {% endif %}
+              </select>
+              {% endif %}
+              {% if mt[1].estado == 0 %}
               <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
                 {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
                   value="Bagó">Bagó</option> {% endif %}
                 {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
                 <option value="Richmond">Richmond</option> {% endif %}
               </select>
+              {% endif %}
             </td>
             {% endif %}
             <td>
               {% if mt[1].lote != "" %}
-              <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}">
+                {% if mt[1].estado == 2 %}
+                <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}" disabled>
+                {% else %}
+                <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}">
+                {% endif %}
               {% else %}
-              <input id="lote" name="lote" placeholder="Número de lote">
+                {% if mt[1].estado == 5 %}
+                  <input id="lote" name="lote" placeholder="Número de lote" disabled>
+                {% endif %}
+                {% if mt[1].estado == 0 %}
+                  <input id="lote" name="lote" placeholder="Número de lote">
+                {% endif %}
+                {% if mt[1].estado == 1 %}
+                  <input id="lote" name="lote" placeholder="Número de lote" disabled>
+                {% endif %}
               {% endif %}
             </td>
             <td>
@@ -160,7 +229,6 @@
   {% else %}
   <h3>Nada por ahora...</h3>
   {% endif %}
-  <a href="/" class="btn btn-primary">Volver</a>
 </div>
 </div>
 <!-- /.container -->

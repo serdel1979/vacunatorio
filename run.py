@@ -791,7 +791,13 @@ def buscar_paciente():
     sede = session["sede"]
     hoy = date.today()
     dni = request.form['buscar']
+    if(dni == ""):
+        flash("No se ingresó ningun DNI", "warning")
+        return redirect(url_for('turnos_hoy'))
     usr = User.get_by_dni(dni)
+    if(usr == None):
+        flash("El DNI ingresado no existe", "warning")
+        return redirect(url_for('turnos_hoy'))
     if request.method=='POST':
         if usr != None:
             usuarios = Turno.historial_usuario_hoy(hoy,usr,sede)

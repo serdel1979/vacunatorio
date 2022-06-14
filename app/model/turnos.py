@@ -112,21 +112,25 @@ class Turno(db.Model, UserMixin):
     
     @classmethod
     def usuario_hoy(cls,fecha_turno,sede):
-        return db.session.query(
-         User, Turno).filter(
-         User.id == Turno.id_usuario).filter(Turno.estado==0).filter(Turno.fecha_turno==fecha_turno).filter(Turno.sede == sede).all()
+        ret = db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(Turno.fecha_turno==fecha_turno).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
+        return ret
+
     
     @classmethod
     def usuario_hoy_historial(cls,hoy,sede):
         return db.session.query(
          User, Turno).filter(
-         User.id == Turno.id_usuario).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).all()
+         User.id == Turno.id_usuario).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
 
     @classmethod
     def historial_usuario_hoy(cls,hoy,usuario,sede):
-        return db.session.query(
-         User, Turno).filter(
-         User.id == Turno.id_usuario).filter(Turno.estado==0).filter(Turno.fecha_turno==hoy).filter(usuario.id == User.id).filter(Turno.sede == sede).all()
+        ret= db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(usuario.id == User.id).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
+        print(ret)
+        return ret
 
     def save(self):
         db.session.add(self)

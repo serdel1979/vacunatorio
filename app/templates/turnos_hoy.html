@@ -56,7 +56,24 @@
             <td>{{ mt[0].nombre }}</td>
             <td>{{ mt[0].apellido }}</td>
             <td>{{ mt[1].fecha_solicitud }}</td>
+
+            {% if mt[1].vacuna == 'Covid' %}
+
+                  {% if mt[0].fecha_primera_dosis == None and mt[1].estado == 0 %}
+                  <td>Primera dósis  {{ mt[1].vacuna }}</td>
+                  {% elif mt[0].fecha_primera_dosis != None and mt[0].fecha_ultima_covid == None and mt[1].estado == 0 %}
+                  <td>Segunda dósis  {{ mt[1].vacuna }}</td>
+                  {% elif mt[0].fecha_primera_dosis != None and mt[0].fecha_ultima_covid == None and mt[1].estado == 0 %}
+                  <td>Segunda dósis  {{ mt[1].vacuna }}</td>
+                  {% else %}
+                  <td>Segunda dósis  {{ mt[1].vacuna }}</td>
+                  {% endif %}
+
+            {% else %}
             <td>{{ mt[1].vacuna }}</td>
+            {% endif %}
+
+
             {% if mt[1].estado == 0 %}
             <td>PENDIENTE</td>
             {% endif %}
@@ -88,7 +105,8 @@
             {% if mt[1].vacuna == "Covid" %}
             <td>
               {% if mt[1].estado == 2 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control"
+                disabled>
                 {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
                 %}
                 <option value="Sinopharm">Sinopharm</option> {% endif %}
@@ -99,9 +117,10 @@
                 <option value="Astrazeneca">Astrazeneca</option> {% endif %}
               </select>
               {% endif %}
-              
+
               {% if mt[1].estado == 5 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control"
+                disabled>
                 {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
                 %}
                 <option value="Sinopharm">Sinopharm</option> {% endif %}
@@ -113,7 +132,7 @@
               </select>
               {% endif %}
               {% if mt[1].estado == 0 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" >
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control">
                 {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
                 %}
                 <option value="Sinopharm">Sinopharm</option> {% endif %}
@@ -125,7 +144,8 @@
               </select>
               {% endif %}
               {% if mt[1].estado == 1 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control"
+                disabled>
                 {% if mt[1].laboratorio == 'Sinopharm' %} <option selected value="Sinopharm">Sinopharm</option>{% else
                 %}
                 <option value="Sinopharm">Sinopharm</option> {% endif %}
@@ -140,7 +160,8 @@
             {% else %}
             <td>
               {% if mt[1].estado == 2 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control"
+                disabled>
                 {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
                   value="Bagó">Bagó</option> {% endif %}
                 {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
@@ -148,7 +169,8 @@
               </select>
               {% endif %}
               {% if mt[1].estado == 1 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control"
+                disabled>
                 {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
                   value="Bagó">Bagó</option> {% endif %}
                 {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
@@ -156,7 +178,8 @@
               </select>
               {% endif %}
               {% if mt[1].estado == 5 %}
-              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control" disabled>
+              <select id="laboratorio" name="laboratorio" type="text" placeholder="Laboratorio" class="form-control"
+                disabled>
                 {% if mt[1].laboratorio == 'Bagó' %} <option selected value="Bagó">Bagó</option>{% else %}<option
                   value="Bagó">Bagó</option> {% endif %}
                 {% if mt[1].laboratorio == 'Richmond' %} <option selected value="Richmond">Richmond</option>{% else %}
@@ -175,21 +198,21 @@
             {% endif %}
             <td>
               {% if mt[1].lote != "" %}
-                {% if mt[1].estado == 2 %}
-                <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}" disabled>
-                {% else %}
-                <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}">
-                {% endif %}
+              {% if mt[1].estado == 2 %}
+              <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}" disabled>
               {% else %}
-                {% if mt[1].estado == 5 %}
-                  <input id="lote" name="lote" placeholder="Número de lote" disabled>
-                {% endif %}
-                {% if mt[1].estado == 0 %}
-                  <input id="lote" name="lote" placeholder="Número de lote">
-                {% endif %}
-                {% if mt[1].estado == 1 %}
-                  <input id="lote" name="lote" placeholder="Número de lote" disabled>
-                {% endif %}
+              <input id="lote" name="lote" placeholder="Número de lote" value="{{mt[1].lote}}">
+              {% endif %}
+              {% else %}
+              {% if mt[1].estado == 5 %}
+              <input id="lote" name="lote" placeholder="Número de lote" disabled>
+              {% endif %}
+              {% if mt[1].estado == 0 %}
+              <input id="lote" name="lote" placeholder="Número de lote">
+              {% endif %}
+              {% if mt[1].estado == 1 %}
+              <input id="lote" name="lote" placeholder="Número de lote" disabled>
+              {% endif %}
               {% endif %}
             </td>
             <td>

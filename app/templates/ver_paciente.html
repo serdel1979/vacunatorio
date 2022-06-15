@@ -75,7 +75,6 @@
 
     {% if cantidad != 0 %}
     <h3>Historial del paciente</h3>
-
     <table class="table">
       <thead>
         <tr>
@@ -90,7 +89,7 @@
       <tbody>
         {% for v in vacunas %}
         <tr>
-          {% if v.estado == 2 %}
+         
             <td>{{ v.fecha_solicitud }}</td>
             <td>{{ v.fecha_turno }}</td>
 
@@ -129,9 +128,9 @@
             <td><p style="color:#9e7b06";>NO CONFIRMADO</p></td>
             {% endif %}
             {% if v.estado == 5 %}
-            <td><p style="color:#FF0000";>AUSENTE </p> </td>
+            <td><p style="color:#FF0000";>AUSENTE</p></td>
             {% endif %}
-          {% endif %}
+         
         </tr>
         {% endfor %}
       </tbody>
@@ -140,7 +139,7 @@
 
     <h3>El paciente no cuenta con vacunas en el vacunatorio </h3>
     {% endif %}
-    <a href="/turnos_hoy" class="btn btn-primary">Volver</a>
+    <a href="/pacientes" class="btn btn-primary">Volver</a>
 
 
   </div>

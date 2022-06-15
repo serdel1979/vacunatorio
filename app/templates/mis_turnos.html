@@ -68,7 +68,15 @@
           <td>{{ mt.fecha_solicitud }}</td>
           <td>{{ mt.fecha_turno }}</td>
           <td>{{ mt.sede }}</td>
+          {% if mt.vacuna == 'Covid' %}
+              {% if mt.numero_dosis == 1 %}
+                <td>Primera dósis {{ mt.vacuna }}</td>
+              {% else %}
+                <td>Segunda dósis {{ mt.vacuna }}</td>
+              {% endif %}
+          {% else %}
           <td>{{ mt.vacuna }}</td>
+          {% endif %}
           {% if mt.estado == 0 %}
           <td> <p style="color:#0d4d0b";>PENDIENTE </p></td>
           <td>

@@ -93,7 +93,16 @@
           {% if v.estado == 2 %}
             <td>{{ v.fecha_solicitud }}</td>
             <td>{{ v.fecha_turno }}</td>
-            <td>{{ v.vacuna }}</td>
+
+            {% if v.vacuna == 'Covid' %}
+                    {% if v.numero_dosis == 1 %}
+                    <td>Primera dósis {{ v.vacuna }}</td>
+                    {% else %}
+                    <td>Segunda dósis {{ v.vacuna }}</td>
+                    {% endif %}
+            {% else %}
+                  <td>{{ v.vacuna }}</td>
+            {% endif %}
             {% if v.laboratorio != None %}
             <td>{{ v.laboratorio }}</td>
             {% else %}

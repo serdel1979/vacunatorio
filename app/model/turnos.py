@@ -130,6 +130,15 @@ class Turno(db.Model, UserMixin):
          User, Turno).filter(
          User.id == Turno.id_usuario).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
 
+
+    @classmethod
+    def usuario_historial_general(cls,id_usr):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.id_usuario == id_usr).all()
+
+
+
     @classmethod
     def historial_usuario_hoy(cls,hoy,usuario,sede):
         ret= db.session.query(

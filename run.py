@@ -521,6 +521,28 @@ def turnos_fiebre_amarilla():
     return render_template('turnos_fiebre_amarilla.html',turnos=turnos,tipo = session["tipo"], id=session["id_user"]) 
 
 
+@app.route('/ver_historial_paciente/<int:id>', methods=['GET','POST'])
+def ver_historial_paciente(id):
+    paciente = User.get_by_id(id)
+    historial = Turno.usuario_historial_general(id)
+    cantidad = len(historial)
+    dos_dosis = False
+    fiebre_amarilla = False
+    fecha_primera_dosis = None
+    ultima_gripe = None
+    if paciente.primera_dosis: #el campo primera dosis indica si tiene dos dosis de covid
+            dos_dosis = True
+    if paciente.fiebre_amarilla:
+            fiebre_amarilla = True
+    if paciente.fecha_primera_dosis:
+            fecha_primera_dosis = paciente.fecha_primera_dosis
+    if paciente.fecha_ultima_gripe:
+            ultima_gripe = paciente.fecha_ultima_gripe
+    edad = relativedelta(datetime.now(), paciente.nacimiento)
+    return render_template('ver_historial_paciente.html',cantidad=cantidad, data = historial, paciente=paciente,  edad=edad.years, tipo = session["tipo"], id=session["id_user"],dos_dosis=dos_dosis, fiebre_amarilla=fiebre_amarilla,fecha_primera_dosis=fecha_primera_dosis,ultima_gripe=ultima_gripe) 
+
+
+
 
 @app.route('/ver_paciente/', methods=['GET'])
 def ver_paciente():

@@ -59,13 +59,10 @@
 
             {% if mt[1].vacuna == 'Covid' %}
 
-                  {% if mt[0].fecha_primera_dosis == None and mt[1].estado == 0 %}
+                  {% if mt[1].numero_dosis == 1  %}
                   <td>Primera dósis  {{ mt[1].vacuna }}</td>
-                  {% elif mt[0].fecha_primera_dosis != None and mt[0].fecha_ultima_covid == None and mt[1].estado == 0 %}
-                  <td>Segunda dósis  {{ mt[1].vacuna }}</td>
-                  {% elif mt[0].fecha_primera_dosis != None and mt[0].fecha_ultima_covid == None and mt[1].estado == 0 %}
-                  <td>Segunda dósis  {{ mt[1].vacuna }}</td>
-                  {% else %}
+                  {% endif %}
+                  {% if mt[1].numero_dosis == 2  %}
                   <td>Segunda dósis  {{ mt[1].vacuna }}</td>
                   {% endif %}
 

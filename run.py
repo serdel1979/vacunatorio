@@ -217,20 +217,8 @@ def registro():
         usuario.save()
         
         usuario = User.get_by_dni(form.dni.data)
-        
-        print(usuario.fecha_primera_dosis)
-        print(usuario.primera_dosis)
-        print(usuario.fecha_ultima_gripe)
-        #print(usuario.id)
-        if usuario.primera_dosis:
-            print("Se registró con 2 dósis de covid")
-        if usuario.fecha_primera_dosis:
-            print("Primera dósis de covid ",usuario.fecha_primera_dosis)
-        if usuario.fecha_ultima_gripe:
-            print("Ultima de gripe ",usuario.fecha_ultima_gripe)
-        if usuario.fiebre_amarilla:
-            print("Se registró con dosis de fiebre amarilla ")
-
+        numero_dosis = 1
+    
         #calcula edad de la persona que se registra
         fecha_nacimiento = form.nacimiento.data
         edad = relativedelta(datetime.now(), fecha_nacimiento)
@@ -241,16 +229,20 @@ def registro():
             
             if usuario.fecha_primera_dosis != None:
                 fecha_seg_covid = usuario.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
+                numero_dosis = 2
             else:
+                numero_dosis = 2
                 fecha_seg_covid = hoy + timedelta(days=7)
             
             if hoy > fecha_seg_covid:
                 fecha_turno = hoy + timedelta(days=7) #si se pasaron de los 21 días le da el turno para la próxima semana
                 turno = Turno(usuario.id,fecha_turno,usuario.sede_preferida,"Covid",False)
+                turno.numero_dosis=numero_dosis
                 turno.save() 
                 flash("Se le asignó un turno para Covid!!!","success")
             else:
                 turno = Turno(usuario.id,fecha_seg_covid,usuario.sede_preferida,"Covid",False)
+                turno.numero_dosis=numero_dosis
                 turno.save() 
                 flash("Se le asignó un turno para Covid!!!","success")
 
@@ -331,7 +323,8 @@ def registra_turno():
         usuario = User.get_by_id(id_usuario)
         fecha_de_turno = datetime.strptime(fecha_turno,'%Y-%m-%d').date() #fecha del turno
         vigentes = Turno.get_by_id_usuario_vigente(vacuna,id_usuario)
-   
+
+        numero_dosis = 1
         if len(vigentes) > 0 and vacuna != "Fiebre amarilla":
             flash("Tiene turno vigente para la vacuna seleccionada","danger")
             return redirect(url_for('sacar_turno'))
@@ -378,12 +371,13 @@ def registra_turno():
             fecha_ultima_covid = usuario.fecha_ultima_covid
             if fecha_ultima_covid != None:
                 fecha_ult_covi = fecha_de_turno-timedelta(21) 
+                numero_dosis = 2
                 if fecha_ult_covi < fecha_ultima_covid:
                     flash("La fecha del turno debe superar 21 días de la última vacuna de Covid","danger")
                     return redirect(url_for('sacar_turno'))
 
 
-             #asigna un turno para la proxima dosis en 90 dias
+            #asigna un turno para la proxima dosis en 90 dias
 
 
         #estado 0 = pendiente de vacunarse
@@ -394,6 +388,7 @@ def registra_turno():
         #estado 5 = ausente
 
         turno = Turno(id_usuario,fecha_turno,sede,vacuna,estado)
+        turno.numero_dosis = numero_dosis
         turno.save()
     if estado != 4:
         flash("Su turno fue registrado","success")
@@ -615,6 +610,7 @@ def marcar_vacunado():
                 td = timedelta(21)      #asigna un turno para la proxima dosis en 21 dias
                 nuevafecha=datetime.today()+td
                 turnoproximo = Turno(turno.id_usuario,nuevafecha,turno.sede,turno.vacuna,0)
+                turnoproximo.numero_dosis = 2
                 turnoproximo.save()
                 flash("Se le asignó un turno para el dia: " + turnoproximo.fecha_turno.strftime('%d/%m/%Y'),"success")
             else: 

@@ -16,6 +16,7 @@ class Turno(db.Model, UserMixin):
     fecha_turno = db.Column(db.Date)
     sede= db.Column(db.String(20))
     vacuna= db.Column(db.String(20))
+    numero_dosis = db.Column(db.Integer)
     laboratorio= db.Column(db.String(20))
     lote= db.Column(db.String(20))
     estado= db.Column(db.Integer)
@@ -27,6 +28,7 @@ class Turno(db.Model, UserMixin):
         self.fecha_turno = fecha_turno
         self.sede =sede
         self.vacuna = vacuna
+        self.numero_dosis = 0
         self.laboratorio = ""
         self.lote = ""
         self.estado = estado

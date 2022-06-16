@@ -635,12 +635,21 @@ def marcar_fiebre_amarilla():
 
 
 
+@app.route('/aceptar_turno_fiebre', methods=['GET','POST'])
+def aceptar_turno_fiebre():
+    idturno = request.form['idturno']
+    turno = Turno.get_by_id(idturno)
+    turno.estado=0
+    turno.save()
+    flash("El turno fue aceptado","success")
+    return redirect(url_for('turnos_fiebre_amarilla'))
+
+
 @app.route('/marcar_vacunado', methods=['GET','POST'])
 def marcar_vacunado():
         idturno = request.form['idturno']
         lab = request.form['laboratorio']
         lot = request.form['lote']
-        print(type(lot))
         if lot == None or lot == "":
             flash("Ingrese el número de lote","danger")
             return redirect(url_for("turnos_hoy"))

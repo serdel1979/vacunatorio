@@ -95,12 +95,27 @@
           {% if mt.estado == 4 %}
           <td>SIN CONFIRMAR</td>
           {% endif %} 
+          {% if mt.estado == 5 %}
+          <td>AUSENTE</td>
+          {% endif %} 
           <td>
+            <button
+              class="btn btn-primary"
+              onclick="window.location.href='/ver_historial_paciente_fiebre/{{mt.id_usuario}}'"
+            >
+              Ver paciente
+            </button>
             <button
               class="btn btn-primary"
               onclick="window.location.href='/ver_paciente_fiebre/?idusr={{mt.id_usuario}}&idt={{mt.id}}'"
             >
-              Ver paciente
+              Aceptar
+            </button>
+            <button
+              class="btn btn-primary"
+              onclick="window.location.href='/ver_paciente_fiebre/?idusr={{mt.id_usuario}}&idt={{mt.id}}'"
+            >
+              Rechazar
             </button>
           </td>
         </tr>

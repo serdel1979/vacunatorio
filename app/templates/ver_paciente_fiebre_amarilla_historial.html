@@ -1,0 +1,140 @@
+{% include './menu.html' %} {% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+    {% with msg = get_flashed_messages(with_categories=true) %} {% if msg %} {%
+    for category,m in msg %}
+    <div class="alert alert-{{ category }}" role="alert">
+        {{ m }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <div class="card">
+
+        <div style="margin-top: 20px" class="form-signin">
+            <h3>Datos del paciente</h3>
+
+
+
+            {% if cantidad_vacunas == 0 and fiebre_amarilla == True %}
+            <h3>El paciente fue vacunado por Fiebre amarilla</h3>
+            {% endif %}
+            {% if cantidad == 0 %}
+            {% if fecha_primera_dosis != None %}
+            <h3>El paciente se registró con una dósis de covid aplicada el {{ fecha_primera_dosis }}</h3>
+            {% endif %}
+            {% if ultima_gripe != None %}
+            <h3>El paciente se registró con una dósis de gripe aplicada el {{ ultima_gripe }}</h3>
+            {% endif %}
+            {% endif %}
+            <div style="margin-top: 20px">
+                <div class="col-md-2">
+                    <label class="form-group">Nombre </label>
+                    {{ paciente.nombre }}
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-group">Apellido </label>
+                    {{ paciente.apellido }}
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-group">DNI </label>
+                    {{ paciente.dni }}
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-group">Sede preferida </label>
+                    {{ paciente.sede_preferida }}
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-group">Edad: </label>
+                    {{ edad }} años
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            {% if cantidad != 0 %}
+            <h3>Historial</h3>
+            <table class="table">
+                <tr>
+                    <th scope="col">Fecha de solicitud</th>
+                    <th scope="col">Fecha del turno</th>
+                    <th scope="col">Vacuna</th>
+                    <th scope="col">Laboratorio</th>
+                    <th scope="col">Lote</th>
+                    <th scope="col">Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for v in data %}
+                    <tr>
+
+                        <td>{{ v[1].fecha_solicitud }}</td>
+                        <td>{{ v[1].fecha_turno }}</td>
+
+                        {% if v[1].vacuna == 'Covid' %}
+                        {% if v[1].numero_dosis == 1 %}
+                        <td>Primera dósis {{ v[1].vacuna }}</td>
+                        {% else %}
+                        <td>Segunda dósis {{ v[1].vacuna }}</td>
+                        {% endif %}
+                        {% else %}
+                        <td>{{ v[1].vacuna }}</td>
+                        {% endif %}
+                        {% if v[1].laboratorio != None %}
+                        <td>{{ v[1].laboratorio }}</td>
+                        {% else %}
+                        <td>No especificado</td>
+                        {% endif %}
+                        {% if v[1].lote != None %}
+                        <td>{{ v[1].lote }}</td>
+                        {% else %}
+                        <td>No especificado</td>
+                        {% endif %}
+                        {% if v[1].estado == 0 %}
+                        <td>
+                            <p style="color:#0d4d0b" ;>PENDIENTE </p>
+                        </td>
+                        {% endif %}
+                        {% if v[1].estado == 1 %}
+                        <td>
+                            <p style="color:#126e0f" ;>CANCELADO </p>
+                        </td>
+                        {% endif %}
+                        {% if v[1].estado == 2 %}
+                        <td>
+                            <p style="color:#1ca517" ;>ATENDIDO </p>
+                        </td>
+                        {% endif %}
+                        {% if v[1].estado == 3 %}
+                        <td>
+                            <p style="color:#FF0000" ;><U>RECHAZADO</U> </p>
+                        </td>
+                        {% endif %}
+                        {% if v[1].estado == 4 %}
+                        <td>
+                            <p style="color:#9e7b06" ;>NO CONFIRMADO</p>
+                        </td>
+                        {% endif %}
+                        {% if v[1].estado == 5 %}
+                        <td>
+                            <p style="color:#FF0000" ;>AUSENTE</p>
+                        </td>
+                        {% endif %}
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h3>No tiene vacunas aplicadas en el vacunatorio!!!</h3>
+            {% endif %}
+            <a href="/turnos_fiebre_amarilla" class="btn btn-primary">Volver</a>
+        </div>
+
+    </div>
+    {% endblock %}

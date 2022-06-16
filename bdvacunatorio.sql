@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 15-06-2022 a las 18:06:03
+-- Tiempo de generación: 16-06-2022 a las 21:05:14
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -37,6 +37,7 @@ CREATE TABLE `turnos` (
   `vacuna` varchar(50) NOT NULL,
   `numero_dosis` int(11) DEFAULT NULL,
   `estado` int(11) NOT NULL,
+  `notificado` tinyint(4) DEFAULT NULL,
   `asistio` tinyint(4) DEFAULT NULL,
   `laboratorio` varchar(50) DEFAULT NULL,
   `lote` varchar(45) DEFAULT NULL
@@ -46,12 +47,18 @@ CREATE TABLE `turnos` (
 -- Volcado de datos para la tabla `turnos`
 --
 
-INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `numero_dosis`, `estado`, `asistio`, `laboratorio`, `lote`) VALUES
-(139, 124, '2022-06-03', '2022-06-04', 'Cementerio', 'Gripe', NULL, 2, 1, 'Richmond', '1222aaaa'),
-(140, 125, '2022-06-03', '2022-06-04', 'Cementerio', 'Fiebre amarilla', NULL, 2, 1, 'Bagó', '3465'),
-(141, 126, '2022-06-03', '2022-06-04', 'Cementerio', 'Covid', NULL, 0, 0, 'Sputnik', '3465546'),
-(142, 127, '2022-06-03', '2022-06-04', 'Cementerio', 'Varicela', NULL, 5, 0, 'Bagó', '546'),
-(143, 137, '2022-06-03', '2022-06-04', 'Cementerio', 'Covid', NULL, 5, 0, '', '');
+INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `numero_dosis`, `estado`, `notificado`, `asistio`, `laboratorio`, `lote`) VALUES
+(139, 124, '2022-06-03', '2022-06-04', 'Cementerio', 'Gripe', NULL, 2, NULL, 1, 'Richmond', '1222aaaa'),
+(140, 125, '2022-06-03', '2022-06-04', 'Cementerio', 'Fiebre amarilla', NULL, 0, NULL, 1, 'Bagó', '3465'),
+(141, 126, '2022-06-03', '2022-06-04', 'Cementerio', 'Covid', 2, 0, NULL, 0, 'Sputnik', '3465546'),
+(142, 127, '2022-06-03', '2022-06-04', 'Cementerio', 'Varicela', NULL, 5, NULL, 0, 'Bagó', '546'),
+(143, 137, '2022-06-03', '2022-06-04', 'Cementerio', 'Covid', 1, 5, NULL, 0, '', ''),
+(144, 138, '2022-06-15', '2022-06-15', 'Cementerio', 'Covid', 1, 2, NULL, 1, 'Sinopharm', '221322'),
+(145, 138, '2022-06-15', '2022-06-15', 'Cementerio', 'Covid', 2, 2, NULL, 1, 'Sinopharm', '156555'),
+(148, 140, '2022-06-15', '2022-06-15', 'Cementerio', 'Covid', 2, 5, NULL, 0, '', ''),
+(149, 140, '2022-06-15', '2022-06-15', 'Cementerio', 'Gripe', 0, 2, NULL, 1, 'Bagó', '8777'),
+(150, 138, '2022-06-15', '2022-06-15', 'Cementerio', 'Gripe', 1, 2, NULL, 1, 'Bagó', '122222'),
+(151, 141, '2022-06-15', '2022-06-22', 'Cementerio', 'Fiebre amarilla', 1, 0, NULL, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -101,7 +108,10 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (134, NULL, 'federico', 'martin', '22132111', '1950-02-10', 0, '2021-02-11', NULL, NULL, 0, 0, '3211', 'sdlbssoo@gmail.com', '11111199', 'Terminal', '0', 3),
 (135, NULL, 'Pablo', 'almada', '2213211188', '2001-02-10', 1, NULL, NULL, NULL, 0, 0, '3212', 'sergio@mail.com', '11111113', 'Terminal', '0', 3),
 (136, NULL, 'PEDRO', 'ALARCON', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pepeala@gmail.com', '22222222', NULL, 'Municipal', 2),
-(137, NULL, 'paolo', 'guerrero', '2213211', '1990-02-11', 0, '2022-06-03', '2022-06-03', '2022-06-03', 0, 1, '3211', 'paolo@gmail.com', '12312312', 'Municipal', '0', 3);
+(137, NULL, 'paolo', 'guerrero', '2213211', '1990-02-11', 0, '2022-06-03', '2022-06-03', '2022-06-03', 0, 1, '3211', 'paolo@gmail.com', '12312312', 'Municipal', '0', 3),
+(138, NULL, 'mauricio', 'pipo', '2132111', '2000-05-11', 0, '2022-06-15', '2022-06-15', '2022-06-15', 0, 0, '3211', 'mau@hotm.com', '11223344', 'Municipal', '0', 3),
+(140, NULL, 'manolo', 'galvan', '22132111', '1940-02-11', 0, NULL, '2022-06-15', NULL, 0, 0, '3211', 'manolo@mail.com.ar', '11223345', 'Municipal', '0', 3),
+(141, NULL, 'parco', 'lorca', '22132111', '1990-01-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'parco@gmail.com', '95465444', 'Municipal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -153,12 +163,12 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --

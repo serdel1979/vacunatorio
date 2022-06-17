@@ -49,7 +49,6 @@ content %}
             placeholder="Nombre"
             class="form-control"
             value="{{ usuario.nombre }}"
-            disabled
           />
         </div>
       </div>
@@ -67,7 +66,6 @@ content %}
             placeholder="Apellido"
             class="form-control"
             value="{{ usuario.apellido }}"
-            disabled
           />
         </div>
       </div>
@@ -81,7 +79,7 @@ content %}
             style="margin-top: 10px"
             id="telefono"
             name="telefono"
-            type="text"
+            type="number"
             placeholder="Teléfono"
             class="form-control"
             value="{{ usuario.telefono }}"
@@ -98,19 +96,19 @@ content %}
             style="margin-top: 10px"
             id="dni"
             name="dni"
-            type="text"
+            type="number"
             placeholder="Dni"
             class="form-control"
             value="{{ usuario.dni }}"
-            disabled
           />
         </div>
       </div>
-
+      {% if tipo == 3 %}
       <div class="form-signin">
         <span class="col-md-1 col-md-offset-2 text-center"
           ><i class="fa fa-user bigicon"></i
         ></span>
+        
         <div class="col-md-8">
           <label style="margin-top: 20px" class="visually-hidden" >Sede preferida </label>
           <br/>
@@ -131,8 +129,9 @@ content %}
             {% endif %} {% endfor %}
           </select>
         </div>
+        
       </div>
-
+      {% endif %}
       <div class="form-signin">
         <div class="col-md-8 text-center">
           <button

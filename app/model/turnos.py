@@ -3,6 +3,8 @@ from app import db
 from flask_login import UserMixin, login_manager
 from datetime import date, datetime, timedelta
 
+from app.model.user import User
+
 
 
 
@@ -14,8 +16,12 @@ class Turno(db.Model, UserMixin):
     fecha_turno = db.Column(db.Date)
     sede= db.Column(db.String(20))
     vacuna= db.Column(db.String(20))
+    numero_dosis = db.Column(db.Integer)
+    laboratorio= db.Column(db.String(20))
+    lote= db.Column(db.String(20))
     estado= db.Column(db.Integer)
     asistio= db.Column(db.Boolean)
+    notificado = db.Column(db.Integer)
 
     def __init__(self,id_usuario,fecha_turno,sede,vacuna,estado):
         self.id_usuario=id_usuario
@@ -23,8 +29,12 @@ class Turno(db.Model, UserMixin):
         self.fecha_turno = fecha_turno
         self.sede =sede
         self.vacuna = vacuna
+        self.numero_dosis = 0
+        self.laboratorio = ""
+        self.lote = ""
         self.estado = estado
         self.asistio = False
+        self.notificado = 0
     
 
 
@@ -35,6 +45,10 @@ class Turno(db.Model, UserMixin):
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
+    
+    @classmethod
+    def get_historial(cls, id):
+        return cls.query.filter_by(id_usuario=id).all()
 
     @classmethod
     def get_by_id_usuario_vigente(cls, nombre_vacuna, idusr):
@@ -54,7 +68,17 @@ class Turno(db.Model, UserMixin):
     
     @classmethod
     def get_by_fecha(cls, fecha_turno, sede):
+        return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede, cls.estado == 0).all()
+
+    @classmethod
+    def historial_by_fecha(cls, fecha_turno, sede):
         return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede).all()
+
+
+    @classmethod
+    def historial_by_fecha_sede(cls, fecha_turno, sede):
+        return cls.query.filter(cls.fecha_turno==fecha_turno, cls.sede==sede, cls.estado != 0).all()
+
 
     @classmethod
     def get_by_fiebre_amarilla(cls):
@@ -72,7 +96,11 @@ class Turno(db.Model, UserMixin):
 
     @classmethod
     def cant_by_sede(cls, sede):
-        return cls.query.filter_by(sede=sede).all()
+        return cls.query.filter_by(sede=sede).filter_by(estado=2).all()
+
+    @classmethod
+    def cant_by_enfermedad(cls, enfermedad):
+        return cls.query.filter_by(vacuna=enfermedad).filter_by(estado=2).all()
 
 
     @classmethod
@@ -89,6 +117,48 @@ class Turno(db.Model, UserMixin):
         usr = cls.query.get(id)
         db.session.delete(usr)
         db.session.commit()
+    
+    @classmethod
+    def usuario_hoy(cls,fecha_turno,sede):
+        ret = db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(Turno.fecha_turno==fecha_turno).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
+        return ret
+
+    
+    @classmethod
+    def usuario_hoy_historial(cls,hoy,sede):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
+
+
+    @classmethod
+    def usuario_historial_general(cls,id_usr):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.id_usuario == id_usr).all()
+
+    @classmethod
+    def get_pendientes(cls):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.estado == 0).all()
+
+    @classmethod
+    def get_pendientes_fecha(cls,fecha):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.estado == 0).filter(Turno.fecha_turno == fecha).all()
+
+
+    @classmethod
+    def historial_usuario_hoy(cls,hoy,usuario,sede):
+        ret= db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(usuario.id == User.id).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
+        print(ret)
+        return ret
 
     def save(self):
         db.session.add(self)

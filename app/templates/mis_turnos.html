@@ -45,7 +45,7 @@
   {% endif %}
   {% endwith %}
 
-
+{% if cantidad_turnos != 0 %}
   <div style="margin-top: 10px;">
     <h2>Turnos</h2>
   </div>
@@ -68,39 +68,54 @@
           <td>{{ mt.fecha_solicitud }}</td>
           <td>{{ mt.fecha_turno }}</td>
           <td>{{ mt.sede }}</td>
+          {% if mt.vacuna == 'Covid' %}
+              {% if mt.numero_dosis == 1 %}
+                <td>Primera dósis {{ mt.vacuna }}</td>
+              {% else %}
+                <td>Segunda dósis {{ mt.vacuna }}</td>
+              {% endif %}
+          {% else %}
           <td>{{ mt.vacuna }}</td>
+          {% endif %}
           {% if mt.estado == 0 %}
-          <td> PENDIENTE </td>
+          <td> <p style="color:#0d4d0b";>PENDIENTE </p></td>
           <td>
             <button class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 1 %}
-          <td> CANCELADO </td>
+          <td> <p style="color:#126e0f";>CANCELADO </p></td>
           <td>
             <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 2 %}
-          <td> ATENDIDO </td>
+          <td> <p style="color:#1ca517";>ATENDIDO </p></td>
           <td>
             <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 3 %}
-          <td> RECHAZADO </td>
+          <td> <p style="color:#FF0000";><U>RECHAZADO</U> </p></td>
           <td>
             <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
           {% if mt.estado == 4 %}
-          <td> NO CONFIRMADO </td>
+          <td> <p style="color:#9e7b06";>NO CONFIRMADO</p></td>
           <td>
             <button class="btn btn-danger"
+              onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
+          </td>
+          {% endif %}
+          {% if mt.estado == 5 %}
+          <td> <p style="color:#FF0000";>AUSENTE </p> </td>
+          <td>
+            <button disabled class="btn btn-danger"
               onclick="showMessage('Cancelar','{{mt.vacuna}}','{{mt.id}}');">Cancelar</button>
           </td>
           {% endif %}
@@ -110,6 +125,13 @@
     </table>
     <a href="/"  class="btn btn-primary">Volver</a>
   </div>
+  {% else %}
+
+  <h3>No tiene ningún turno aún</h3>
+
+  <a style="margin-top: 20px;" href="/"  class="btn btn-primary">Volver</a>
+
+  {% endif %}
 
 </div><!-- /.container -->
 

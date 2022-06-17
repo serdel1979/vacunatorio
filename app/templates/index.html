@@ -4,8 +4,33 @@
 
     <div class="starter-template">
         <p class="lead">
-        <h1>Sistema de gestión de turnos online</h1>
-        </p>
+        {% if tipo == 3 %}
+        <div class="carousel-item">
+            <div class="carousel-item">
+                <a href="/mis_turnos">
+                    <img src="../static/image/mis_turnoss.jpeg" width="300" height="300">
+                </a>
+                <a href="/mis_vacunas">
+                    <img src="../static/image/mis_vacunas.jpeg" width="300" height="300">
+                </a>
+                <a href="/sacar_turno">
+                    <img src="../static/image/sacar_turno.jpeg" width="300" height="300">
+                </a>
+                <div class="carousel-caption d-none d-md-block">
+
+                    <h1 style="color:#a2cb83;">Elija una opción</h1>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if tipo == 2 %}
+        <h1>Home del enfermero</h1>
+        {% endif %}
+
+        {% if tipo == 1 %}
+        <h1>Home del admin</h1>
+        {% endif %}
     </div>
 
 </div><!-- /.container -->

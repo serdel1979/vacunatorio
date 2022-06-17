@@ -22,6 +22,9 @@
     {% else %}
     <li class="list-group-item">Sede actual: {{user.sede}}</li>
     {% endif %}
+    {% if riesgo == True %}
+    <li class="list-group-item"><h3>Paciente de riesgo</h3></li>
+    {% endif %}
   </ul>
 
   <div class="col-auto">
@@ -29,6 +32,16 @@
 
     <a href="/" class="btn btn-primary">Volver</a>
   </div>
+  {% else %}
+  <h3>Usted es edministrador del sistema</h3>
+  <button
+      type="button"
+      class="btn btn-primary btn-lg"
+      style="margin-top: 20px"
+      onclick="window.location.href='/modificar_contrasena'"
+    >
+      Modificar Contraseña
+    </button>
   {% endif %}
 </div>
 

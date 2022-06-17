@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     apellido = db.Column(db.String(20))
     telefono = db.Column(db.String(20))
     nacimiento = db.Column(db.String(20))
-    primera_dosis = db.Column(db.String(20))
+    primera_dosis = db.Column(db.String(20))  #<---- USADO PARA QUE UN USUARIO INDIQUE SI TIENE 2 DÓSIS DE COVID
     fecha_primera_dosis = db.Column(db.String(20))
     fecha_ultima_covid = db.Column(db.String(20))
     fecha_ultima_gripe = db.Column(db.String(20))
@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
         self.apellido = apellido
         self.telefono =telefono
         self.nacimiento = nacimiento
-        self.primera_dosis = primera_dosis
+        self.primera_dosis = primera_dosis #<---- USADO PARA QUE UN USUARIO INDIQUE SI TIENE 2 DÓSIS DE COVID
         self.fecha_primera_dosis = fecha_primera_dosis
         self.fecha_ultima_gripe = ultima_gripe
         self.fiebre_amarilla = fiebre_amarilla
@@ -75,10 +75,14 @@ class User(db.Model, UserMixin):
     @classmethod
     def delete(cls, id):
         usr = cls.query.get(id)
+        print(usr)
         db.session.delete(usr)
         db.session.commit()
 
-    
+    @classmethod
+    def by_username(cls, username):
+        return cls.query.filter((cls.nombre.like("%{}%".format(username))) & (cls.tipo == 3) | ((cls.dni==username)) & (cls.tipo == 3) | ((cls.apellido.like("%{}%".format(username)))) & (cls.tipo == 3) | ((cls.sede_preferida.like("%{}%".format(username)))) & (cls.tipo == 3) )
+
     def cambiar_clave(self, password):
         self.password = password
         db.session.commit()

@@ -14,7 +14,8 @@ def create_app():
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USE_SSL'] = True
     app.config['MAIL_USERNAME'] = 'vacunatorioing2g36@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'Ingenieria2'
+    #app.config['MAIL_PASSWORD'] = 'Ingenieria2' <-- solo para entrar a google desde gmail
+    app.config['MAIL_PASSWORD'] = 'jlylbpathiinekbc'
     Bootstrap(app)
     db.init_app(app)
     return app

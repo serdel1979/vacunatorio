@@ -73,7 +73,7 @@
             <td>{{ mt.sede }}</td>
             <td>{{ mt.vacuna }}</td>
             {% if mt.estado == 0 %}
-            <td>PENDIENTE</td>
+            <td><p style="color:#1ca517" ;>PENDIENTE </p></td>
             {% endif %}
             {% if mt.estado == 1 %}
             <td>CANCELADO</td>
@@ -82,7 +82,7 @@
             <td>ATENDIDO</td>
             {% endif %}
             {% if mt.estado == 3 %}
-            <td>RECHAZADO</td>
+            <td><p style="color:#FF0000" ;><U>RECHAZADO</U> </p></td>
             {% endif %}
             {% if mt.estado == 4 %}
             <td>SIN CONFIRMAR</td>
@@ -103,24 +103,26 @@
                 </svg>
               </a>
               {% if mt.estado == 4 %}
-              <button class="btn btn-primary" type="submit">
-                Aceptar
-              </button>
-              <button class="btn btn-primary"
-                onclick="window.location.href='/ver_paciente_fiebre/?idusr={{mt.id_usuario}}&idt={{mt.id}}'">
-                Rechazar
-              </button>
+                    <button class="btn btn-primary" type="submit">
+                      Aceptar
+                    </button>
+                  </form>
+                    <button class="btn btn-primary"
+                      onclick="window.location.href='/rechazar_fiebre_amarilla/{{mt.id}}'">
+                      Rechazar
+                    </button>
               {% else %}
-              <button disabled class="btn btn-primary" type="submit">
-                Aceptar
-              </button>
-              <button disabled class="btn btn-primary"
-                onclick="window.location.href='/ver_paciente_fiebre/?idusr={{mt.id_usuario}}&idt={{mt.id}}'">
-                Rechazar
-              </button>
+                    <button disabled class="btn btn-primary" type="submit">
+                      Aceptar
+                    </button>
+                  </form>
+                    <button disabled class="btn btn-primary"
+                      onclick="window.location.href='/rechazar_fiebre_amarilla/{{mt.id}}'">
+                      Rechazar
+                    </button>
               {% endif %}
             </td>
-          </form>
+          
         </tr>
         {% endfor %}
       </tbody>

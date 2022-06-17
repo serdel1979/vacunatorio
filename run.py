@@ -41,9 +41,9 @@ def genera_clave():
     return p
 
 
-def enviar_mail(destinatario,mensaje):
+def enviar_mail(destinatario,mensaje,asunto):
     try:
-        msg = Message("NUEVA PASSWORD",sender="vacunatorioing2g36@gmail.com",body=mensaje,recipients=[destinatario])
+        msg = Message(asunto,sender="vacunatorioing2g36@gmail.com",body=mensaje,recipients=[destinatario])
         mail.send(msg)
         return True
     except:
@@ -133,7 +133,7 @@ def enviar_clave():
         if user: 
             clave = genera_clave()
             msj = "Su clave nueva es: "+ clave
-            if not enviar_mail(email,msj):
+            if not enviar_mail(email,msj,asunto="NUEVA PASSWORD"):
                 flash("No se pudo enviar el email!!!","danger")
                 return render_template('recuperar_clave.html',form=form)
             else:
@@ -694,6 +694,35 @@ def marcar_ausente(id):
         return redirect(url_for('turnos_hoy'))
 
 
+
+
+@app.route('/turnos_notificar', methods=['GET','POST'])
+def turnos_notificar():
+    min=datetime.now()
+    if request.method=='POST':
+        min=request.form['buscar']
+        pendientes=Turno.get_pendientes_fecha(request.form['buscar'])
+        return render_template('turnos_para_notificar.html',min=min,pendientes=pendientes,tipo = session["tipo"], id=session["id_user"]) 
+    
+    pendientes = Turno.get_pendientes()
+    return render_template('turnos_para_notificar.html',min=min,pendientes=pendientes,tipo = session["tipo"], id=session["id_user"]) 
+
+@app.route('/notificar', methods=['GET','POST'])
+def notificar():
+    if request.method=='POST':
+        email = request.form['email']
+        idturno = request.form['idturno']
+        turno = Turno.get_by_id(idturno)
+        msg='Estimado, le recordamos su turno para vacunarse el día '+turno.fecha_turno.strftime('%d/%m/%Y')+' para la vacuna '+turno.vacuna
+        if enviar_mail(email,msg,"RECORDATORIO"):
+            turno.notificado = 1
+            turno.save()
+            flash("Se notificó al usuario exitosamente","success")
+        else:
+            flash("Hubo un error en la notificación","danger")
+    return redirect(url_for('turnos_notificar'))
+
+
 @app.route('/vacunas')
 def vacunas():
     vacunas = Vacuna.get_all()
@@ -871,6 +900,13 @@ def buscar_paciente():
     cantidad = len(usuarios)
     return render_template('turnos_hoy.html', sede=sede,tipo=session["tipo"], id=session["id_user"], usuarios = usuarios, cantidad=cantidad)
 
+@app.route('/rechazar_fiebre_amarilla/<int:id>')
+def rechazar_fiebre_amarilla(id):
+    turno = Turno.get_by_id(id)
+    turno.estado=3
+    turno.save()         
+    flash("El turno fue rechazado !!","success")
+    return redirect(url_for('turnos_fiebre_amarilla'))
 
 #def job():
 #    print("")

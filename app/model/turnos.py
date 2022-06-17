@@ -21,6 +21,7 @@ class Turno(db.Model, UserMixin):
     lote= db.Column(db.String(20))
     estado= db.Column(db.Integer)
     asistio= db.Column(db.Boolean)
+    notificado = db.Column(db.Integer)
 
     def __init__(self,id_usuario,fecha_turno,sede,vacuna,estado):
         self.id_usuario=id_usuario
@@ -33,6 +34,7 @@ class Turno(db.Model, UserMixin):
         self.lote = ""
         self.estado = estado
         self.asistio = False
+        self.notificado = 0
     
 
 
@@ -137,6 +139,17 @@ class Turno(db.Model, UserMixin):
          User, Turno).filter(
          User.id == Turno.id_usuario).filter(Turno.id_usuario == id_usr).all()
 
+    @classmethod
+    def get_pendientes(cls):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.estado == 0).all()
+
+    @classmethod
+    def get_pendientes_fecha(cls,fecha):
+        return db.session.query(
+         User, Turno).filter(
+         User.id == Turno.id_usuario).filter(Turno.estado == 0).filter(Turno.fecha_turno == fecha).all()
 
 
     @classmethod

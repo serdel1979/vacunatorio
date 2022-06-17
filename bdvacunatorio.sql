@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 16-06-2022 a las 21:05:14
+-- Tiempo de generación: 17-06-2022 a las 22:16:58
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -48,17 +48,20 @@ CREATE TABLE `turnos` (
 --
 
 INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `numero_dosis`, `estado`, `notificado`, `asistio`, `laboratorio`, `lote`) VALUES
-(139, 124, '2022-06-03', '2022-06-04', 'Cementerio', 'Gripe', NULL, 2, NULL, 1, 'Richmond', '1222aaaa'),
-(140, 125, '2022-06-03', '2022-06-04', 'Cementerio', 'Fiebre amarilla', NULL, 0, NULL, 1, 'Bagó', '3465'),
-(141, 126, '2022-06-03', '2022-06-04', 'Cementerio', 'Covid', 2, 0, NULL, 0, 'Sputnik', '3465546'),
-(142, 127, '2022-06-03', '2022-06-04', 'Cementerio', 'Varicela', NULL, 5, NULL, 0, 'Bagó', '546'),
-(143, 137, '2022-06-03', '2022-06-04', 'Cementerio', 'Covid', 1, 5, NULL, 0, '', ''),
-(144, 138, '2022-06-15', '2022-06-15', 'Cementerio', 'Covid', 1, 2, NULL, 1, 'Sinopharm', '221322'),
-(145, 138, '2022-06-15', '2022-06-15', 'Cementerio', 'Covid', 2, 2, NULL, 1, 'Sinopharm', '156555'),
-(148, 140, '2022-06-15', '2022-06-15', 'Cementerio', 'Covid', 2, 5, NULL, 0, '', ''),
-(149, 140, '2022-06-15', '2022-06-15', 'Cementerio', 'Gripe', 0, 2, NULL, 1, 'Bagó', '8777'),
-(150, 138, '2022-06-15', '2022-06-15', 'Cementerio', 'Gripe', 1, 2, NULL, 1, 'Bagó', '122222'),
-(151, 141, '2022-06-15', '2022-06-22', 'Cementerio', 'Fiebre amarilla', 1, 0, NULL, 0, '', '');
+(139, 124, '2022-06-03', '2022-06-06', 'Cementerio', 'Gripe', NULL, 2, NULL, 1, 'Richmond', '1222aaaa'),
+(140, 125, '2022-06-03', '2022-06-06', 'Cementerio', 'Fiebre amarilla', NULL, 0, 1, 1, 'Bagó', '3465'),
+(141, 126, '2022-06-03', '2022-06-06', 'Cementerio', 'Covid', 2, 0, 1, 0, 'Sputnik', '3465546'),
+(142, 127, '2022-06-03', '2022-06-06', 'Cementerio', 'Varicela', NULL, 5, NULL, 0, 'Bagó', '546'),
+(143, 137, '2022-06-03', '2022-06-06', 'Cementerio', 'Covid', 1, 5, NULL, 0, '', ''),
+(144, 138, '2022-06-15', '2022-06-16', 'Cementerio', 'Covid', 1, 2, NULL, 1, 'Sinopharm', '221322'),
+(145, 138, '2022-06-15', '2022-06-16', 'Cementerio', 'Covid', 2, 2, NULL, 1, 'Sinopharm', '156555'),
+(148, 140, '2022-06-15', '2022-06-16', 'Cementerio', 'Covid', 2, 5, NULL, 0, '', ''),
+(149, 140, '2022-06-15', '2022-06-16', 'Cementerio', 'Gripe', 0, 2, NULL, 1, 'Bagó', '8777'),
+(150, 138, '2022-06-15', '2022-06-16', 'Cementerio', 'Gripe', 1, 2, NULL, 1, 'Bagó', '122222'),
+(151, 141, '2022-06-15', '2022-06-16', 'Cementerio', 'Fiebre amarilla', 1, 0, 1, 0, '', ''),
+(152, 142, '2022-06-17', '2022-06-24', 'Cementerio', 'Gripe', 1, 0, 0, 0, '', ''),
+(153, 142, '2022-06-17', '2022-06-24', 'Cementerio', 'Covid', 1, 0, 0, 0, '', ''),
+(154, 142, '2022-06-17', '2022-06-24', 'Cementerio', 'Fiebre amarilla', 1, 3, 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -93,15 +96,15 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `nacimiento`, `primera_dosis`, `fecha_primera_dosis`, `fecha_ultima_gripe`, `fecha_ultima_covid`, `paciente_riesgo`, `fiebre_amarilla`, `password`, `email`, `dni`, `sede_preferida`, `sede`, `tipo`) VALUES
 (56, 'admin', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'admin', NULL, '12345678', NULL, NULL, 1),
-(90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Cementerio', 2),
+(90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Terminal', 2),
 (123, NULL, 'Horacio', 'Gomez', '2213211', '1990-06-10', 0, NULL, NULL, NULL, 0, 0, '3211', 'horacio@gmail.com', '55555555', 'Municipal', '0', 3),
 (124, NULL, 'Cristian', 'Pantaleone', '22132111', '1951-07-10', 1, NULL, '2022-06-04', NULL, 0, 0, '3211', 'cristian@gmail.com', '66666666', 'Municipal', '0', 3),
-(125, NULL, 'Bruno', 'Zuculini', '22513211', '2001-09-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'naum@gmail.com', '77777777', 'Municipal', '0', 3),
+(125, NULL, 'Bruno', 'Zuculini', '22513211', '2001-09-10', 0, NULL, NULL, NULL, 0, 1, '3211', 'sdlbsso@gmail.com.ar', '77777777', 'Municipal', '0', 3),
 (126, NULL, 'Pity', 'Martinez', '2215636555', '1999-02-11', 0, NULL, '2022-01-22', NULL, 0, 0, '3211', 'pity@gmail.com', '88888888', 'Municipal', '0', 3),
 (127, NULL, 'Juan', 'Fernando', '22165454', '2000-02-11', 0, NULL, NULL, NULL, 0, 1, '3211', 'juanfer@gmail.com', '99999999', 'Municipal', '0', 3),
 (128, NULL, 'Paulo', 'Ferrari', '22132111', '1995-05-10', 0, NULL, NULL, NULL, 0, 0, '3211', 'paulo@gmail.com', '10000000', 'Cementerio', '0', 3),
 (129, NULL, 'Raul', 'Peralta', '22165444', '1950-10-11', 0, '2021-05-10', '2022-06-02', '2022-05-21', 0, 0, '3211', 'rauli@gmail.com', '27154011', 'Cementerio', '0', 3),
-(130, NULL, 'sergio', 'De Luca', '22132111', '1979-01-11', 0, '2022-06-02', '2022-06-02', '2022-06-02', 0, 1, '3211', 'sdlbsso@gmail.com', '11111111', 'Cementerio', '0', 3),
+(130, NULL, 'sergio', 'De Luca', '22132111', '1979-01-11', 0, '2022-06-02', '2022-06-02', '2022-06-02', 0, 1, '3211', 'sdlbsso@gmail.net', '11111111', 'Cementerio', '0', 3),
 (131, NULL, 'Federico', 'Chattas', '221321111', '1940-02-10', 0, '2022-06-02', '2022-06-02', NULL, 0, 0, '3211', 'pepe@gmail.com', '11111112', 'Terminal', '0', 3),
 (132, NULL, 'Gustavo', 'Olave', '22132111', '1950-05-14', 1, NULL, NULL, NULL, 0, 0, '3211', 'francis@gmail.com', '1111113', 'Terminal', '0', 3),
 (133, NULL, 'Fernando', 'Delarua', '22132111', '1990-02-10', 0, NULL, NULL, NULL, 1, 0, '3211', 'pipi@gmail.com', '11111114', 'Terminal', '0', 3),
@@ -111,7 +114,8 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (137, NULL, 'paolo', 'guerrero', '2213211', '1990-02-11', 0, '2022-06-03', '2022-06-03', '2022-06-03', 0, 1, '3211', 'paolo@gmail.com', '12312312', 'Municipal', '0', 3),
 (138, NULL, 'mauricio', 'pipo', '2132111', '2000-05-11', 0, '2022-06-15', '2022-06-15', '2022-06-15', 0, 0, '3211', 'mau@hotm.com', '11223344', 'Municipal', '0', 3),
 (140, NULL, 'manolo', 'galvan', '22132111', '1940-02-11', 0, NULL, '2022-06-15', NULL, 0, 0, '3211', 'manolo@mail.com.ar', '11223345', 'Municipal', '0', 3),
-(141, NULL, 'parco', 'lorca', '22132111', '1990-01-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'parco@gmail.com', '95465444', 'Municipal', '0', 3);
+(141, NULL, 'parco', 'lorca', '22132111', '1990-01-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'parco@gmail.com', '95465444', 'Municipal', '0', 3),
+(142, NULL, 'sergio', 'de luca', '22132111', '1980-02-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'sdlbsso@gmail.com', '27154012', 'Municipal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -163,12 +167,12 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --

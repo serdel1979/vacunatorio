@@ -504,7 +504,6 @@ def turnos_hoy():
 def historial_hoy():
     hoy = date.today()
     sede = session["sede"]
-    print("ESTOY EN HISTORIAL DEL DIA")
     if session["tipo"] == 1:
         usuarios = Turno.historial_by_fecha(hoy)
     else:
@@ -713,7 +712,7 @@ def notificar():
         email = request.form['email']
         idturno = request.form['idturno']
         turno = Turno.get_by_id(idturno)
-        msg='Estimado, le recordamos su turno para vacunarse el día '+turno.fecha_turno.strftime('%d/%m/%Y')+' para la vacuna '+turno.vacuna
+        msg='Estimado, le recordamos que tiene un turno el día '+turno.fecha_turno.strftime('%d/%m/%Y')+' para vacunarse por '+turno.vacuna
         if enviar_mail(email,msg,"RECORDATORIO"):
             turno.notificado = 1
             turno.save()

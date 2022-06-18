@@ -34,10 +34,10 @@
         <thead>
             <tr>
                 <th scope="col">DNI</th>
-                <th scope="col">Apellido</th>
                 <th scope="col">Email</th>
                 <th scope="col">Telefono</th>
                 <th scope="col">Fecha de turno</th>
+                <th scope="col">Vacuna</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
             </tr>
@@ -49,10 +49,10 @@
                     <input type="hidden" id="email" name="email" value="{{t[0].email}}"></input>
                     <input type="hidden" id="idturno" name="idturno" value="{{t[1].id}}"></input>
                     <td>{{t[0].dni}}</td>
-                    <td>{{t[0].apellido}}</td>
                     <td>{{t[0].email}}</td>
                     <td>{{t[0].telefono}}</td>
                     <td>{{t[1].fecha_turno}}</td>
+                    <td>{{t[1].vacuna}}</td>
                     {% if t[1].notificado == 1 %}
                     <td>NOTIFICADO</td>
                     {% else %}

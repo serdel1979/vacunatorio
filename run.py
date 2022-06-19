@@ -473,6 +473,13 @@ def edit_vacuna(id):
     vacuna= Vacuna.get_by_id(id)
     if vacuna != None:
         if request.method=='POST':
+            if vacuna.nombre == request.form['nombre']:
+                flash("No se hicieron cambios!!!","warning")
+                return redirect(url_for('vacunas'))
+            vacunaexiste = Vacuna.get_by_nombre(request.form['nombre'])
+            if vacunaexiste != None:
+                flash("Ese nombre de vacuna ya existe!!!","danger")
+                return redirect(url_for('vacunas'))
             vacuna.nombre = request.form['nombre']
             vacuna.save()
             flash("Datos actualizados","success")

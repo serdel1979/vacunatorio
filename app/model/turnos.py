@@ -1,7 +1,10 @@
 from ast import And
 from app import db
 from flask_login import UserMixin, login_manager
-from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
+import datetime as modulo_datetime 
+from datetime import timedelta, datetime
+
 
 from app.model.user import User
 
@@ -36,8 +39,7 @@ class Turno(db.Model, UserMixin):
         self.asistio = False
         self.notificado = 0
     
-
-
+    
     @classmethod
     def get_by_id_usuario(cls, id_usuario):
         return cls.query.filter_by(id_usuario=id_usuario).all()
@@ -159,6 +161,37 @@ class Turno(db.Model, UserMixin):
         User.id == Turno.id_usuario).filter(usuario.id == User.id).filter(Turno.fecha_turno==hoy).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
         print(ret)
         return ret
+
+    @classmethod
+    def cantidad_menor_18(cls):
+        today = modulo_datetime.date.today()
+        nacim_dieciocho = today + relativedelta(years= -18) #fecha de nacimiento de los que tienen 18
+
+        return db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(User.nacimiento > nacim_dieciocho).filter(Turno.estado == 2).all()
+     
+
+    @classmethod
+    def cantidad_mayor_60(cls):
+        today = modulo_datetime.date.today()
+        nacim_sesenta = today + relativedelta(years= -60) #fecha de nacimiento de los que tienen 60
+       
+        return db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(User.nacimiento < nacim_sesenta).filter(Turno.estado == 2).all()
+     
+    @classmethod
+    def cantidad_entre_18_y_60(cls):
+        today = modulo_datetime.date.today()
+        nacim_sesenta = today + relativedelta(years= -60) #fecha de nacimiento de los que tienen 60
+        nacim_dieciocho = today + relativedelta(years= -18) #fecha de nacimiento de los que tienen 18
+
+        return db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(User.nacimiento >= nacim_sesenta).filter(User.nacimiento <= nacim_dieciocho).filter(Turno.estado == 2).all()
+     
+         
 
     def save(self):
         db.session.add(self)

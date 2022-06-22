@@ -793,8 +793,13 @@ def estadisticas():
     for enf in enfermedades:
         cantidad_por_enfermedad.append([enf,len(Turno.cant_by_enfermedad(enf))])
 
-  
-    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad)
+    
+    por_rango_edad = []
+    por_rango_edad.append(["Menor de 18 ",len(Turno.cantidad_menor_18())])
+    por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60())])
+    por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60())])
+    
+    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
 
 
 

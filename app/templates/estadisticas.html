@@ -85,12 +85,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for rango in por_edades %}
                     <tr>
-                        <td> </td>
+                        <td>{{rango[0]}}</td>
 
-                        <td>
-                        </td>
+                        <td>{{rango[1]}}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

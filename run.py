@@ -778,8 +778,9 @@ def agrega_enfermero():
 
  # Aca hago las estadisticas por Sede
 
-@app.route('/estadisticas', methods=['GET'])
+@app.route('/estadisticas', methods=['GET','POST'])
 def estadisticas():
+    hoy = date.today()
     cantidad_por_sede = []
     for sede in sedes:
         cantidad_por_sede.append([sede,len(Turno.cant_by_sede(sede))])
@@ -799,7 +800,7 @@ def estadisticas():
     por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60())])
     por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60())])
     
-    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
+    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], hoy=hoy, cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
 
 
 

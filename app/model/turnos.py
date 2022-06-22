@@ -101,6 +101,10 @@ class Turno(db.Model, UserMixin):
         return cls.query.filter_by(sede=sede).filter_by(estado=2).all()
 
     @classmethod
+    def cant_by_enfermedad_fecha(cls, enfermedad,fecha1,fecha2):
+        return cls.query.filter_by(vacuna=enfermedad).filter(cls.fecha_turno >= fecha1).filter(cls.fecha_turno <= fecha2).filter_by(estado=2).all()
+
+    @classmethod
     def cant_by_enfermedad(cls, enfermedad):
         return cls.query.filter_by(vacuna=enfermedad).filter_by(estado=2).all()
 
@@ -171,6 +175,15 @@ class Turno(db.Model, UserMixin):
         User, Turno).filter(
         User.id == Turno.id_usuario).filter(User.nacimiento > nacim_dieciocho).filter(Turno.estado == 2).all()
      
+    @classmethod
+    def cantidad_menor_18_fecha(cls,fecha1,fecha2):
+        today = modulo_datetime.date.today()
+        nacim_dieciocho = today + relativedelta(years= -18) #fecha de nacimiento de los que tienen 18
+
+        return db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(User.nacimiento > nacim_dieciocho).filter(Turno.fecha_turno >= fecha1).filter(Turno.fecha_turno <= fecha2).filter(Turno.estado == 2).all()
+     
 
     @classmethod
     def cantidad_mayor_60(cls):
@@ -181,6 +194,18 @@ class Turno(db.Model, UserMixin):
         User, Turno).filter(
         User.id == Turno.id_usuario).filter(User.nacimiento < nacim_sesenta).filter(Turno.estado == 2).all()
      
+
+    @classmethod
+    def cantidad_mayor_60_fecha(cls,fecha1,fecha2):
+        today = modulo_datetime.date.today()
+        nacim_sesenta = today + relativedelta(years= -60) #fecha de nacimiento de los que tienen 60
+       
+        return db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(User.nacimiento < nacim_sesenta).filter(Turno.fecha_turno >= fecha1).filter(Turno.fecha_turno <= fecha2).filter(Turno.estado == 2).all()
+     
+
+
     @classmethod
     def cantidad_entre_18_y_60(cls):
         today = modulo_datetime.date.today()
@@ -191,6 +216,17 @@ class Turno(db.Model, UserMixin):
         User, Turno).filter(
         User.id == Turno.id_usuario).filter(User.nacimiento >= nacim_sesenta).filter(User.nacimiento <= nacim_dieciocho).filter(Turno.estado == 2).all()
      
+    @classmethod
+    def cantidad_entre_18_y_60_fecha(cls,fecha1,fecha2):
+        today = modulo_datetime.date.today()
+        nacim_sesenta = today + relativedelta(years= -60) #fecha de nacimiento de los que tienen 60
+        nacim_dieciocho = today + relativedelta(years= -18) #fecha de nacimiento de los que tienen 18
+
+        return db.session.query(
+        User, Turno).filter(
+        User.id == Turno.id_usuario).filter(User.nacimiento >= nacim_sesenta).filter(User.nacimiento <= nacim_dieciocho).filter(Turno.fecha_turno >= fecha1).filter(Turno.fecha_turno <= fecha2).filter(Turno.estado == 2).all()
+     
+         
          
 
     def save(self):

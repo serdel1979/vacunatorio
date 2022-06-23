@@ -475,14 +475,15 @@ def edit_vacuna(id):
     vacuna= Vacuna.get_by_id(id)
     labs = Laboratorio.get_all()
     laboratorios_de_vacuna = Laboratorio_Vacuna.get_laboratorios_de_vacuna(id)
-    print(laboratorios_de_vacuna)
-    if vacuna != None:
-        if request.method=='POST':
+    
+   
+    if request.method=='POST':
            print(request.form)
            if 'id_lab' in request.form:
-                print('Agregar ',request.form['id_lab']," a ",id)
                 lab = Laboratorio_Vacuna(request.form['id_lab'],id)
                 lab.save()
+                return redirect(url_for('edit_vacuna',id=id))
+                
            if 'id_lab_sacar' in request.form:
                 print('Sacar ',request.form['id_lab_sacar']," a ",id)
 

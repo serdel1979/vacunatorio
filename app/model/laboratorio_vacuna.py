@@ -31,9 +31,16 @@ class Laboratorio_Vacuna(db.Model, UserMixin):
    #     return db.session.query(Vacuna,
    #     Laboratorio_Vacuna).filter(Laboratorio_Vacuna.id_vacuna == id_v).filter(Vacuna.id == Laboratorio_Vacuna.id_vacuna).all()
         
+   # @classmethod
+   # def get_laboratorios_de_vacuna(cls, id_v):
+   #     return cls.query.filter_by(id_vacuna=id_v).all()
+
     @classmethod
     def get_laboratorios_de_vacuna(cls, id_v):
-        return cls.query.filter_by(id_vacuna=id_v).all()
+        ret = db.session.query(
+        Laboratorio, Laboratorio_Vacuna).filter(
+        id_v == Laboratorio_Vacuna.id_vacuna).filter(Laboratorio_Vacuna.id_laboratorio==Laboratorio.id).all()
+        return ret
 
     def save(self):
         db.session.add(self)

@@ -74,10 +74,9 @@
 
 
             <ul class="list-group" style="margin-top: 35px;">
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
+               {% for lab in labs_vac %} 
+                <li class="list-group-item">{{ lab[0].nombre }}</li>
+               {% endfor %}
             </ul>
 
         </div>

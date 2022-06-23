@@ -79,3 +79,12 @@ breakpoint {
     max-width: 24%;
   }
 }
+
+.my-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}

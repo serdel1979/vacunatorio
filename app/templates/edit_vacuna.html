@@ -14,9 +14,9 @@
 
     <div class="row">
 
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div class="table-responsive" style="margin-top: 10px;">
-                <h2>Laboratorios </h2>
+                <h3>Laboratorios </h3>
                 <table class="table table-striped" style="margin-top: 18px;">
                     <thead>
                         <tr>
@@ -29,19 +29,23 @@
                         <tr>
                             <td>{{ lab.nombre }}</td>
                             <td>
-                                <form action="/edit_vacuna/{{vacuna.id}}" method="POST">
-                                    <input id="id_lab" type="hidden" name="id_lab" value="{{lab.id}}"></input>
-                                    <button type="submit" class="btn btn-primary">
-                                        Agregar
-                                    </button>
-                                </form>
+                                <div class="my-buttons">
+                                    <form action="/edit_vacuna/{{vacuna.id}}" method="POST">
+                                        <input id="id_lab" type="hidden" name="id_lab" value="{{lab.id}}"></input>
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            Agregar
+                                        </button>
+                                    </form>
 
-                                <form action="/edit_vacuna/{{vacuna.id}}" method="POST">
-                                    <input id="id_lab_sacar" type="hidden" name="id_lab_sacar" value="{{lab.id}}"></input>
-                                    <button type="submit" class="btn btn-primary">
-                                        Sacar
-                                    </button>
-                                </form>
+                                    <form action="/edit_vacuna/{{vacuna.id}}" method="POST">
+                                        <input id="id_lab_sacar" type="hidden" name="id_lab_sacar"
+                                            value="{{lab.id}}"></input>
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            Sacar
+                                        </button>
+                                    </form>
+                                </div>
+
                             </td>
                         </tr>
                         {% endfor %}
@@ -67,16 +71,16 @@
             </a>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div style="margin-top: 30px;">
-                <h2>Laboratorios de {{ vacuna.nombre }}</h2>
+                <h3>Laboratorios de {{ vacuna.nombre }}</h3>
             </div>
 
 
             <ul class="list-group" style="margin-top: 35px;">
-               {% for lab in labs_vac %} 
+                {% for lab in labs_vac %}
                 <li class="list-group-item">{{ lab[0].nombre }}</li>
-               {% endfor %}
+                {% endfor %}
             </ul>
 
         </div>

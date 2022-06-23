@@ -37,11 +37,24 @@ class Laboratorio_Vacuna(db.Model, UserMixin):
 
     @classmethod
     def get_laboratorios_de_vacuna(cls, id_v):
-        ret = db.session.query(
+        return db.session.query(
         Laboratorio, Laboratorio_Vacuna).filter(
         id_v == Laboratorio_Vacuna.id_vacuna).filter(Laboratorio_Vacuna.id_laboratorio==Laboratorio.id).all()
-        return ret
+        
+    @classmethod
+    def buscar_laboratorios_de_vacuna(cls, id_v, id_lab):
+        return db.session.query(
+        Laboratorio, Laboratorio_Vacuna).filter(
+        id_v == Laboratorio_Vacuna.id_vacuna).filter(Laboratorio_Vacuna.id_laboratorio==Laboratorio.id).filter(Laboratorio_Vacuna.id_laboratorio==id_lab).all()
+        
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+
+    @classmethod
+    def delete(cls, id):
+        lab = cls.query.get(id)
+        db.session.delete(lab)
         db.session.commit()

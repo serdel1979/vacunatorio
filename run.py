@@ -478,14 +478,21 @@ def edit_vacuna(id):
     
    
     if request.method=='POST':
-           print(request.form)
            if 'id_lab' in request.form:
+                busca = Laboratorio_Vacuna.buscar_laboratorios_de_vacuna(id,request.form['id_lab'])
+                if len(busca) > 0:
+                    flash("Ese laboratorio ya está agregado","warning")
+                    return redirect(url_for('edit_vacuna',id=id))
                 lab = Laboratorio_Vacuna(request.form['id_lab'],id)
                 lab.save()
                 return redirect(url_for('edit_vacuna',id=id))
                 
            if 'id_lab_sacar' in request.form:
-                print('Sacar ',request.form['id_lab_sacar']," a ",id)
+                busca = Laboratorio_Vacuna.buscar_laboratorios_de_vacuna(id,request.form['id_lab_sacar'])
+                if len(busca) > 0:
+                    print(busca[0][1].id)
+                    Laboratorio_Vacuna.delete(busca[0][1].id)
+                    return redirect(url_for('edit_vacuna',id=id))
 
     return render_template('edit_vacuna.html',labs_vac = laboratorios_de_vacuna ,laboratorios = labs, vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
 

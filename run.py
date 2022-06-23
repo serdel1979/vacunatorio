@@ -8,6 +8,8 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required
 from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm, RecuperarClave
+from app.model.laboratorio_vacuna import Laboratorio_Vacuna
+from app.model.laboratorios import Laboratorio
 from app.model.user import User
 from app.model.vacunas import Vacuna
 from datetime import date, datetime, timedelta
@@ -471,10 +473,20 @@ def borra_vacuna(id):
 @app.route('/edit_vacuna/<int:id>', methods=['GET','POST'])
 def edit_vacuna(id):
     vacuna= Vacuna.get_by_id(id)
+    labs = Laboratorio.get_all()
+    laboratorios_de_vacuna = Laboratorio_Vacuna.get_laboratorios_de_vacuna(id)
+    print(laboratorios_de_vacuna)
     if vacuna != None:
         if request.method=='POST':
            print(request.form)
-    return render_template('edit_vacuna.html', vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
+           if 'id_lab' in request.form:
+                print('Agregar ',request.form['id_lab']," a ",id)
+                lab = Laboratorio_Vacuna(request.form['id_lab'],id)
+                lab.save()
+           if 'id_lab_sacar' in request.form:
+                print('Sacar ',request.form['id_lab_sacar']," a ",id)
+
+    return render_template('edit_vacuna.html',labs_vac = laboratorios_de_vacuna ,laboratorios = labs, vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
 
 
 @app.route('/borra_enfermero/<int:id>')

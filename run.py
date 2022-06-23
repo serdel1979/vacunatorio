@@ -785,8 +785,6 @@ def estadisticas():
 
     if request.method=='POST':
 
-            print(request.form['fecha1'])
-
             fecha1 = request.form['fecha1']
             fecha2 = request.form['fecha2']
 

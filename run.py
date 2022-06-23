@@ -778,23 +778,70 @@ def agrega_enfermero():
 
  # Aca hago las estadisticas por Sede
 
-@app.route('/estadisticas', methods=['GET'])
+@app.route('/estadisticas', methods=['GET','POST'])
 def estadisticas():
-    cantidad_por_sede = []
-    for sede in sedes:
-        cantidad_por_sede.append([sede,len(Turno.cant_by_sede(sede))])
+    fecha1 = date.today()
+    fecha2= fecha1
+
+    if request.method=='POST':
+
+            print(request.form['fecha1'])
+
+            fecha1 = request.form['fecha1']
+            fecha2 = request.form['fecha2']
+
+            if fecha1 == "" or fecha2 == "":
+
+                flash("Ingrese las fechas","danger")
+                return redirect(url_for('estadisticas'))
+
+
+            if fecha1 > fecha2:
+                flash("La fecha 1 no puede ser mayor a la fecha 2","danger")
+                return redirect(url_for('estadisticas'))
+            
+
+            cantidad_por_sede = []
+            for sede in sedes:
+                cantidad_por_sede.append([sede,len(Turno.cant_by_sede(sede))])
+            
+            vacunas = Vacuna.get_all()
+            enfermedades = []
+            for enfermedad in vacunas:
+                enfermedades.append(enfermedad.nombre)
+            cantidad_por_enfermedad = []
+
+            for enf in enfermedades:
+                cantidad_por_enfermedad.append([enf,len(Turno.cant_by_enfermedad_fecha(enf,fecha1,fecha2))])
+
+            
+            por_rango_edad = []
+            por_rango_edad.append(["Menor de 18 ",len(Turno.cantidad_menor_18_fecha(fecha1,fecha2))])
+            por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60_fecha(fecha1,fecha2))])
+            por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60_fecha(fecha1,fecha2))])
+
+
+    else:
+            cantidad_por_sede = []
+            for sede in sedes:
+                cantidad_por_sede.append([sede,len(Turno.cant_by_sede(sede))])
+            
+            vacunas = Vacuna.get_all()
+            enfermedades = []
+            for enfermedad in vacunas:
+                enfermedades.append(enfermedad.nombre)
+            cantidad_por_enfermedad = []
+
+            for enf in enfermedades:
+                cantidad_por_enfermedad.append([enf,len(Turno.cant_by_enfermedad(enf))])
+
+            
+            por_rango_edad = []
+            por_rango_edad.append(["Menor de 18 ",len(Turno.cantidad_menor_18())])
+            por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60())])
+            por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60())])
     
-    vacunas = Vacuna.get_all()
-    enfermedades = []
-    for enfermedad in vacunas:
-        enfermedades.append(enfermedad.nombre)
-    cantidad_por_enfermedad = []
-
-    for enf in enfermedades:
-        cantidad_por_enfermedad.append([enf,len(Turno.cant_by_enfermedad(enf))])
-
-  
-    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad)
+    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], fecha1=fecha1, fecha2=fecha2, cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
 
 
 

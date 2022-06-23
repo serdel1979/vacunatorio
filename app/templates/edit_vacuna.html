@@ -16,9 +16,12 @@
     </div>
 
     <div class="form-outline">
-        <input type="text" style="text-transform:uppercase;" value=""
-            onkeyup="javascript:this.value=this.value.toUpperCase();">
-        <button style="margin-top: 10px;" type="submit" class="btn btn-primary">Agregar</button>
+        <form action="/edit_vacuna/{{vacuna.id}}" method="POST" >
+            <input id="id_vacuna" name="id_vacuna" type="hidden" value="{{vacuna.id}}"></input>
+            <input id="laboratorio" name="nombre_laboratorio" type="text" style="text-transform:uppercase;" value=""
+                onkeyup="javascript:this.value=this.value.toUpperCase();">
+            <button style="margin-top: 10px;" type="submit" class="btn btn-primary">Agregar</button>
+        </form>
     </div>
 
 

@@ -535,6 +535,14 @@ def agrega_lab():
 
 @app.route('/turnos_hoy')
 def turnos_hoy():
+    vacuna = Vacuna.get_by_nombre('Covid')
+    labs_covid = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Gripe')
+    labs_gripe = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Fiebre amarilla')
+    labs_fiebre = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    #for l in labs_covid:
+    #    print(l[0].nombre)
     hoy = date.today()
     sede = session["sede"]
     if session["tipo"] == 1:
@@ -542,7 +550,7 @@ def turnos_hoy():
     else:
         usuarios = Turno.usuario_hoy(hoy,sede)
     cantidad = len(usuarios)
-    return render_template('turnos_hoy.html',sede=sede,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad, usuarios=usuarios) 
+    return render_template('turnos_hoy.html',labs_covid=labs_covid,labs_gripe=labs_gripe,labs_fiebre=labs_fiebre,sede=sede,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad, usuarios=usuarios) 
 
 
 @app.route('/historial_hoy')
@@ -971,6 +979,12 @@ def ver_historial(id):
 
 @app.route('/buscar_paciente_turno', methods=['POST'])
 def buscar_paciente():
+    vacuna = Vacuna.get_by_nombre('Covid')
+    labs_covid = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Gripe')
+    labs_gripe = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Fiebre amarilla')
+    labs_fiebre = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
     sede = session["sede"]
     hoy = date.today()
     dni = request.form['buscar']
@@ -987,7 +1001,7 @@ def buscar_paciente():
         else:
             usuarios = Turno.usuario_hoy(hoy,sede)
     cantidad = len(usuarios)
-    return render_template('turnos_hoy.html', sede=sede,tipo=session["tipo"], id=session["id_user"], usuarios = usuarios, cantidad=cantidad)
+    return render_template('turnos_hoy.html',labs_covid=labs_covid,labs_gripe=labs_gripe,labs_fiebre=labs_fiebre, sede=sede,tipo=session["tipo"], id=session["id_user"], usuarios = usuarios, cantidad=cantidad)
 
 @app.route('/rechazar_fiebre_amarilla/<int:id>')
 def rechazar_fiebre_amarilla(id):

@@ -128,7 +128,7 @@ class Turno(db.Model, UserMixin):
     def usuario_hoy(cls,fecha_turno,sede):
         ret = db.session.query(
         User, Turno).filter(
-        User.id == Turno.id_usuario).filter(Turno.fecha_turno==fecha_turno).filter(Turno.sede == sede).filter(Turno.estado != 4).all()
+        User.id == Turno.id_usuario).filter(Turno.fecha_turno==fecha_turno).filter(Turno.sede == sede).filter(Turno.estado != 4).filter(Turno.estado != 3).all()
         return ret
 
     

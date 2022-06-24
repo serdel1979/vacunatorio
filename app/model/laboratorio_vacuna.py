@@ -23,9 +23,11 @@ class Laboratorio_Vacuna(db.Model, UserMixin):
     def get_all(cls):
         return cls.query.all()
 
-
-
-
+    @classmethod
+    def get_vacunas_by_id_lab(cls,id_lab):
+        return cls.query.filter_by(id_laboratorio=id_lab).all()
+    
+   
    # @classmethod
    # def get_labs_vacuna(cls,id_v):
    #     return db.session.query(Vacuna,

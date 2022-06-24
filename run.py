@@ -510,6 +510,10 @@ def laboratorios():
 
 @app.route('/elimina_lab/<int:id>', methods=['GET','POST'])
 def elimina_lab(id):
+    vacunas_lab = Laboratorio_Vacuna.get_vacunas_by_id_lab(id)
+    if len(vacunas_lab) > 0:
+        flash("El laboratorio tiene vacunas asignadas","danger")
+        return redirect(url_for('laboratorios'))
     Laboratorio.delete(id)
     return redirect(url_for('laboratorios'))
 

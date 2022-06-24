@@ -490,7 +490,6 @@ def edit_vacuna(id):
            if 'id_lab_sacar' in request.form:
                 busca = Laboratorio_Vacuna.buscar_laboratorios_de_vacuna(id,request.form['id_lab_sacar'])
                 if len(busca) > 0:
-                    print(busca[0][1].id)
                     Laboratorio_Vacuna.delete(busca[0][1].id)
                     return redirect(url_for('edit_vacuna',id=id))
 
@@ -503,6 +502,31 @@ def borra_enfermero(id):
     flash("Eliminado","success")
     return redirect(url_for('enfermeros'))
 
+
+@app.route('/laboratorios')
+def laboratorios():
+    laboratorios = Laboratorio.get_all()
+    return render_template('laboratorios.html',laboratorios = laboratorios, tipo = session["tipo"], id=session["id_user"])
+
+@app.route('/elimina_lab/<int:id>', methods=['GET','POST'])
+def elimina_lab(id):
+    Laboratorio.delete(id)
+    return redirect(url_for('laboratorios'))
+
+@app.route('/agrega_lab', methods=['GET','POST'])
+def agrega_lab():
+    if request.method=='POST':
+        if 'laboratorio' in request.form:
+            if request.form == "":
+                flash("Ingrese un nombre de laboratorio","danger")
+                return redirect(url_for('laboratorios'))
+            lab = Laboratorio.get_by_nombre(request.form["laboratorio"])
+            if lab != None:
+                flash("El laboratorio ya existe","danger")
+                return redirect(url_for('laboratorios'))
+            lab = Laboratorio(request.form["laboratorio"])
+            lab.save()
+    return redirect(url_for('laboratorios'))
 
 
 @app.route('/turnos_hoy')

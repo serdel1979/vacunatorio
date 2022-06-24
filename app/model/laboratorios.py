@@ -17,9 +17,19 @@ class Laboratorio(db.Model, UserMixin):
         return cls.query.filter(cls.id==id).first()
 
     @classmethod
+    def get_by_nombre(cls, nombre):
+        return cls.query.filter_by(nombre=nombre).first()
+
+    @classmethod
     def get_all(cls):
         return cls.query.all()
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def delete(cls, id):
+        lab = cls.query.get(id)
+        db.session.delete(lab)
         db.session.commit()

@@ -52,7 +52,20 @@
                     <td>{{t[0].email}}</td>
                     <td>{{t[0].telefono}}</td>
                     <td>{{t[1].fecha_turno}}</td>
-                    <td>{{t[1].vacuna}}</td>
+                    
+                    <td>
+
+                        {% if t[1].vacuna == 'Covid' %}
+                                {% if t[1].numero_dosis == 1 %}
+                                Primera dósis {{t[1].vacuna}}
+                                {% else %}
+                                Segunda dósis {{t[1].vacuna}}
+                                {% endif %}
+                        {% else %}
+                            {{t[1].vacuna}}
+                        {% endif %}
+                    
+                    </td>
                     {% if t[1].notificado == 1 %}
                     <td>NOTIFICADO</td>
                     {% else %}

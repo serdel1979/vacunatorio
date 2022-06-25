@@ -75,7 +75,6 @@ class User(db.Model, UserMixin):
     @classmethod
     def delete(cls, id):
         usr = cls.query.get(id)
-        print(usr)
         db.session.delete(usr)
         db.session.commit()
 

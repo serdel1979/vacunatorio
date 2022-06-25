@@ -8,6 +8,8 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required
 from app.forms.forms import EnfermeroForm, LoginForm, RegistroForm, VacunaForm, RecuperarClave
+from app.model.laboratorio_vacuna import Laboratorio_Vacuna
+from app.model.laboratorios import Laboratorio
 from app.model.user import User
 from app.model.vacunas import Vacuna
 from datetime import date, datetime, timedelta
@@ -231,7 +233,7 @@ def registro():
                 fecha_seg_covid = usuario.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
                 numero_dosis = 2
             else:
-                numero_dosis = 2
+                #numero_dosis = 2
                 fecha_seg_covid = hoy + timedelta(days=7)
             
             if hoy > fecha_seg_covid:
@@ -471,20 +473,27 @@ def borra_vacuna(id):
 @app.route('/edit_vacuna/<int:id>', methods=['GET','POST'])
 def edit_vacuna(id):
     vacuna= Vacuna.get_by_id(id)
-    if vacuna != None:
-        if request.method=='POST':
-            if vacuna.nombre == request.form['nombre']:
-                flash("No se hicieron cambios!!!","warning")
-                return redirect(url_for('vacunas'))
-            vacunaexiste = Vacuna.get_by_nombre(request.form['nombre'])
-            if vacunaexiste != None:
-                flash("Ese nombre de vacuna ya existe!!!","danger")
-                return redirect(url_for('vacunas'))
-            vacuna.nombre = request.form['nombre']
-            vacuna.save()
-            flash("Datos actualizados","success")
-            return redirect(url_for('vacunas'))
-    return render_template('edit_vacuna.html', vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
+    labs = Laboratorio.get_all()
+    laboratorios_de_vacuna = Laboratorio_Vacuna.get_laboratorios_de_vacuna(id)
+    
+   
+    if request.method=='POST':
+           if 'id_lab' in request.form:
+                busca = Laboratorio_Vacuna.buscar_laboratorios_de_vacuna(id,request.form['id_lab'])
+                if len(busca) > 0:
+                    flash("Ese laboratorio ya está agregado","warning")
+                    return redirect(url_for('edit_vacuna',id=id))
+                lab = Laboratorio_Vacuna(request.form['id_lab'],id)
+                lab.save()
+                return redirect(url_for('edit_vacuna',id=id))
+                
+           if 'id_lab_sacar' in request.form:
+                busca = Laboratorio_Vacuna.buscar_laboratorios_de_vacuna(id,request.form['id_lab_sacar'])
+                if len(busca) > 0:
+                    Laboratorio_Vacuna.delete(busca[0][1].id)
+                    return redirect(url_for('edit_vacuna',id=id))
+
+    return render_template('edit_vacuna.html',labs_vac = laboratorios_de_vacuna ,laboratorios = labs, vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
 
 
 @app.route('/borra_enfermero/<int:id>')
@@ -494,9 +503,46 @@ def borra_enfermero(id):
     return redirect(url_for('enfermeros'))
 
 
+@app.route('/laboratorios')
+def laboratorios():
+    laboratorios = Laboratorio.get_all()
+    return render_template('laboratorios.html',laboratorios = laboratorios, tipo = session["tipo"], id=session["id_user"])
+
+@app.route('/elimina_lab/<int:id>', methods=['GET','POST'])
+def elimina_lab(id):
+    vacunas_lab = Laboratorio_Vacuna.get_vacunas_by_id_lab(id)
+    if len(vacunas_lab) > 0:
+        flash("El laboratorio tiene vacunas asignadas","danger")
+        return redirect(url_for('laboratorios'))
+    Laboratorio.delete(id)
+    return redirect(url_for('laboratorios'))
+
+@app.route('/agrega_lab', methods=['GET','POST'])
+def agrega_lab():
+    if request.method=='POST':
+        if 'laboratorio' in request.form:
+            if request.form == "":
+                flash("Ingrese un nombre de laboratorio","danger")
+                return redirect(url_for('laboratorios'))
+            lab = Laboratorio.get_by_nombre(request.form["laboratorio"])
+            if lab != None:
+                flash("El laboratorio ya existe","danger")
+                return redirect(url_for('laboratorios'))
+            lab = Laboratorio(request.form["laboratorio"])
+            lab.save()
+    return redirect(url_for('laboratorios'))
+
 
 @app.route('/turnos_hoy')
 def turnos_hoy():
+    vacuna = Vacuna.get_by_nombre('Covid')
+    labs_covid = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Gripe')
+    labs_gripe = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Fiebre amarilla')
+    labs_fiebre = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    #for l in labs_covid:
+    #    print(l[0].nombre)
     hoy = date.today()
     sede = session["sede"]
     if session["tipo"] == 1:
@@ -504,7 +550,7 @@ def turnos_hoy():
     else:
         usuarios = Turno.usuario_hoy(hoy,sede)
     cantidad = len(usuarios)
-    return render_template('turnos_hoy.html',sede=sede,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad, usuarios=usuarios) 
+    return render_template('turnos_hoy.html',labs_covid=labs_covid,labs_gripe=labs_gripe,labs_fiebre=labs_fiebre,sede=sede,tipo = session["tipo"], id=session["id_user"], cantidad = cantidad, usuarios=usuarios) 
 
 
 @app.route('/historial_hoy')
@@ -933,6 +979,12 @@ def ver_historial(id):
 
 @app.route('/buscar_paciente_turno', methods=['POST'])
 def buscar_paciente():
+    vacuna = Vacuna.get_by_nombre('Covid')
+    labs_covid = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Gripe')
+    labs_gripe = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
+    vacuna = Vacuna.get_by_nombre('Fiebre amarilla')
+    labs_fiebre = Laboratorio_Vacuna.get_laboratorios_de_vacuna(vacuna.id)
     sede = session["sede"]
     hoy = date.today()
     dni = request.form['buscar']
@@ -949,7 +1001,7 @@ def buscar_paciente():
         else:
             usuarios = Turno.usuario_hoy(hoy,sede)
     cantidad = len(usuarios)
-    return render_template('turnos_hoy.html', sede=sede,tipo=session["tipo"], id=session["id_user"], usuarios = usuarios, cantidad=cantidad)
+    return render_template('turnos_hoy.html',labs_covid=labs_covid,labs_gripe=labs_gripe,labs_fiebre=labs_fiebre, sede=sede,tipo=session["tipo"], id=session["id_user"], usuarios = usuarios, cantidad=cantidad)
 
 @app.route('/rechazar_fiebre_amarilla/<int:id>')
 def rechazar_fiebre_amarilla(id):

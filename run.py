@@ -492,6 +492,9 @@ def edit_vacuna(id):
                 if len(busca) > 0:
                     Laboratorio_Vacuna.delete(busca[0][1].id)
                     return redirect(url_for('edit_vacuna',id=id))
+                else:
+                    flash("Ese laboratorio no esta agregado","warning")
+                    return redirect(url_for('edit_vacuna',id=id))
 
     return render_template('edit_vacuna.html',labs_vac = laboratorios_de_vacuna ,laboratorios = labs, vacuna=vacuna,tipo = session["tipo"], id=session["id_user"])
 
@@ -521,7 +524,7 @@ def elimina_lab(id):
 def agrega_lab():
     if request.method=='POST':
         if 'laboratorio' in request.form:
-            if request.form == "":
+            if request.form["laboratorio"] == "":
                 flash("Ingrese un nombre de laboratorio","danger")
                 return redirect(url_for('laboratorios'))
             lab = Laboratorio.get_by_nombre(request.form["laboratorio"])

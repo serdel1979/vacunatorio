@@ -233,7 +233,7 @@ def registro():
                 fecha_seg_covid = usuario.fecha_primera_dosis+timedelta(21) #calcula fecha que le iría si tuviera una dósis de covid
                 numero_dosis = 2
             else:
-                numero_dosis = 2
+                #numero_dosis = 2
                 fecha_seg_covid = hoy + timedelta(days=7)
             
             if hoy > fecha_seg_covid:

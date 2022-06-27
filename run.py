@@ -842,6 +842,10 @@ def estadisticas():
                 flash("Ingrese las fechas","danger")
                 return redirect(url_for('estadisticas'))
 
+            if datetime.strptime(fecha1, '%Y-%m-%d').date() > date.today() or  datetime.strptime(fecha2, '%Y-%m-%d').date() > date.today():
+                flash("Las fechas son incorrectas","danger")
+                return redirect(url_for('estadisticas'))
+
 
             if fecha1 > fecha2:
                 flash("La fecha 1 no puede ser mayor a la fecha 2","danger")

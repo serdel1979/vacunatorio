@@ -703,7 +703,10 @@ def aceptar_turno_fiebre():
 @app.route('/marcar_vacunado', methods=['GET','POST'])
 def marcar_vacunado():
         idturno = request.form['idturno']
-        lab = request.form['laboratorio']
+        if "laboratorio" in request.form:
+            lab = request.form['laboratorio']
+        else:
+            lab="N/A"
         lot = request.form['lote']
         if lot == None or lot == "":
             flash("Ingrese el número de lote","danger")

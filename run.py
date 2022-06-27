@@ -873,6 +873,8 @@ def estadisticas():
 
 
     else:
+            fecha1=""
+            fecha2=""
             cantidad_por_sede = []
             for sede in sedes:
                 cantidad_por_sede.append([sede,len(Turno.cant_by_sede(sede))])

@@ -1,5 +1,5 @@
 from sched import scheduler
-
+from turtle import color
 from sqlalchemy import null
 from app import create_app
 from enum import unique
@@ -24,6 +24,8 @@ import os
 from subprocess import call
 from pytz import utc
 from apscheduler.schedulers.background import BackgroundScheduler
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 from app import create_app
@@ -873,8 +875,6 @@ def estadisticas():
             por_rango_edad.append(["Menor de 18 ",len(Turno.cantidad_menor_18_fecha(fecha1,fecha2))])
             por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60_fecha(fecha1,fecha2))])
             por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60_fecha(fecha1,fecha2))])
-
-
     else:
             fecha1=""
             fecha2=""
@@ -896,6 +896,25 @@ def estadisticas():
             por_rango_edad.append(["Menor de 18 ",len(Turno.cantidad_menor_18())])
             por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60())])
             por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60())])
+
+    eje_x = []
+    eje_y = []
+    for cpe in cantidad_por_enfermedad:
+        eje_x.append(cpe[0])
+        eje_y.append(cpe[1])
+    
+    plt.barh(eje_x,eje_y, color="green")
+    plt.ylabel("enfermedades")
+    plt.xlabel("cantidad")
+    plt.title("Cantidad por enfermedades")
+    plt.show()
+    print("========Cant por enfermedad========")
+    print(cantidad_por_enfermedad)
+    print("===== Cant por rango de edad ======")
+    print(por_rango_edad)
+
+
+      
     
     return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], fecha1=fecha1, fecha2=fecha2, cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
 

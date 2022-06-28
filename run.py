@@ -24,8 +24,7 @@ import os
 from subprocess import call
 from pytz import utc
 from apscheduler.schedulers.background import BackgroundScheduler
-import numpy as np
-import matplotlib.pyplot as plt
+
 
 
 from app import create_app
@@ -897,31 +896,17 @@ def estadisticas():
             por_rango_edad.append(["Entre 18 y 60",len(Turno.cantidad_entre_18_y_60())])
             por_rango_edad.append(["Mayor de 60",len(Turno.cantidad_mayor_60())])
 
-    eje_x = []
-    eje_y = []
-    for cpe in cantidad_por_enfermedad:
-        eje_x.append(cpe[0])
-        eje_y.append(cpe[1])
     
-    plt.barh(eje_x,eje_y, color="green")
-    plt.ylabel("Enfermedades")
-    plt.xlabel("Cantidad")
-    plt.title("Cantidad por enfermedades")
-    plt.show()
-
-    eje_x_r = []
-    eje_y_r = []
+    values = []
+    for cpe in cantidad_por_enfermedad:
+        values.append(cpe[1])
+        
+    values2 = []
     for cpr in por_rango_edad:
-        eje_x_r.append(cpr[0])
-        eje_y_r.append(cpr[1])
-    plt.barh(eje_x_r, eje_y_r, color="red")
-    plt.ylabel("Rango de edad")
-    plt.xlabel("Cantidad")
-    plt.title("Cantidad por rango de edad")
-    plt.show()
-   
+        values2.append(cpr[1])
+  
 
-    return render_template('estadisticas.html', tipo=session["tipo"], id=session["id_user"], fecha1=fecha1, fecha2=fecha2, cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
+    return render_template('estadisticas.html',values2=values2, values=values, tipo=session["tipo"], id=session["id_user"], fecha1=fecha1, fecha2=fecha2, cant_por_sedes = cantidad_por_sede, cant_por_enfermedad = cantidad_por_enfermedad, por_edades = por_rango_edad)
 
 
 

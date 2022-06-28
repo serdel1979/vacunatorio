@@ -98,6 +98,9 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <canvas id="myChart" width="200" height="80"></canvas>
+
         </div>
     </div>
 
@@ -105,7 +108,7 @@
         <form>
             <button>Ver gráfico</button>
         </form>
-       
+
         <div class="table-responsive" style="margin-top: 10px;">
             <table class="table table-striped" style="margin-top:30px">
                 <thead>
@@ -125,28 +128,73 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <canvas id="myChart2" width="200" height="80"></canvas>
         </div>
     </div>
 
-    
+
 
     {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        var dat = []
+        {% for val in values %}
+        dat.push({{ val | safe }})
+        {% endfor %}
+
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Gripe', 'Fiebre amarilla', 'Covid'],
+                datasets: [{
+                    label: 'Cantidad por enfermedades',
+                    data: dat,
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+
+    <script>
+        const ctx2 = document.getElementById('myChart2').getContext('2d');
+
+        var dat2 = []
+        {% for val in values2 %}
+        dat2.push({{ val | safe }})
+        {% endfor %}
+
+        const myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Menor de 18', 'Entre 18 y 60', 'Mayor de 60'],
+                datasets: [{
+                    label: 'Cantidad por rango de edad',
+                    data: dat2,
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+
     <script>
         document.getElementById("defaultOpen").click();
-        function openCity(evt,cityName) {
+        function openCity(evt, cityName) {
             // Declare all variables
-            var i,tabcontent,tablinks;
+            var i, tabcontent, tablinks;
 
             // Get all elements with class="tabcontent" and hide them
             tabcontent = document.getElementsByClassName("tabcontent");
-            for(i = 0; i < tabcontent.length; i++) {
+            for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
 
             // Get all elements with class="tablinks" and remove the class "active"
             tablinks = document.getElementsByClassName("tablinks");
-            for(i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active","");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
 
             // Show the current tab, and add an "active" class to the button that opened the tab

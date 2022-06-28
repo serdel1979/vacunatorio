@@ -14,9 +14,25 @@
 
     <div class="row">
 
+
+
+        <div class="col-sm-4">
+            <div style="margin-top: 30px;">
+                <h3>Laboratorios de {{ vacuna.nombre }}</h3>
+            </div>
+
+
+            <ul class="list-group" style="margin-top: 35px;">
+                {% for lab in labs_vac %}
+                <li class="list-group-item">{{ lab[0].nombre }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
         <div class="col-sm-8">
             <div class="table-responsive" style="margin-top: 10px;">
-                <h3>Laboratorios </h3>
+                <h3>Laboratorios disponibles</h3>
                 <table class="table table-striped" style="margin-top: 18px;">
                     <thead>
                         <tr>
@@ -52,8 +68,9 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 
-
+        <div style="margin-left: 20px;">
             <a href="/vacunas" class="btn btn-primary">
                 <span class="svg-icon svg-icon-primary svg-icon-2x">
                     <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/keen/releases/2021-04-21-040700/theme/demo2/dist/../src/media/svg/icons/General/Update.svg--><svg
@@ -70,21 +87,6 @@
                 </span>
             </a>
         </div>
-
-        <div class="col-sm-4">
-            <div style="margin-top: 30px;">
-                <h3>Laboratorios de {{ vacuna.nombre }}</h3>
-            </div>
-
-
-            <ul class="list-group" style="margin-top: 35px;">
-                {% for lab in labs_vac %}
-                <li class="list-group-item">{{ lab[0].nombre }}</li>
-                {% endfor %}
-            </ul>
-
-        </div>
-
     </div>
 </div>
 {% endblock %}

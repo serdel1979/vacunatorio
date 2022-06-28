@@ -97,7 +97,7 @@
                 </tbody>
             </table>
 
-            <canvas id="myChart" width="200" height="80"></canvas>
+            <canvas id="myChart" width="200" height="80" style="background-color: rgba(61, 187, 82, 0.5)"></canvas>
 
         </div>
     </div>
@@ -123,7 +123,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <canvas id="myChart2" width="200" height="80"></canvas>
+            <canvas id="myChart2" width="200" height="80" style="background-color: rgba(61, 187, 82, 0.5)"></canvas>
         </div>
     </div>
 
@@ -147,7 +147,7 @@
                 datasets: [{
                     label: 'Cantidad por enfermedades',
                     data: dat,
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             }
         });
@@ -168,7 +168,7 @@
                 datasets: [{
                     label: 'Cantidad por rango de edad',
                     data: dat2,
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             }
         });

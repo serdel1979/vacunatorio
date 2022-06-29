@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 25-06-2022 a las 01:56:01
+-- Tiempo de generación: 29-06-2022 a las 19:40:21
 -- Versión del servidor: 10.3.31-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -41,8 +41,7 @@ INSERT INTO `laboratorios` (`id`, `nombre`) VALUES
 (34, 'ASTRAZENECA'),
 (35, 'SPUTNIK'),
 (36, 'SINOPHARM'),
-(37, 'RICHMOND'),
-(38, 'BAGÓ');
+(37, 'RICHMOND');
 
 -- --------------------------------------------------------
 
@@ -61,12 +60,11 @@ CREATE TABLE `laboratorio_vacuna` (
 --
 
 INSERT INTO `laboratorio_vacuna` (`id`, `id_laboratorio`, `id_vacuna`) VALUES
-(115, 37, 5),
-(116, 38, 5),
 (117, 37, 6),
 (118, 34, 9),
 (119, 35, 9),
-(120, 36, 9);
+(120, 36, 9),
+(127, 37, 5);
 
 -- --------------------------------------------------------
 
@@ -94,21 +92,35 @@ CREATE TABLE `turnos` (
 --
 
 INSERT INTO `turnos` (`id`, `id_usuario`, `fecha_solicitud`, `fecha_turno`, `sede`, `vacuna`, `numero_dosis`, `estado`, `notificado`, `asistio`, `laboratorio`, `lote`) VALUES
-(160, 147, '2022-05-24', '2022-07-05', 'Cementerio', 'Fiebre amarilla', 1, 0, 0, 0, '', ''),
-(161, 147, '2022-05-20', '2022-07-01', 'Cementerio', 'Gripe', 1, 2, 0, 1, 'RICHMOND', '122222'),
-(162, 148, '2022-04-24', '2022-07-05', 'Terminal', 'Covid', 1, 0, 0, 0, '', ''),
-(163, 148, '2022-05-24', '2022-07-10', 'Terminal', 'Fiebre amarilla', 1, 0, 0, 0, '', ''),
-(164, 148, '2022-06-20', '2022-07-15', 'Municipal', 'Gripe', 1, 0, 0, 0, '', ''),
-(165, 149, '2022-06-10', '2022-06-24', 'Cementerio', 'Covid', 1, 2, 0, 1, 'SPUTNIK', '5467547'),
-(166, 149, '2022-06-10', '2022-06-24', 'Cementerio', 'Gripe', 1, 5, 0, 0, '', ''),
-(167, 149, '2022-06-24', '2022-07-15', 'Cementerio', 'Covid', 2, 0, 0, 0, '', ''),
-(168, 150, '2022-06-24', '2022-07-05', 'Terminal', 'Covid', 1, 0, 1, 0, '', ''),
-(169, 150, '2022-06-24', '2022-07-19', 'Cementerio', 'Fiebre amarilla', 1, 4, 0, 0, '', ''),
-(170, 151, '2022-06-01', '2022-06-24', 'Municipal', 'Covid', 1, 2, 0, 1, 'SINOPHARM', '4455555'),
-(171, 151, '2022-06-24', '2022-07-15', 'Municipal', 'Covid', 2, 0, 0, 0, '', ''),
-(177, 154, '2022-05-04', '2022-06-15', 'Municipal', 'Covid', 1, 2, 0, 1, 'SPUTNIK', '12122'),
-(178, 154, '2022-06-15', '2022-06-24', 'Municipal', 'Gripe', 0, 2, 0, 1, 'BAGÓ', '6555'),
-(179, 154, '2022-06-24', '2022-07-15', 'Municipal', 'Covid', 2, 0, 0, 0, '', '');
+(181, 163, '2022-06-15', '2022-06-22', 'Municipal', 'Covid', 1, 2, 0, 1, 'SINOPHARM', '988'),
+(182, 163, '2022-06-22', '2022-06-29', 'Municipal', 'Gripe', 0, 2, 0, 1, 'RICHMOND', '6555'),
+(183, 164, '2022-06-15', '2022-06-22', 'Cementerio', 'Covid', 1, 2, 0, 1, 'SPUTNIK', '232111'),
+(184, 164, '2022-06-15', '2022-06-29', 'Cementerio', 'Gripe', 0, 2, 0, 1, 'RICHMOND', '12222'),
+(185, 165, '2022-06-15', '2022-06-22', 'Terminal', 'Covid', 1, 2, 0, 1, 'SINOPHARM', '99888'),
+(186, 165, '2022-06-22', '2022-06-29', 'Terminal', 'Gripe', 0, 2, 0, 1, 'RICHMOND', '98887'),
+(187, 164, '2022-06-29', '2022-07-20', 'Cementerio', 'Covid', 2, 0, 0, 0, '', ''),
+(188, 163, '2022-06-29', '2022-07-20', 'Municipal', 'Covid', 2, 0, 0, 0, '', ''),
+(189, 165, '2022-06-29', '2022-07-20', 'Terminal', 'Covid', 2, 0, 0, 0, '', ''),
+(190, 155, '2022-06-22', '2022-06-29', 'Municipal', 'Gripe', 1, 2, 0, 1, 'RICHMOND', '122111'),
+(191, 155, '2022-05-10', '2022-06-22', 'Municipal', 'Covid', 1, 2, 0, 1, 'SINOPHARM', '3322'),
+(192, 155, '2022-06-22', '2022-06-29', 'Municipal', 'Covid', 2, 2, 0, 1, 'SPUTNIK', '33333'),
+(193, 156, '2022-06-22', '2022-06-29', 'Terminal', 'Gripe', 1, 2, 0, 1, 'RICHMOND', '99999'),
+(194, 157, '2022-06-22', '2022-06-29', 'Cementerio', 'Covid', 1, 2, 0, 1, 'SINOPHARM', '6544'),
+(195, 157, '2022-06-29', '2022-07-20', 'Cementerio', 'Covid', 2, 0, 0, 0, '', ''),
+(196, 158, '2022-06-22', '2022-06-22', 'Municipal', 'Fiebre amarilla', 1, 4, 0, 0, '', ''),
+(197, 158, '2022-06-22', '2022-06-29', 'Municipal', 'Gripe', 1, 2, 0, 1, 'RICHMOND', '2222'),
+(198, 158, '2022-06-29', '2022-07-11', 'Municipal', 'Covid', 1, 0, 0, 0, '', ''),
+(199, 159, '2022-06-22', '2022-06-29', 'Municipal', 'Fiebre amarilla', 1, 2, 0, 1, 'RICHMOND', '112233'),
+(200, 159, '2022-06-29', '2022-07-06', 'Municipal', 'Covid', 1, 0, 0, 0, '', ''),
+(201, 160, '2022-06-22', '2022-06-29', 'Terminal', 'Fiebre amarilla', 1, 2, 0, 1, 'RICHMOND', '18889'),
+(202, 160, '2022-06-29', '2022-07-07', 'Terminal', 'Gripe', 1, 0, 0, 0, '', ''),
+(203, 160, '2022-06-29', '2022-07-08', 'Terminal', 'Covid', 1, 0, 0, 0, '', ''),
+(204, 161, '2022-06-22', '2022-06-29', 'Terminal', 'Covid', 1, 2, 0, 1, 'SPUTNIK', '1111112222'),
+(205, 161, '2022-06-29', '2022-07-07', 'Terminal', 'Fiebre amarilla', 1, 4, 0, 0, '', ''),
+(206, 162, '2022-06-29', '2022-07-06', 'Terminal', 'Fiebre amarilla', 1, 0, 0, 0, '', ''),
+(207, 162, '2022-06-29', '2022-07-06', 'Terminal', 'Gripe', 1, 0, 0, 0, '', ''),
+(208, 162, '2022-06-29', '2022-07-06', 'Terminal', 'Covid', 1, 0, 0, 0, '', ''),
+(209, 161, '2022-06-29', '2022-07-20', 'Terminal', 'Covid', 2, 0, 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -146,12 +158,17 @@ INSERT INTO `usuarios` (`id`, `usuario`, `nombre`, `apellido`, `telefono`, `naci
 (90, NULL, 'Pedro', 'Gonzalez', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'pedro@gmail.com', '22222221', NULL, 'Cementerio', 2),
 (145, NULL, 'Adolfo', 'Pedernera', '2216565', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'adolfo@gmail.com', '22222222', NULL, 'Municipal', 2),
 (146, NULL, 'Homar', 'Sivori', '22132111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3211', 'homar@hotmail.com', '22222223', NULL, 'Terminal', 2),
-(147, NULL, 'Enzo', 'Pérez', '22132111', '1982-01-11', 0, NULL, '2022-06-24', NULL, 0, 0, '3211', 'sdlbsso@gmail.com', '27154011', 'Municipal', '0', 3),
-(148, NULL, 'Mario', 'Mordini', '22132111', '1990-05-20', 0, NULL, NULL, NULL, 0, 0, '3211', 'marito@gmail.com', '11111111', 'Terminal', '0', 3),
-(149, NULL, 'Franco', 'Armani', '22165444', '2000-05-11', 0, '2022-06-24', NULL, NULL, 0, 0, '3211', 'franco@mail.com.ar', '11111112', 'Municipal', '0', 3),
-(150, NULL, 'Juana', 'De Luca', '221321111', '2010-12-11', 0, NULL, NULL, NULL, 0, 0, '3211', 'jujuanitacobanera@gmail.com', '50268750', 'Municipal', '0', 3),
-(151, NULL, 'Danila', 'Cagliardo', '22132111', '1996-09-11', 0, '2022-06-24', NULL, NULL, 0, 0, '3211', 'danila@gmail.com', '11111113', 'Municipal', '0', 3),
-(154, NULL, 'Lola', 'Mora', '1121213211', '1940-05-11', 0, '2022-06-24', '2022-06-24', NULL, 0, 0, '3211', 'lol@mail.com', '11111115', 'Municipal', '0', 3);
+(155, NULL, 'Diego', 'Molina', '2216544', '2014-05-20', 0, '2022-06-29', '2022-06-29', '2022-06-29', 0, 0, '3211', 'diego@gmail.com', '11111111', 'Municipal', '0', 3),
+(156, NULL, 'Leonardo', 'Astrada', '22132111', '2010-06-11', 0, NULL, '2022-06-29', NULL, 0, 0, '3211', 'leonardo@gmail.com', '11111112', 'Terminal', '0', 3),
+(157, NULL, 'Federico', 'Pipo', '22132111', '2011-03-11', 0, '2022-06-29', NULL, NULL, 0, 0, '3211', 'federico@gmail.com', '11111113', 'Municipal', '0', 3),
+(158, NULL, 'Diego', 'Barrado', '22165444', '1995-06-11', 0, NULL, '2022-06-29', NULL, 0, 0, '3211', 'diegobarrado@gmail.com', '11111114', 'Cementerio', '0', 3),
+(159, NULL, 'Pablo', 'Fermin', '22132222', '1999-05-20', 0, NULL, NULL, NULL, 0, 1, '3211', 'pablin@gmail.com', '11111115', 'Municipal', '0', 3),
+(160, NULL, 'Mauricio', 'Mauri', '2246544', '1985-01-30', 0, NULL, NULL, NULL, 0, 1, '3211', 'mauri@gmail.com', '11111116', 'Cementerio', '0', 3),
+(161, NULL, 'Chavo', 'Bianca', '2213211', '1997-05-11', 0, '2022-06-29', NULL, NULL, 0, 0, '3211', 'chavo@gmail.com', '11111117', 'Terminal', '0', 3),
+(162, NULL, 'Pipo', 'Gorosito', '6544444', '1994-05-23', 0, NULL, NULL, NULL, 0, 0, '3211', 'pipo@gmail.com', '11111118', 'Terminal', '0', 3),
+(163, NULL, 'Ernesto', 'Salomón', '2213211', '1940-10-10', 0, '2022-06-29', '2022-06-29', NULL, 0, 0, '3211', 'ernesti@gmail.com', '11111119', 'Municipal', '0', 3),
+(164, NULL, 'Anastacia', 'Luisa', '65445465', '1934-11-15', 0, '2022-06-29', '2022-06-29', NULL, 0, 0, '3211', 'anastacia@hotmail.com', '11111110', 'Cementerio', '0', 3),
+(165, NULL, 'Joaquin', 'Pineda', '2232111', '1933-06-11', 0, '2022-06-29', '2022-06-29', NULL, 0, 0, '3211', 'joaquin@gmail.com', '11111120', 'Terminal', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -215,22 +232,22 @@ ALTER TABLE `vacunas`
 -- AUTO_INCREMENT de la tabla `laboratorios`
 --
 ALTER TABLE `laboratorios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT de la tabla `laboratorio_vacuna`
 --
 ALTER TABLE `laboratorio_vacuna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 --
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 --
 -- AUTO_INCREMENT de la tabla `vacunas`
 --

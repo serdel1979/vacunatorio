@@ -1,0 +1,22 @@
+
+
+ENFERMEROS
+
+22222221	CEMENTERIO
+22222222	MUNICIPAL
+22222223	TERMINAL
+
+
+PACIENTES
+diego molina 11111111 		menor de 18  municipal
+leonardo astrada 11111112	menor de 18  terminal
+federico pipo	11111113      menor de 18  municipal
+diego barrado   11111114     entre 18 y 60  cementerio
+pablo fermin    11111115     entre 18 y 60  municipal
+mauricio mauri  11111116     entre 18 y 60  cementerio
+chavo bianca    11111117     entre 18 y 60  terminal
+pipo gorosito   11111118     entre 18 y 60  terminal
+ernesto salomon  11111119     mayor de 60  municipal
+anastacia luisa   11111110    mayor de 60  cementerio
+joaquin pineda    11111120    mayor de 60  terminal
+

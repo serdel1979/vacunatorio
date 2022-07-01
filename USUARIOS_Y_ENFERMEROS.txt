@@ -20,12 +20,17 @@ chavo bianca    11111117     entre 18 y 60  terminal
 pipo gorosito   11111118     entre 18 y 60  terminal
 Oscar Rodriguez 33333333     entre 18 y 60  terminal
 pablo perico    33333334     entre 18 y 60  terminal
+patricia rodriguez 7777777   entre 18 y 60  terminal
 luis amuchastegui 33333335   entre 18 y 60  municipal
 mario mordini   33333336     entre 18 y 60  municipal
 juan andres     33333337      entre 18 y 60 municipal
+mauro pelegrino 66666666      entre 18 y 60 municipal
 juan carlos     33333338      entre 18 y 60 cementerio
 juan fernando   33333339      entre 18 y 60 cementerio
 juana fernanda  44444444      entre 18 y 60 cementerio
+                55555555      entre 18 y 60 cementerio
+                88888888      entre 18 y 60 cementerio
+                99999999      entre 18 y 60 cementerio
 ernesto salomon  11111119     mayor de 60  municipal
 anastacia luisa   11111110    mayor de 60  cementerio
 joaquin pineda    11111120    mayor de 60  terminal

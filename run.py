@@ -986,7 +986,11 @@ def modificar_contrasena():
 @app.route('/pacientes', methods=['GET','POST'])
 def pacientes():
     if request.method=='POST':
+        if request.form['buscar'] == "":
+            flash("No se ingreso ningun DNI", 'danger')
         pacientes = User.by_username(request.form['buscar'])
+        if len(pacientes) == 0:
+            flash("El paciente no se ha encontrado", 'danger')
     else:
         pacientes = User.get_by_tipo(3)
     return render_template('pacientes.html', tipo=session["tipo"], id=session["id_user"], pacientes = pacientes)

@@ -25,11 +25,58 @@
         </div>
         {% endif %}
         {% if tipo == 2 %}
-        <h1>Home del enfermero</h1>
+        
+        <div class="carousel-item">
+            <div class="carousel-item">
+                <a href="/turnos_hoy">
+                    <img src="../static/image/turnos_hoy.png" width="300" height="300">
+                </a>
+                <a href="/ver_perfil">
+                    <img src="../static/image/perfil.png" width="300" height="300">
+                </a>
+               
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 style="color:#a2cb83;">Elija una opción</h1>
+                </div>
+            </div>
+        </div>
+
         {% endif %}
 
         {% if tipo == 1 %}
-        <h1>Home del admin</h1>
+        <div class="carousel-item">
+            <div class="carousel-item">
+                <a href="/estadisticas">
+                    <img src="../static/image/estadisticas.png" width="120" height="120">
+                </a>
+                <a href="/pacientes">
+                    <img src="../static/image/pacientes.png" width="120" height="120">
+                </a>
+                <a href="/enfermeros">
+                    <img src="../static/image/enfermeros.png" width="120" height="120">
+                </a>
+                <a href="/vacunas">
+                    <img src="../static/image/vacunas.png" width="120" height="120">
+                </a>
+                <a href="/laboratorios">
+                    <img src="../static/image/laboratorios.jpg" width="120" height="120">
+                </a>
+                <a href="/turnos_notificar">
+                    <img src="../static/image/notificar.png" width="120" height="120">
+                </a>
+                <a href="/turnos_fiebre_amarilla">
+                    <img src="../static/image/fiebre_amarilla.png" width="120" height="120">
+                </a>
+                <a href="/modificar_contrasena">
+                    <img src="../static/image/password.png" width="120" height="120">
+                </a>
+                <div class="carousel-caption d-none d-md-block">
+
+                    <h1 style="color:#a2cb83;">Elija una opción</h1>
+
+                </div>
+            </div>
+        </div>
         {% endif %}
     </div>
 

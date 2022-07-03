@@ -128,7 +128,6 @@
     </div>
 
 
-
     {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -137,13 +136,13 @@
 
         var dat = []
         {% for val in values %}
-        dat.push({{ val | safe }})
+        dat.push({{val | safe }})
         {% endfor %}
 
-        const myChart = new Chart(ctx, {
+        const myChart = new Chart(ctx,{
             type: 'bar',
             data: {
-                labels: ['Gripe', 'Fiebre amarilla', 'Covid'],
+                labels: ['Gripe','Fiebre amarilla','Covid'],
                 datasets: [{
                     label: 'Cantidad por enfermedades',
                     data: dat,
@@ -170,13 +169,13 @@
 
         var dat2 = []
         {% for val in values2 %}
-        dat2.push({{ val | safe }})
+        dat2.push({{val | safe }})
         {% endfor %}
 
-        const myChart2 = new Chart(ctx2, {
+        const myChart2 = new Chart(ctx2,{
             type: 'bar',
             data: {
-                labels: ['Menor de 18', 'Entre 18 y 60', 'Mayor de 60'],
+                labels: ['Menor de 18','Entre 18 y 60','Mayor de 60'],
                 datasets: [{
                     label: 'Cantidad por rango de edad',
                     data: dat2,
@@ -201,20 +200,20 @@
 
     <script>
         document.getElementById("defaultOpen").click();
-        function openCity(evt, cityName) {
+        function openCity(evt,cityName) {
             // Declare all variables
-            var i, tabcontent, tablinks;
+            var i,tabcontent,tablinks;
 
             // Get all elements with class="tabcontent" and hide them
             tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
+            for(i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
 
             // Get all elements with class="tablinks" and remove the class "active"
             tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            for(i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active","");
             }
 
             // Show the current tab, and add an "active" class to the button that opened the tab
@@ -225,3 +224,10 @@
     </script>
     {% endblock javascripts %}
     {% endblock %}
+    <footer>
+        <div style="margin-top: 30px;">
+            <center>
+                <p>VACUNASSIST</p>
+            </center>
+        </div>
+    </footer>

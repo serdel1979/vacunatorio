@@ -35,4 +35,12 @@ ernesto salomon  11111119     mayor de 60  municipal
 anastacia luisa   11111110    mayor de 60  cementerio
 joaquin pineda    11111120    mayor de 60  terminal
 
+__________________________________________________________________
 
+ARREGLAR LAS FECHAS EN LOS TURNPOS DE:
+
+11111114	2022-06-22	2022-06-22	Primera dósis Covid	id 158
+11111118	Tiene 2 turnos para covid pendiente			id 162
+11111119	Cambiar fecha de solicitud en 2 dosis covid		id 163
+11111110	Cambiar fecha de solicitud en 2 dosis covid		id 164
+55555555	Cambiar fecha de solicitud en 1 dósis			id 174

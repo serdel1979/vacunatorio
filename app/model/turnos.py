@@ -84,7 +84,7 @@ class Turno(db.Model, UserMixin):
 
     @classmethod
     def get_by_fiebre_amarilla(cls):
-        return cls.query.filter(cls.vacuna==bytes('Fiebre amarilla', 'utf-8')).all()
+        return cls.query.filter(cls.vacuna=="Fiebre amarilla", cls.estado != 2).all()
 
     @classmethod
     def get_by_fecha_sedes(cls, fecha_turno):
